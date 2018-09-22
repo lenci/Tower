@@ -21,7 +21,7 @@ export default class SkyPerspective extends cc.Component {
 
     start() {
         this.updatePerspective();
-        this.stage.cameraController.node.on(StageCameraController.CAMERA_MOVING, this.updatePerspective, this)
+        this.stage.cameraController.node.on(StageCameraController.EVT_CAMERA_MOVING, this.updatePerspective, this)
     }
 
     private updatePerspective() {

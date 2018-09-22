@@ -17,12 +17,12 @@ export default class MatchPlayersPanel extends cc.Component {
     private stage: Stage = null;
 
     start() {
-        GameManager.instance.matchManager.node.on(MatchManager.PLAYER_JOINED, this.createPlayerUI, this);
-        GameManager.instance.matchManager.node.on(MatchManager.PLAYER_LEFT, this.destroyPlayerUI, this);
+        GameManager.instance.matchManager.node.on(MatchManager.EVT_PLAYER_JOINED, this.createPlayerUI, this);
+        GameManager.instance.matchManager.node.on(MatchManager.EVT_PLAYER_LEFT, this.destroyPlayerUI, this);
 
         this.stage = GameManager.instance.playground.stage;
         this.updatePosition();
-        this.stage.cameraController.node.on(StageCameraController.CAMERA_MOVING, this.updatePosition, this);
+        this.stage.cameraController.node.on(StageCameraController.EVT_CAMERA_MOVING, this.updatePosition, this);
     }
 
     private createPlayerUI(player: MatchPlayer): MatchPlayerItemUI {

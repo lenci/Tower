@@ -17,9 +17,13 @@ export default class PlaygroundMatchPreparingState extends FiniteStateMachineSta
         playground["_onPlayerLeft"] =  (player:MatchPlayer) => {
             playground.destroyTower(player);
         }
+        playground["_onOnMatchReady"] =  (player:MatchPlayer) => {
+            stateMachine.telegram(Playground.MSG_MATCH_READY);
+        }
 
-        matchManager.node.on(MatchManager.PLAYER_JOINED, playground["_onPlayerJoined"]);
-        matchManager.node.on(MatchManager.PLAYER_LEFT, playground["_onPlayerLeft"]);
+        matchManager.node.on(MatchManager.EVT_PLAYER_JOINED, playground["_onPlayerJoined"]);
+        matchManager.node.on(MatchManager.EVT_PLAYER_LEFT, playground["_onPlayerLeft"]);
+        matchManager.node.on(MatchManager.EVT_MATCH_READY, playground["_onOnMatchReady"]);
 
         if (0 != await matchManager.join()) {
             return;
@@ -31,10 +35,23 @@ export default class PlaygroundMatchPreparingState extends FiniteStateMachineSta
 
         let matchManager:MatchManager = GameManager.instance.matchManager;
 
-        matchManager.node.off(MatchManager.PLAYER_JOINED, playground["_onPlayerJoined"]);
-        matchManager.node.off(MatchManager.PLAYER_LEFT, playground["_onPlayerLeft"]);
+        matchManager.node.off(MatchManager.EVT_PLAYER_JOINED, playground["_onPlayerJoined"]);
+        matchManager.node.off(MatchManager.EVT_PLAYER_LEFT, playground["_onPlayerLeft"]);
+        matchManager.node.off(MatchManager.EVT_PLAYER_LEFT, playground["_onOnMatchReady"]);
 
         playground["_onPlayerJoined"] = null;
         playground["_onPlayerLeft"] = null;
+        playground["_onOnMatchReady"] = null;
+    }
+
+    onTelegram(stateMachine: FiniteStateMachine, message:string, ...args) {
+        switch (message) {
+            case Playground.MSG_MATCH_READY:
+                stateMachine.changeState(Playground.matchReadyState);
+                break;
+        
+            default:
+                break;
+        }
     }
 }

@@ -28,6 +28,16 @@ export default class Tower extends cc.Component {
     static holdingState: TowerHoldingState = new TowerHoldingState();
     static completeState: TowerCompleteState = new TowerCompleteState();
     static collapsedState: TowerCollapsedState = new TowerCollapsedState();
+    static MSG_CONSTRUCT:string = "construct";
+    static MSG_HOLD:string = "hold";
+    static MSG_COMPLETE:string = "complete";
+    static MSG_COLLAPSE:string = "collapse";
+    static MSG_DROP_BRICK:string = "drop brick";
+    static MSG_TRANSLATE_BRICK:string = "translate brick";
+    static MSG_ROTATE_BRICK:string = "rotate brick";
+    static MSG_CLONE_BRICK_FROM_NET:string = "clone brick from net";
+    static MSG_SYNC_BRICK_FROM_NET:string = "sync brick from net";
+    static MSG_MAGIC_TO_BRICK:string = "magic to brick";
 
     bricks: { [key: number]: Brick } = {};
     nextValidBrickId:number = 0;
@@ -82,37 +92,5 @@ export default class Tower extends cc.Component {
 
     removeBrick(brickId: number) {
         this.bricks[brickId] = null;
-    }
-
-    construct() {
-        this.stateMachine.telegram("CONSTRUCT");
-    }
-
-    hold() {
-        this.stateMachine.telegram("HOLD");
-    }
-
-    complete() {
-        this.stateMachine.telegram("COMPLETE");
-    }
-
-    collapse() {
-        this.stateMachine.telegram("COLLAPSE");
-    }
-
-    translateBrick() {
-        this.stateMachine.telegram("TRANSLATE_BRICK");
-    }
-
-    rotateBrick() {
-        this.stateMachine.telegram("ROTATE_BRICK");
-    }
-
-    cloneBrick() {
-        this.stateMachine.telegram("CLONE_BRICK_FROM_NET");
-    }
-
-    syncBrick() {
-        this.stateMachine.telegram("SYNC_BRICK_FROM_NET");
     }
 }

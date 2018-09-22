@@ -29,5 +29,18 @@ export default class PlaygroundSettingUpState extends FiniteStateMachineState {
         matchManager.players.forEach(player => {
             playground.createTower(player, player.towerIndex);
         });
+
+        stateMachine.telegram(Playground.MSG_SETTING_UP_COMPLETED);
+    }
+
+    onTelegram(stateMachine: FiniteStateMachine, message:string, ...args) {
+        switch (message) {
+            case Playground.MSG_SETTING_UP_COMPLETED:
+                stateMachine.changeState(Playground.matchPreparingState);
+                break;
+        
+            default:
+                break;
+        }
     }
 }

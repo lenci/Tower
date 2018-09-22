@@ -26,6 +26,8 @@ export default class Playground extends cc.Component {
     static matchReadyState: PlaygroundMatchReadyState = new PlaygroundMatchReadyState();
     static matchInState: PlaygroundMatchInState = new PlaygroundMatchInState();
     static matchOverState: PlaygroundMatchOverState = new PlaygroundMatchOverState();
+    static MSG_SETTING_UP_COMPLETED:string = "setting up completed";
+    static MSG_MATCH_READY:string = "match ready";
 
     towers: { [key: string]: Tower } = {};
 
@@ -72,7 +74,7 @@ export default class Playground extends cc.Component {
             return;
         }
 
-        this.towers[playerId].node.destroy();
+        this.towers[player.playerId].node.destroy();
     }
 
     play() {

@@ -13,12 +13,12 @@ export class MatchPlayer {
 @ccclass
 export default class MatchManager extends cc.Component {
 
-    static PLAYER_JOINED:string = "player joined";
-    static PLAYER_LEFT:string = "player left";
+    static EVT_PLAYER_JOINED:string = "player joined";
+    static EVT_PLAYER_LEFT:string = "player left";
     
-    static MATCH_READY:string = "match ready";
-    static MATCH_BEGAN:string = "match began";
-    static MATCH_ENDED:string = "match ended";
+    static EVT_MATCH_READY:string = "match ready";
+    static EVT_MATCH_BEGAN:string = "match began";
+    static EVT_MATCH_ENDED:string = "match ended";
 
     matchId: string = "";
     levelId: number = -1;
@@ -99,7 +99,7 @@ export default class MatchManager extends cc.Component {
                 this.removePlayer(GameManager.instance.playerDataManager.playerId);
 
                 resolve(0);
-            }
+            });
         });
 
         return promise;
@@ -109,7 +109,7 @@ export default class MatchManager extends cc.Component {
         let player: MatchPlayer = new MatchPlayer(playerId, towerIndex);
         this.players.push(player);
 
-        this.node.emit(MatchManager.PLAYER_JOINED, player);
+        this.node.emit(MatchManager.EVT_PLAYER_JOINED, player);
 
         return player;
     }
@@ -120,7 +120,7 @@ export default class MatchManager extends cc.Component {
             if (player.playerId == playerId) {
                 player = this.players.splice(index, 1)[0];
 
-                this.node.emit(MatchManager.PLAYER_LEFT, player);
+                this.node.emit(MatchManager.EVT_PLAYER_LEFT, player);
 
                 return false;
             }

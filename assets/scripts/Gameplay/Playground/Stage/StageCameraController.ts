@@ -5,7 +5,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class StageCameraController extends cc.Component {
 
-    static CAMERA_MOVING:string = "camera moving";
+    static EVT_CAMERA_MOVING:string = "camera moving";
 
     @property(Stage)
     stage: Stage = null;
@@ -128,13 +128,13 @@ export default class StageCameraController extends cc.Component {
     update(delta: number) {
         this.camera.zoomRatio = this.camera.node.scaleX;
 
-        // this.node.emit(StageCameraController.CAMERA_MOVING);
+        // this.node.emit(StageCameraController.EVT_CAMERA_MOVING);
 
         if (Math.abs(this.previousLookAtLocation - this.currentLookAtLocation) > 1e-5 ||
             Math.abs(this.previousLookAtHeight - this.currentLookAtHeight) > 1e-5 ||
             Math.abs(this.previousZoomRatio - this.currentZoomRatio) > 1e-5) {
 
-                this.node.emit(StageCameraController.CAMERA_MOVING);
+                this.node.emit(StageCameraController.EVT_CAMERA_MOVING);
 
                 this.previousLookAtLocation = this.currentLookAtLocation;
                 this.previousLookAtHeight = this.currentLookAtHeight;

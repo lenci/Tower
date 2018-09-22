@@ -14,7 +14,7 @@ export default class TowerUnderConstructionState extends FiniteStateMachineState
             tower.nextBrick = tower.generateRandomBrick();
             tower.nextBrick.queue();
 
-            stateMachine.telegram("DROP_BRICK");
+            stateMachine.telegram(Tower.MSG_DROP_BRICK);
         }
     }
 
@@ -22,16 +22,16 @@ export default class TowerUnderConstructionState extends FiniteStateMachineState
         let tower = <Tower>(stateMachine.owner);
 
         switch (message) {
-            case "DROP_BRICK":
+            case Tower.MSG_DROP_BRICK:
                 if (tower.isNetworkClone) {
-                    cc.error("Tower error: " + tower.builder.playerId);
+                    cc.error("Tower error: " + tower.builder.player.playerId);
 
                 } else {
                     let heightRuler = tower.getComponent(TowerHeightRuler);
                     if (heightRuler.checkWin()) {
                         tower.currentBrick = null;
 
-                        stateMachine.telegram("HOLD");
+                        stateMachine.telegram(Tower.MSG_HOLD);
 
                     } else {
                         tower.currentBrick = tower.nextBrick;
@@ -39,18 +39,18 @@ export default class TowerUnderConstructionState extends FiniteStateMachineState
                         tower.nextBrick.queue();
 
                         tower.currentBrick.node.on("BRICK_PLACED", (event: cc.Event) => {
-                            stateMachine.telegram("DROP_BRICK");
+                            stateMachine.telegram(Tower.MSG_DROP_BRICK);
                         })
                         tower.currentBrick.node.on("BRICK_GROUNDED", (event: cc.Event) => {
-                            stateMachine.telegram("DROP_BRICK");
+                            stateMachine.telegram(Tower.MSG_DROP_BRICK);
                         })
                         tower.currentBrick.fall();
                     }
                 }
 
-            case "TRANSLATE_BRICK":
+            case Tower.MSG_TRANSLATE_BRICK:
                 if (tower.isNetworkClone) {
-                    cc.error("Tower error: " + tower.builder.playerId);
+                    cc.error("Tower error: " + tower.builder.player.playerId);
 
                 } else {
                     if (null != tower.currentBrick) {
@@ -59,9 +59,9 @@ export default class TowerUnderConstructionState extends FiniteStateMachineState
                 }
                 break;
 
-            case "ROTATE_BRICK":
+            case Tower.MSG_ROTATE_BRICK:
                 if (tower.isNetworkClone) {
-                    cc.error("Tower error: " + tower.builder.playerId);
+                    cc.error("Tower error: " + tower.builder.player.playerId);
 
                 } else {
                     if (null != tower.currentBrick) {
@@ -70,18 +70,18 @@ export default class TowerUnderConstructionState extends FiniteStateMachineState
                 }
                 break;
 
-            case "CLONE_BRICK_FROM_NET":
+            case Tower.MSG_CLONE_BRICK_FROM_NET:
                 if (!tower.isNetworkClone) {
-                    cc.error("Tower error: " + tower.builder.playerId);
+                    cc.error("Tower error: " + tower.builder.player.playerId);
 
                 } else {
                     tower.generateSpecificBrick(1, BrickShape.TetrominoI);
                 }
                 break;
 
-            case "SYNC_BRICK_FROM_NET":
+            case Tower.MSG_SYNC_BRICK_FROM_NET:
                 if (!tower.isNetworkClone) {
-                    cc.error("Tower error: " + tower.builder.playerId);
+                    cc.error("Tower error: " + tower.builder.player.playerId);
 
                 } else {
                     let brickChangement: BrickChangement = args[0] as BrickChangement;
@@ -126,17 +126,17 @@ export default class TowerUnderConstructionState extends FiniteStateMachineState
                 }
                 break;
 
-            case "MAGIC_TO_BRICK":
+            case Tower.MSG_MAGIC_TO_BRICK:
                 if (null != tower.currentBrick) {
                 }
                 break;
 
-            case "HOLD":
-                stateMachine.changeState(Tower.HoldingState);
+            case Tower.MSG_HOLD:
+                stateMachine.changeState(Tower.holdingState);
                 break;
 
-            case "COLLAPSE":
-                stateMachine.changeState(Tower.CollapsedState);
+            case Tower.MSG_COLLAPSE:
+                stateMachine.changeState(Tower.collapsedState);
                 break;
 
             default:

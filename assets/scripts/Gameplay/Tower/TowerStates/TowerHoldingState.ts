@@ -10,15 +10,15 @@ export default class TowerHoldingState extends FiniteStateMachineState {
 
     onTelegram(stateMachine: FiniteStateMachine, message: string, ...args) {
         switch (message) {
-            case "CONSTRUCT":
+            case Tower.MSG_CONSTRUCT:
                 stateMachine.changeState(Tower.UnderConstructionState);
                 break;
 
-            case "COMPLETE":
+            case Tower.MSG_COMPLETE:
                 stateMachine.changeState(Tower.CompleteState);
                 break;
 
-            case "COLLAPSE":
+            case Tower.MSG_COLLAPSE:
                 stateMachine.changeState(Tower.CollapsedState);
                 break;
 
