@@ -1,0 +1,34 @@
+{
+  "ver": "1.2.4",
+  "uuid": "479947ff-deaf-4b9d-97b2-0765cc43e14b",
+  "rawTextureUuid": "e8c3c57c-ce15-4783-b339-b58a0f1cbb46",
+  "size": {
+    "width": 258,
+    "height": 194
+  },
+  "type": "Texture Packer",
+  "subMetas": {
+    "TowerFoundation001.png": {
+      "ver": "1.0.3",
+      "uuid": "3b13a40d-3107-43ff-9631-8c94e8dedf41",
+      "rawTextureUuid": "e8c3c57c-ce15-4783-b339-b58a0f1cbb46",
+      "trimType": "auto",
+      "trimThreshold": 1,
+      "rotated": false,
+      "offsetX": 0,
+      "offsetY": 0,
+      "trimX": 1,
+      "trimY": 1,
+      "width": 256,
+      "height": 192,
+      "rawWidth": 256,
+      "rawHeight": 192,
+      "borderTop": 0,
+      "borderBottom": 0,
+      "borderLeft": 0,
+      "borderRight": 0,
+      "spriteType": "normal",
+      "subMetas": {}
+    }
+  }
+}

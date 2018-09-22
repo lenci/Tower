@@ -1,0 +1,27 @@
+{
+  "__type__": "cc.SpriteFrame",
+  "content": {
+    "name": "TetrominoS",
+    "texture": "assets/resources/textures/Gameplay/BrickSets/Basic/Bricks_Basic.png",
+    "rect": [
+      53,
+      1,
+      32,
+      48
+    ],
+    "offset": [
+      0,
+      0
+    ],
+    "originalSize": [
+      32,
+      48
+    ],
+    "capInsets": [
+      0,
+      0,
+      0,
+      0
+    ]
+  }
+}

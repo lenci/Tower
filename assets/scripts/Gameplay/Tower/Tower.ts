@@ -1,0 +1,118 @@
+import Brick, { BrickShape } from "../Brick/Brick"
+import FiniteStateMachine from "../../Utilities/FiniteStateMashine/FiniteStateMachine";
+import TowerFoundationLaidState from "./TowerStates/TowerFoundationLaidState";
+import TowerUnderConstructionState from "./TowerStates/TowerUnderConstructionState";
+import TowerCompleteState from "./TowerStates/TowerCompleteState";
+import TowerCollapsedState from "./TowerStates/TowerCollapsedState";
+import TowerHoldingState from "./TowerStates/TowerHoldingState";
+import TowerBricksChanngementsNetReporter from "./TowerBricksChangementsNetReporter";
+import NetworkTowerBuilder from "./TowerBuilder/NetworkTowerBuilder";
+import TowerBuilder from "./TowerBuilder/TowerBuilder";
+import LocalTowerBuilder from "./TowerBuilder/LocalPlayerTowerBuilder";
+import TowerFoundation from "./TowerFoundation";
+import MatchManager, { MatchPlayer } from "../../Framework/MatchManager";
+
+const { ccclass, property } = cc._decorator;
+
+@ccclass
+export default class Tower extends cc.Component {
+
+    foundation: TowerFoundation = null;
+    builder: TowerBuilder = null;
+
+    isNetworkClone: boolean = false;
+
+    private stateMachine: FiniteStateMachine = null;
+    static foundationLaidState: TowerFoundationLaidState = new TowerFoundationLaidState();
+    static underConstructionState: TowerUnderConstructionState = new TowerUnderConstructionState();
+    static holdingState: TowerHoldingState = new TowerHoldingState();
+    static completeState: TowerCompleteState = new TowerCompleteState();
+    static collapsedState: TowerCollapsedState = new TowerCollapsedState();
+
+    bricks: { [key: number]: Brick } = {};
+    nextValidBrickId:number = 0;
+
+    currentBrick: Brick = null;
+    nextBrick: Brick = null;
+
+    init(player: MatchPlayer, isNetworkClone: boolean, foundationPrefab:cc.Prefab) {
+        this.isNetworkClone = isNetworkClone;
+
+        if (this.isNetworkClone) {
+            this.builder = this.addComponent(NetworkTowerBuilder);            
+        } else {
+            this.builder = this.addComponent(LocalTowerBuilder);
+            this.addComponent(TowerBricksChanngementsNetReporter);
+        }
+        this.builder.init(player);
+
+        let foundationNode:cc.Node = cc.instantiate(foundationPrefab);
+        this.node.addChild(foundationNode);
+        foundationNode.setPosition(0, 0);
+        this.foundation = foundationNode.getComponent(TowerFoundation);
+    }
+
+    start() {
+        this.stateMachine = this.addComponent(FiniteStateMachine);
+        this.stateMachine.init(this);
+        
+        this.stateMachine.changeState(Tower.foundationLaidState);
+    }
+
+    getBrickById(brickId: number): Brick {
+        return this.bricks[brickId];
+    }
+
+    generateRandomBrick(): Brick {
+        let brick = new Brick();
+
+        let brickId = this.nextValidBrickId++;
+        this.bricks[brickId] = brick;
+
+        return brick;
+    }
+
+    generateSpecificBrick(brickId: number, shape: BrickShape): Brick {
+        let brick = new Brick();
+
+        this.bricks[brickId] = brick;
+
+        return brick;
+    }
+
+    removeBrick(brickId: number) {
+        this.bricks[brickId] = null;
+    }
+
+    construct() {
+        this.stateMachine.telegram("CONSTRUCT");
+    }
+
+    hold() {
+        this.stateMachine.telegram("HOLD");
+    }
+
+    complete() {
+        this.stateMachine.telegram("COMPLETE");
+    }
+
+    collapse() {
+        this.stateMachine.telegram("COLLAPSE");
+    }
+
+    translateBrick() {
+        this.stateMachine.telegram("TRANSLATE_BRICK");
+    }
+
+    rotateBrick() {
+        this.stateMachine.telegram("ROTATE_BRICK");
+    }
+
+    cloneBrick() {
+        this.stateMachine.telegram("CLONE_BRICK_FROM_NET");
+    }
+
+    syncBrick() {
+        this.stateMachine.telegram("SYNC_BRICK_FROM_NET");
+    }
+}
