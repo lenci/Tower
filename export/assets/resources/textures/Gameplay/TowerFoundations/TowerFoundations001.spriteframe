@@ -1,21 +1,21 @@
 {
   "__type__": "cc.SpriteFrame",
   "content": {
-    "name": "Islands",
-    "texture": "assets/resources/tilemaps/Levels/Islands/Islands.png",
+    "name": "TowerFoundations001",
+    "texture": "assets/resources/textures/Gameplay/TowerFoundations/TowerFoundations001.png",
     "rect": [
+      7,
       0,
-      0,
-      1008,
-      512
+      234,
+      194
     ],
     "offset": [
-      -8,
+      -5,
       0
     ],
     "originalSize": [
-      1024,
-      512
+      258,
+      194
     ],
     "capInsets": [
       0,

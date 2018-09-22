@@ -6,7 +6,7 @@ export enum BrickState {
     QUEUEING,
     FALLING,
     PLACED,
-    GROUNDED,
+    LOST,
 };
 
 export class BrickChangement {
@@ -27,30 +27,30 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class BrickChangementFecther extends cc.Component {
 
-    private stateMachine:FiniteStateMachine = null;
+    stateMachine:FiniteStateMachine = null;
 
-    private previousPosition: cc.Vec2 = new cc.Vec2(0, 0);
-    private previousRotation: number = 0;
-    private previousState:BrickState = BrickState.NONE;
+    private _previousPosition: cc.Vec2 = new cc.Vec2(0, 0);
+    private _previousRotation: number = 0;
+    private _previousState:BrickState = BrickState.NONE;
 
     start () {
         this.stateMachine = this.getComponent(FiniteStateMachine);
     }
 
     fetchBrickChangements (changement:BrickChangement) {
-        changement.hasPositionChanged = this.previousPosition.sub(this.node.position).magSqr() > 1e-5;
+        changement.hasPositionChanged = this._previousPosition.sub(this.node.position).magSqr() > 1e-5;
         if (changement.hasPositionChanged) {
-            this.previousPosition = changement.newPosition = this.node.position;
+            this._previousPosition = changement.newPosition = this.node.position;
         }
 
-        changement.hasRotationChanged = Math.abs(this.previousRotation - this.node.rotation) > 1e-5;
+        changement.hasRotationChanged = Math.abs(this._previousRotation - this.node.rotation) > 1e-5;
         if (changement.hasRotationChanged) {
-            this.previousRotation = changement.newRotation = this.node.rotation;
+            this._previousRotation = changement.newRotation = this.node.rotation;
         }
 
-        changement.hasStateChanged = this.previousState != this.getBrickState();
+        changement.hasStateChanged = this._previousState != this.getBrickState();
         if (changement.hasStateChanged) {
-            this.previousState = changement.newState = this.getBrickState();
+            this._previousState = changement.newState = this.getBrickState();
         }
     }
 
@@ -64,8 +64,8 @@ export default class BrickChangementFecther extends cc.Component {
         if (Brick.PlacedState == this.stateMachine.currentState) {
             return BrickState.PLACED;
         }
-        if (Brick.GroundedState == this.stateMachine.currentState) {
-            return BrickState.GROUNDED;
+        if (Brick.LostState == this.stateMachine.currentState) {
+            return BrickState.LOST;
         }
 
         return BrickState.NONE;

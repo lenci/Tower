@@ -4,19 +4,20 @@
     "name": "TetrominoT",
     "texture": "assets/resources/textures/Gameplay/BrickSets/Basic/Bricks_Basic.png",
     "rect": [
-      19,
       1,
-      32,
-      48
+      297,
+      64,
+      96
     ],
     "offset": [
       0,
       0
     ],
     "originalSize": [
-      32,
-      48
+      64,
+      96
     ],
+    "rotated": 1,
     "capInsets": [
       0,
       0,

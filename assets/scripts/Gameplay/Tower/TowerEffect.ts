@@ -5,10 +5,10 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class TowerEffect extends cc.Component {
 
-    private tower: Tower;
+    private _tower: Tower;
 
     start () {
-        this.tower = this.getComponent(Tower);
+        this._tower = this.getComponent(Tower);
     }
 
     // update (delta) {}

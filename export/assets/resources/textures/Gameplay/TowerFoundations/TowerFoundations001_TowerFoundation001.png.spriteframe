@@ -1,21 +1,21 @@
 {
   "__type__": "cc.SpriteFrame",
   "content": {
-    "name": "TetrominoO",
-    "texture": "assets/resources/textures/Gameplay/BrickSets/Basic/Bricks_Basic.png",
+    "name": "TowerFoundation001",
+    "texture": "assets/resources/textures/Gameplay/TowerFoundations/TowerFoundations001.png",
     "rect": [
       1,
-      133,
-      64,
-      64
+      1,
+      256,
+      192
     ],
     "offset": [
       0,
       0
     ],
     "originalSize": [
-      64,
-      64
+      256,
+      192
     ],
     "capInsets": [
       0,

@@ -13,8 +13,6 @@ export default class SkyPerspective extends cc.Component {
     @property
     distanceFactor: number = 1;
 
-    private originalPosition: cc.Vec2 = null;
-
     init(stage: Stage) {
         this.stage = stage;
     }

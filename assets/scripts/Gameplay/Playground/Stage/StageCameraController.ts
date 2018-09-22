@@ -5,7 +5,7 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class StageCameraController extends cc.Component {
 
-    static EVT_CAMERA_MOVING:string = "camera moving";
+    static EVT_CAMERA_MOVING: string = "camera moving";
 
     @property(Stage)
     stage: Stage = null;
@@ -15,24 +15,24 @@ export default class StageCameraController extends cc.Component {
 
     camera: cc.Camera = null;
 
-    private targetLookAtLocation: number = 0;
-    private targetLookAtHeight: number = 0;
-    private targetZoomRatio: number = 1;
+    private _targetLookAtLocation: number = 0;
+    private _targetLookAtHeight: number = 0;
+    private _targetZoomRatio: number = 1;
 
-    private previousLookAtLocation: number = 0;
-    private previousLookAtHeight: number = 0;
-    private previousZoomRatio: number = 1;
+    private _previousLookAtLocation: number = 0;
+    private _previousLookAtHeight: number = 0;
+    private _previousZoomRatio: number = 1;
 
     start() {
         this.camera = this.getComponent(cc.Camera);
 
-        this.targetLookAtLocation = this.currentLookAtLocation;
-        this.targetLookAtHeight = this.currentLookAtHeight;
-        this.targetZoomRatio = this.currentZoomRatio;
+        this._targetLookAtLocation = this.currentLookAtLocation;
+        this._targetLookAtHeight = this.currentLookAtHeight;
+        this._targetZoomRatio = this.currentZoomRatio;
 
-        this.previousLookAtLocation = this.currentLookAtLocation;
-        this.previousLookAtHeight = this.currentLookAtHeight;
-        this.previousZoomRatio = this.currentZoomRatio;
+        this._previousLookAtLocation = this.currentLookAtLocation;
+        this._previousLookAtHeight = this.currentLookAtHeight;
+        this._previousZoomRatio = this.currentZoomRatio;
 
         this.scheduleOnce(() => {
             this.lookAtLocation(this.stage.playerStartPositions[0].x, 2);
@@ -59,7 +59,7 @@ export default class StageCameraController extends cc.Component {
         this.camera.node.stopActionByTag(1);
 
         if (duration > 0) {
-            let cameraHorizontalMover:cc.ActionInterval = cc.moveTo(duration, new cc.Vec2(location - this.canvas.designResolution.width / 2, this.camera.node.y));
+            let cameraHorizontalMover: cc.ActionInterval = cc.moveTo(duration, new cc.Vec2(location - this.canvas.designResolution.width / 2, this.camera.node.y));
             cameraHorizontalMover.easing(ease);
             cameraHorizontalMover.setTag(1);
             this.camera.node.runAction(cameraHorizontalMover);
@@ -68,7 +68,7 @@ export default class StageCameraController extends cc.Component {
         }
 
 
-        this.targetLookAtLocation = location;
+        this._targetLookAtLocation = location;
     }
 
     get currentLookAtLocation(): number {
@@ -95,7 +95,7 @@ export default class StageCameraController extends cc.Component {
             this.camera.node.y = height;
         }
 
-        this.targetLookAtHeight = height;
+        this._targetLookAtHeight = height;
     }
 
     get currentLookAtHeight(): number {
@@ -118,7 +118,7 @@ export default class StageCameraController extends cc.Component {
             this.camera.node.scaleX = zoomRatio;
         }
 
-        this.targetZoomRatio = zoomRatio;
+        this._targetZoomRatio = zoomRatio;
     }
 
     get currentZoomRatio(): number {
@@ -128,17 +128,15 @@ export default class StageCameraController extends cc.Component {
     update(delta: number) {
         this.camera.zoomRatio = this.camera.node.scaleX;
 
-        // this.node.emit(StageCameraController.EVT_CAMERA_MOVING);
+        if (Math.abs(this._previousLookAtLocation - this.currentLookAtLocation) > 1e-5 ||
+            Math.abs(this._previousLookAtHeight - this.currentLookAtHeight) > 1e-5 ||
+            Math.abs(this._previousZoomRatio - this.currentZoomRatio) > 1e-5) {
 
-        if (Math.abs(this.previousLookAtLocation - this.currentLookAtLocation) > 1e-5 ||
-            Math.abs(this.previousLookAtHeight - this.currentLookAtHeight) > 1e-5 ||
-            Math.abs(this.previousZoomRatio - this.currentZoomRatio) > 1e-5) {
+            this.node.emit(StageCameraController.EVT_CAMERA_MOVING);
 
-                this.node.emit(StageCameraController.EVT_CAMERA_MOVING);
-
-                this.previousLookAtLocation = this.currentLookAtLocation;
-                this.previousLookAtHeight = this.currentLookAtHeight;
-                this.previousZoomRatio = this.currentZoomRatio;
-            }
+            this._previousLookAtLocation = this.currentLookAtLocation;
+            this._previousLookAtHeight = this.currentLookAtHeight;
+            this._previousZoomRatio = this.currentZoomRatio;
+        }
     }
 }

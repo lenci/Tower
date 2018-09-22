@@ -32,18 +32,18 @@ export default class Brick extends cc.Component {
     id: number = -1;
     tower: Tower = null;
 
-    private collider: cc.PhysicsPolygonCollider = null;
-    private rigidbody: cc.RigidBody = null;
+    private _collider: cc.PhysicsPolygonCollider = null;
+    private _rigidbody: cc.RigidBody = null;
 
-    private stateMachine: FiniteStateMachine = null;
+    stateMachine: FiniteStateMachine = null;
     static QueueState:BrickQueueingState = new BrickQueueingState();
     static FallingState:BrickFallingState = new BrickFallingState();
     static PlacedState:BrickPlacedState = new BrickPlacedState();
     static LostState:BrickLostState = new BrickLostState();
 
     start() {
-        this.collider = this.getComponent(cc.PhysicsPolygonCollider);
-        this.rigidbody = this.getComponent(cc.RigidBody);
+        this._collider = this.getComponent(cc.PhysicsPolygonCollider);
+        this._rigidbody = this.getComponent(cc.RigidBody);
 
         this.stateMachine = this.getComponent(FiniteStateMachine);
     }
@@ -53,10 +53,10 @@ export default class Brick extends cc.Component {
         this.id = id;
 
         if (tower.isNetworkClone) {
-            this.node.removeComponent(this.collider);
-            this.collider = null;
-            this.node.removeComponent(this.rigidbody);
-            this.rigidbody = null;
+            this.node.removeComponent(this._collider);
+            this._collider = null;
+            this.node.removeComponent(this._rigidbody);
+            this._rigidbody = null;
         }
     }
 

@@ -22,7 +22,7 @@ export default class Tower extends cc.Component {
 
     isNetworkClone: boolean = false;
 
-    private stateMachine: FiniteStateMachine = null;
+    stateMachine: FiniteStateMachine = null;
     static foundationLaidState: TowerFoundationLaidState = new TowerFoundationLaidState();
     static underConstructionState: TowerUnderConstructionState = new TowerUnderConstructionState();
     static holdingState: TowerHoldingState = new TowerHoldingState();

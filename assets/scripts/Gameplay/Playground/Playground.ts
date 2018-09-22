@@ -2,7 +2,7 @@ import Tower from "../Tower/Tower";
 import FiniteStateMachine from "../../Utilities/FiniteStateMashine/FiniteStateMachine";
 import PlaygroundSettingUpState from "./PlaygroundStates/PlaygroundSettingUpState";
 import PlaygroundMatchCountingDownForBeginningState from "./PlaygroundStates/PlaygroundMatchCountingDownForBeginningState";
-import PlaygroundMatchInState from "./PlaygroundStates/PlaygroundMatchInState";
+import PlaygroundMatchPlayingState from "./PlaygroundStates/PlaygroundMatchPlayingState";
 import PlaygroundMatchOverState from "./PlaygroundStates/PlaygroundMatchOverState";
 import GameManager from "../../Framework/GameManager";
 import Stage from "./Stage/Stage";
@@ -21,11 +21,11 @@ export default class Playground extends cc.Component {
     @property(cc.Prefab)
     towerPrefab: cc.Prefab = null;
 
-    private stateMachine: FiniteStateMachine = null;
+    stateMachine: FiniteStateMachine = null;
     static settingUpState: PlaygroundSettingUpState = new PlaygroundSettingUpState();
     static matchPreparingState: PlaygroundMatchPreparingState = new PlaygroundMatchPreparingState();
     static matchCountingDownForBeginningState: PlaygroundMatchCountingDownForBeginningState = new PlaygroundMatchCountingDownForBeginningState();
-    static matchInState: PlaygroundMatchInState = new PlaygroundMatchInState();
+    static matchPlayingState: PlaygroundMatchPlayingState = new PlaygroundMatchPlayingState();
     static matchOverState: PlaygroundMatchOverState = new PlaygroundMatchOverState();
     static matchDisconnectedState: PlaygroundMatchDisconnectedState = new PlaygroundMatchDisconnectedState();
     static MSG_PREPARE_MATCH:string = "prepare match";

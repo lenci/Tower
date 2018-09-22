@@ -12,21 +12,21 @@ export default class MatchPlayersPanel extends cc.Component {
     @property(cc.Prefab)
     playerUIPrefab: cc.Prefab = null;
 
-    private playerItemUIs: { [key: string]: MatchPlayerItemUI } = {};
+    private _playerItemUIs: { [key: string]: MatchPlayerItemUI } = {};
 
-    private stage: Stage = null;
+    private _stage: Stage = null;
 
     start() {
         GameManager.instance.matchManager.node.on(MatchManager.EVT_PLAYER_JOINED, this.createPlayerUI, this);
         GameManager.instance.matchManager.node.on(MatchManager.EVT_PLAYER_LEFT, this.destroyPlayerUI, this);
 
-        this.stage = GameManager.instance.playground.stage;
+        this._stage = GameManager.instance.playground.stage;
         this.updatePosition();
-        this.stage.cameraController.node.on(StageCameraController.EVT_CAMERA_MOVING, this.updatePosition, this);
+        this._stage.cameraController.node.on(StageCameraController.EVT_CAMERA_MOVING, this.updatePosition, this);
     }
 
     private createPlayerUI(player: MatchPlayer): MatchPlayerItemUI {
-        if (null == this.playerItemUIs[player.id]) {
+        if (null == this._playerItemUIs[player.id]) {
             let ui: cc.Node = cc.instantiate(this.playerUIPrefab);
             this.node.addChild(ui);
 
@@ -34,37 +34,37 @@ export default class MatchPlayersPanel extends cc.Component {
             playerItemUI.init(player);
             this.updatePlayerUIPosition(playerItemUI);
 
-            this.playerItemUIs[player.id] = playerItemUI;
+            this._playerItemUIs[player.id] = playerItemUI;
         }
 
-        return this.playerItemUIs[player.id];
+        return this._playerItemUIs[player.id];
     }
 
     private destroyPlayerUI(player: MatchPlayer) {
-        if (null != this.playerItemUIs[player.id]) {
-            this.playerItemUIs[player.id].node.destroy();
-            this.playerItemUIs[player.id] = null;
+        if (null != this._playerItemUIs[player.id]) {
+            this._playerItemUIs[player.id].node.destroy();
+            this._playerItemUIs[player.id] = null;
         }
     }
 
     private updatePosition() {
         let position: cc.Vec2 = new cc.Vec2(0, 0);
-        position.y = (1 - this.stage.cameraController.currentZoomRatio) * this.stage.canvas.designResolution.height / 2;
-        position = this.node.parent.convertToNodeSpaceAR(this.stage.node.convertToWorldSpaceAR(position));
+        position.y = (1 - this._stage.cameraController.currentZoomRatio) * this._stage.canvas.designResolution.height / 2;
+        position = this.node.parent.convertToNodeSpaceAR(this._stage.node.convertToWorldSpaceAR(position));
 
         this.node.y = position.y;
 
-        for (let key in this.playerItemUIs) {
-            this.updatePlayerUIPosition(this.playerItemUIs[key]);
+        for (let key in this._playerItemUIs) {
+            this.updatePlayerUIPosition(this._playerItemUIs[key]);
         }
     }
 
     private updatePlayerUIPosition(playerItemUI: MatchPlayerItemUI) {
         let position: cc.Vec2 = new cc.Vec2(0, 0);
 
-        position.x = this.stage.canvas.designResolution.width / 2 + (this.stage.playerStartPositions[playerItemUI.player.towerIndex].x - this.stage.cameraController.currentLookAtLocation) * this.stage.cameraController.currentZoomRatio;
-        position.y = this.stage.canvas.designResolution.height / 2 * (1 - this.stage.cameraController.currentZoomRatio);
+        position.x = this._stage.canvas.designResolution.width / 2 + (this._stage.playerStartPositions[playerItemUI.player.towerIndex].x - this._stage.cameraController.currentLookAtLocation) * this._stage.cameraController.currentZoomRatio;
+        position.y = this._stage.canvas.designResolution.height / 2 * (1 - this._stage.cameraController.currentZoomRatio);
 
-        playerItemUI.node.setPosition(this.node.convertToNodeSpaceAR(this.stage.node.convertToWorldSpaceAR(position)));
+        playerItemUI.node.setPosition(this.node.convertToNodeSpaceAR(this._stage.node.convertToWorldSpaceAR(position)));
     }
 }
