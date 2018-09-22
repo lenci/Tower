@@ -11,7 +11,7 @@ export class MatchPlayer {
 
     isConnected: boolean = false;
 
-    constructor(public playerId: string = "", public towerIndex: number) { }
+    constructor(public id: string = "", public towerIndex: number) { }
 }
 
 @ccclass
@@ -38,7 +38,7 @@ export default class MatchManager extends cc.Component {
         this.matchId = "";
         this.levelId = 1;
         this.maxPlayerCount = 3;
-        this.host = GameManager.instance.playerDataManager.playerId;
+        this.host = GameManager.instance.playerDataManager.id;
 
         this.players = [];
     }
@@ -50,7 +50,7 @@ export default class MatchManager extends cc.Component {
                 this.matchId = "";
                 this.levelId = levelId;
                 this.maxPlayerCount = maxPlayerCount;
-                this.host = GameManager.instance.playerDataManager.playerId;
+                this.host = GameManager.instance.playerDataManager.id;
             }, 200);
 
             resolve(0);
@@ -65,7 +65,9 @@ export default class MatchManager extends cc.Component {
 
             // GameManager.instance.networkManager.send()
             setTimeout(() => {
-                this.addPlayer("b", 0);
+                let player: MatchPlayer = new MatchPlayer("b", 0);
+                player.name = "XXX";
+                this.addPlayer(player);
 
                 this.node.emit(MatchManager.EVT_MATCH_PREPARING);
 
@@ -92,7 +94,9 @@ export default class MatchManager extends cc.Component {
         let promise: Promise<number> = new Promise<number>(resolve => {
             // GameManager.instance.networkManager.send()
             setTimeout(() => {
-                this.addPlayer(GameManager.instance.playerDataManager.playerId, 1);
+                let player: MatchPlayer = new MatchPlayer(GameManager.instance.playerDataManager.id, 1);
+                player.name = "HELLO";
+                this.addPlayer(player);
 
                 resolve(0);
             }, 200);
@@ -105,7 +109,7 @@ export default class MatchManager extends cc.Component {
         let promise: Promise<number> = new Promise<number>(resolve => {
             // GameManager.instance.networkManager.send()
             setTimeout(() => {
-                this.removePlayer(GameManager.instance.playerDataManager.playerId);
+                this.removePlayer(GameManager.instance.playerDataManager.id);
 
                 resolve(0);
             });
@@ -114,8 +118,7 @@ export default class MatchManager extends cc.Component {
         return promise;
     }
 
-    private addPlayer(playerId: string, towerIndex: number): MatchPlayer {
-        let player: MatchPlayer = new MatchPlayer(playerId, towerIndex);
+    private addPlayer(player: MatchPlayer): MatchPlayer {
         this.players.push(player);
 
         this.node.emit(MatchManager.EVT_PLAYER_JOINED, player);
@@ -126,7 +129,7 @@ export default class MatchManager extends cc.Component {
     private removePlayer(playerId: string): MatchPlayer {
         let player: MatchPlayer = null;
         this.players.every((player, index) => {
-            if (player.playerId == playerId) {
+            if (player.id == playerId) {
                 player = this.players.splice(index, 1)[0];
 
                 this.node.emit(MatchManager.EVT_PLAYER_LEFT, player);
@@ -145,6 +148,6 @@ export default class MatchManager extends cc.Component {
     }
 
     get isMyMatch(): boolean {
-        return GameManager.instance.playerDataManager.playerId == this.host;
+        return GameManager.instance.playerDataManager.id == this.host;
     }
 }

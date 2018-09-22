@@ -58,8 +58,8 @@ export default class Playground extends cc.Component {
     }
 
     createTower(player: MatchPlayer, towerIndex:number): Tower {
-        if (null != this.towers[player.playerId]) {
-            return this.towers[player.playerId];
+        if (null != this.towers[player.id]) {
+            return this.towers[player.id];
         }
 
         let towerNode: cc.Node = cc.instantiate(this.towerPrefab);
@@ -67,19 +67,19 @@ export default class Playground extends cc.Component {
         towerNode.setPosition(this.stage.playerStartPositions[towerIndex]);
 
         let tower: Tower = towerNode.getComponent(Tower);
-        tower.init(player, player.playerId != GameManager.instance.playerDataManager.playerId, this.stage.towerFoundationPrefab);
+        tower.init(player, player.id != GameManager.instance.playerDataManager.id, this.stage.towerFoundationPrefab);
 
-        this.towers[player.playerId] = tower;
+        this.towers[player.id] = tower;
 
         return tower;
     }
 
     destroyTower(player: MatchPlayer) {
-        if (null == this.towers[player.playerId]) {
+        if (null == this.towers[player.id]) {
             return;
         }
 
-        this.towers[player.playerId].node.destroy();
+        this.towers[player.id].node.destroy();
     }
 
     play() {

@@ -26,7 +26,7 @@ export default class MatchPlayersPanel extends cc.Component {
     }
 
     private createPlayerUI(player: MatchPlayer): MatchPlayerItemUI {
-        if (null == this.playerItemUIs[player.playerId]) {
+        if (null == this.playerItemUIs[player.id]) {
             let ui: cc.Node = cc.instantiate(this.playerUIPrefab);
             this.node.addChild(ui);
 
@@ -34,16 +34,16 @@ export default class MatchPlayersPanel extends cc.Component {
             playerItemUI.init(player);
             this.updatePlayerUIPosition(playerItemUI);
 
-            this.playerItemUIs[player.playerId] = playerItemUI;
+            this.playerItemUIs[player.id] = playerItemUI;
         }
 
-        return this.playerItemUIs[player.playerId];
+        return this.playerItemUIs[player.id];
     }
 
     private destroyPlayerUI(player: MatchPlayer) {
-        if (null != this.playerItemUIs[player.playerId]) {
-            this.playerItemUIs[player.playerId].node.destroy();
-            this.playerItemUIs[player.playerId] = null;
+        if (null != this.playerItemUIs[player.id]) {
+            this.playerItemUIs[player.id].node.destroy();
+            this.playerItemUIs[player.id] = null;
         }
     }
 

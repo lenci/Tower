@@ -24,7 +24,7 @@ export default class TowerUnderConstructionState extends FiniteStateMachineState
         switch (message) {
             case Tower.MSG_DROP_BRICK:
                 if (tower.isNetworkClone) {
-                    cc.error("Tower error: " + tower.builder.player.playerId);
+                    cc.error("Tower error: " + tower.builder.player.id);
 
                 } else {
                     let heightRuler = tower.getComponent(TowerHeightRuler);
@@ -50,7 +50,7 @@ export default class TowerUnderConstructionState extends FiniteStateMachineState
 
             case Tower.MSG_TRANSLATE_BRICK:
                 if (tower.isNetworkClone) {
-                    cc.error("Tower error: " + tower.builder.player.playerId);
+                    cc.error("Tower error: " + tower.builder.player.id);
 
                 } else {
                     if (null != tower.currentBrick) {
@@ -61,7 +61,7 @@ export default class TowerUnderConstructionState extends FiniteStateMachineState
 
             case Tower.MSG_ROTATE_BRICK:
                 if (tower.isNetworkClone) {
-                    cc.error("Tower error: " + tower.builder.player.playerId);
+                    cc.error("Tower error: " + tower.builder.player.id);
 
                 } else {
                     if (null != tower.currentBrick) {
@@ -72,7 +72,7 @@ export default class TowerUnderConstructionState extends FiniteStateMachineState
 
             case Tower.MSG_CLONE_BRICK_FROM_NET:
                 if (!tower.isNetworkClone) {
-                    cc.error("Tower error: " + tower.builder.player.playerId);
+                    cc.error("Tower error: " + tower.builder.player.id);
 
                 } else {
                     tower.generateSpecificBrick(1, BrickShape.TetrominoI);
@@ -81,7 +81,7 @@ export default class TowerUnderConstructionState extends FiniteStateMachineState
 
             case Tower.MSG_SYNC_BRICK_FROM_NET:
                 if (!tower.isNetworkClone) {
-                    cc.error("Tower error: " + tower.builder.player.playerId);
+                    cc.error("Tower error: " + tower.builder.player.id);
 
                 } else {
                     let brickChangement: BrickChangement = args[0] as BrickChangement;

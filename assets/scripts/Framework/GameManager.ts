@@ -26,17 +26,14 @@ export default class GameManager extends cc.Component {
         cc.game.addPersistRootNode(this.node);
     }
 
-    start() {
+    async start() {
         this.networkManager = this.getComponent(NetworkManager);
         this.playerDataManager = this.getComponent(PlayerDataManager);
         this.matchManager = this.getComponent(MatchManager);
 
-        this.gameLoader.node.on(GameLoader.MSG_LOADING_SUCCESS, this.login, this);
-        this.gameLoader.load();
-    }
-
-    login () {
-        this.playerDataManager.playerId = "a";
+        await this.gameLoader.load();
+        await this.networkManager.connect();
+        await this.playerDataManager.login();
 
         cc.director.loadScene("MainScene")
     }

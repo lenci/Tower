@@ -16,4 +16,8 @@ export default class MatchPlayerUI extends cc.Component {
     init(player: MatchPlayer) {
         this.player = player;
     }
+
+    start() {
+        this.lblPlayerName.string = this.player.name;
+    }
 }
