@@ -1,13 +1,14 @@
 import Tower from "../Tower/Tower";
 import FiniteStateMachine from "../../Utilities/FiniteStateMashine/FiniteStateMachine";
 import PlaygroundSettingUpState from "./PlaygroundStates/PlaygroundSettingUpState";
-import PlaygroundMatchReadyState from "./PlaygroundStates/PlaygroundMatchReadyState";
+import PlaygroundMatchCountingDownForBeginningState from "./PlaygroundStates/PlaygroundMatchCountingDownForBeginningState";
 import PlaygroundMatchInState from "./PlaygroundStates/PlaygroundMatchInState";
 import PlaygroundMatchOverState from "./PlaygroundStates/PlaygroundMatchOverState";
 import GameManager from "../../Framework/GameManager";
 import Stage from "./Stage/Stage";
 import { MatchPlayer } from "../../Framework/MatchManager";
 import PlaygroundMatchPreparingState from "./PlaygroundStates/PlaygroundMatchPreparingState";
+import PlaygroundMatchDisconnectedState from "./PlaygroundStates/PlaygroundMatchDisconnectedState";
 
 const { ccclass, property } = cc._decorator;
 
@@ -23,11 +24,15 @@ export default class Playground extends cc.Component {
     private stateMachine: FiniteStateMachine = null;
     static settingUpState: PlaygroundSettingUpState = new PlaygroundSettingUpState();
     static matchPreparingState: PlaygroundMatchPreparingState = new PlaygroundMatchPreparingState();
-    static matchReadyState: PlaygroundMatchReadyState = new PlaygroundMatchReadyState();
+    static matchCountingDownForBeginningState: PlaygroundMatchCountingDownForBeginningState = new PlaygroundMatchCountingDownForBeginningState();
     static matchInState: PlaygroundMatchInState = new PlaygroundMatchInState();
     static matchOverState: PlaygroundMatchOverState = new PlaygroundMatchOverState();
-    static MSG_SETTING_UP_COMPLETED:string = "setting up completed";
-    static MSG_MATCH_READY:string = "match ready";
+    static matchDisconnectedState: PlaygroundMatchDisconnectedState = new PlaygroundMatchDisconnectedState();
+    static MSG_PREPARE_MATCH:string = "prepare match";
+    static MSG_COUNT_DOWN_FOR_BEGINNING:string = "count down for beginning";
+    static MSG_BEGIN_MATCH:string = "begin match";
+    static MSG_END_MATCH:string = "end match";
+    static MSG_INTERRUPT_MATCH:string = "interrupt match";
 
     towers: { [key: string]: Tower } = {};
 

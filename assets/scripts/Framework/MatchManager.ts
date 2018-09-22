@@ -5,7 +5,11 @@ const { ccclass, property } = cc._decorator;
 
 export class MatchPlayer {
 
-    isConnected:boolean = false;
+    name:string = "";
+    avatar:string = "";
+    lv:number = 0;
+
+    isConnected: boolean = false;
 
     constructor(public playerId: string = "", public towerIndex: number) { }
 }
@@ -13,22 +17,24 @@ export class MatchPlayer {
 @ccclass
 export default class MatchManager extends cc.Component {
 
-    static EVT_PLAYER_JOINED:string = "player joined";
-    static EVT_PLAYER_LEFT:string = "player left";
-    
-    static EVT_MATCH_READY:string = "match ready";
-    static EVT_MATCH_BEGAN:string = "match began";
-    static EVT_MATCH_ENDED:string = "match ended";
+    static EVT_PLAYER_JOINED: string = "player joined";
+    static EVT_PLAYER_LEFT: string = "player left";
+
+    static EVT_MATCH_PREPARING: string = "match preparing";
+    static EVT_MATCH_COUNTING_DOWN_FOR_BEGINNING: string = "match counting down for beginning";
+    static EVT_MATCH_BEGAN: string = "match began";
+    static EVT_MATCH_ENDED: string = "match ended";
+    static EVT_MATCH_DISCONNECTED: string = "match disconnected";
 
     matchId: string = "";
     levelId: number = -1;
-    maxPlayerCount:number = 0;
+    maxPlayerCount: number = 0;
 
     players: MatchPlayer[] = null;
 
-    private host:string = "";
+    private host: string = "";
 
-    setMatch(matchInformation:string) {
+    setMatch(matchInformation: string) {
         this.matchId = "";
         this.levelId = 1;
         this.maxPlayerCount = 3;
@@ -37,8 +43,8 @@ export default class MatchManager extends cc.Component {
         this.players = [];
     }
 
-    async createMatch(levelId:number, maxPlayerCount:number):Promise<number> {
-        let promise:Promise<number> = new Promise<number>(resolve => {
+    async createMatch(levelId: number, maxPlayerCount: number): Promise<number> {
+        let promise: Promise<number> = new Promise<number>(resolve => {
             // GameManager.instance.networkManager.send()
             setTimeout(() => {
                 this.matchId = "";
@@ -53,13 +59,16 @@ export default class MatchManager extends cc.Component {
         return promise;
     }
 
-    async enterMatch():Promise<number> {
-        let promise:Promise<number> = new Promise<number>(resolve => {
+    async enterMatch(): Promise<number> {
+        let promise: Promise<number> = new Promise<number>(resolve => {
             // GameManager.instance.networkManager.addPushListener()
 
             // GameManager.instance.networkManager.send()
             setTimeout(() => {
                 this.addPlayer("b", 0);
+
+                this.node.emit(MatchManager.EVT_MATCH_PREPARING);
+
                 resolve(0);
             }, 200);
 
@@ -69,7 +78,7 @@ export default class MatchManager extends cc.Component {
     }
 
     async leaveMatch() {
-        let promise:Promise<number> = new Promise<number>(resolve => {
+        let promise: Promise<number> = new Promise<number>(resolve => {
             // GameManager.instance.networkManager.removePushListener()
 
             // GameManager.instance.networkManager.send()
@@ -79,8 +88,8 @@ export default class MatchManager extends cc.Component {
         });
     }
 
-    async join():Promise<number> {
-        let promise:Promise<number> = new Promise<number>(resolve => {
+    async join(): Promise<number> {
+        let promise: Promise<number> = new Promise<number>(resolve => {
             // GameManager.instance.networkManager.send()
             setTimeout(() => {
                 this.addPlayer(GameManager.instance.playerDataManager.playerId, 1);
@@ -92,8 +101,8 @@ export default class MatchManager extends cc.Component {
         return promise;
     }
 
-    async quit():Promise<number> {
-        let promise:Promise<number> = new Promise<number>(resolve => {
+    async quit(): Promise<number> {
+        let promise: Promise<number> = new Promise<number>(resolve => {
             // GameManager.instance.networkManager.send()
             setTimeout(() => {
                 this.removePlayer(GameManager.instance.playerDataManager.playerId);
@@ -105,7 +114,7 @@ export default class MatchManager extends cc.Component {
         return promise;
     }
 
-    private addPlayer(playerId: string, towerIndex:number):MatchPlayer {
+    private addPlayer(playerId: string, towerIndex: number): MatchPlayer {
         let player: MatchPlayer = new MatchPlayer(playerId, towerIndex);
         this.players.push(player);
 
@@ -114,8 +123,8 @@ export default class MatchManager extends cc.Component {
         return player;
     }
 
-    private removePlayer(playerId: string):MatchPlayer {
-        let player:MatchPlayer = null;
+    private removePlayer(playerId: string): MatchPlayer {
+        let player: MatchPlayer = null;
         this.players.every((player, index) => {
             if (player.playerId == playerId) {
                 player = this.players.splice(index, 1)[0];

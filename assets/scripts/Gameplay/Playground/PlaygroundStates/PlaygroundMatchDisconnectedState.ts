@@ -1,4 +1,5 @@
 import FiniteStateMachineState from "../../../Utilities/FiniteStateMashine/FiniteStateMachineState";
 
-export default class PlaygroundReadyState extends FiniteStateMachineState {
+export default class PlaygroundMatchDisconnectedState extends FiniteStateMachineState {
+
 }

@@ -30,12 +30,12 @@ export default class PlaygroundSettingUpState extends FiniteStateMachineState {
             playground.createTower(player, player.towerIndex);
         });
 
-        stateMachine.telegram(Playground.MSG_SETTING_UP_COMPLETED);
+        stateMachine.telegram(Playground.MSG_PREPARE_MATCH);
     }
 
     onTelegram(stateMachine: FiniteStateMachine, message:string, ...args) {
         switch (message) {
-            case Playground.MSG_SETTING_UP_COMPLETED:
+            case Playground.MSG_PREPARE_MATCH:
                 stateMachine.changeState(Playground.matchPreparingState);
                 break;
         
