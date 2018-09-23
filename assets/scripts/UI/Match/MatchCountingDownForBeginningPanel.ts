@@ -1,5 +1,5 @@
 import MatchManager from "../../Framework/MatchManager";
-import GameManager from "../../Framework/GameManager";
+import Game from "../../Framework/GameManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -12,7 +12,7 @@ export default class MatchCountingDownForBeginningPanel extends cc.Component {
     private _matchManager: MatchManager = null;
 
     onLoad() {
-        this._matchManager = GameManager.instance.matchManager;
+        this._matchManager = Game.instance.matchManager;
     }
 
     update(delta: number) {

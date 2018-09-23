@@ -1,4 +1,4 @@
-import GameManager from "../Framework/GameManager";
+import Game from "../Framework/GameManager";
 
 
 const {ccclass, property} = cc._decorator;
@@ -10,6 +10,6 @@ export default class GameMenu extends cc.Component {
     playButton:cc.Button = null;
 
     play () {
-        GameManager.instance.play();
+        Game.instance.play();
     }
 }

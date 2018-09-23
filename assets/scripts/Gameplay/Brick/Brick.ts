@@ -1,9 +1,10 @@
 import Tower from "../Tower/Tower"
 import FiniteStateMachine from "../../Utilities/FiniteStateMashine/FiniteStateMachine";
-import BrickQueueingState from "./BrickStates/BrickQueneingState";
+import BrickQueueingState from "./BrickStates/BrickQueueingState";
 import BrickFallingState from "./BrickStates/BrickFallingState";
 import BrickPlacedState from "./BrickStates/BrickPlacedState";
 import BrickLostState from "./BrickStates/BrickLostState";
+import BrickInitialState from "./BrickStates/BrickInitialState";
 
 const { ccclass, property } = cc._decorator;
 
@@ -38,6 +39,7 @@ export default class Brick extends cc.Component {
     private _rigidbody: cc.RigidBody = null;
 
     stateMachine: FiniteStateMachine = null;
+    static InitialState:BrickInitialState = new BrickInitialState();
     static QueueState:BrickQueueingState = new BrickQueueingState();
     static FallingState:BrickFallingState = new BrickFallingState();
     static PlacedState:BrickPlacedState = new BrickPlacedState();
@@ -47,24 +49,21 @@ export default class Brick extends cc.Component {
     static MSG_QUEUE:string = "queue";
     static MSG_FALL:string = "fall";
     static MSG_PLACE:string = "place";
+    static MSG_LOSE:string = "lose";
 
-    start() {
+    onLoad() {
         this._collider = this.getComponent(cc.PhysicsPolygonCollider);
         this._rigidbody = this.getComponent(cc.RigidBody);
 
-        this.stateMachine = this.getComponent(FiniteStateMachine);
+        this.stateMachine = this.addComponent(FiniteStateMachine);
+        this.stateMachine.owner = this;
+
+        this.stateMachine.changeState(Brick.InitialState);
     }
 
-    init(tower: Tower, id: number, rotation: number, scale: number) {
+    init(tower: Tower, id: number) {
         this.tower = tower;
         this.id = id;
-
-        if (tower.isNetworkClone) {
-            this.node.removeComponent(this._collider);
-            this._collider = null;
-            this.node.removeComponent(this._rigidbody);
-            this._rigidbody = null;
-        }
     }
 
     queue() {

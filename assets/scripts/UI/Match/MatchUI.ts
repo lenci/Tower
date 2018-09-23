@@ -1,6 +1,6 @@
 import MatchPlayersPanel from "./MatchPlayersPanel";
 import MatchManager, { MatchStatus } from "../../Framework/MatchManager";
-import GameManager from "../../Framework/GameManager";
+import Game from "../../Framework/GameManager";
 import MatchJoiningPanel from "./MatchJoiningPanel";
 import MatchCountingDownForBeginningPanel from "./MatchCountingDownForBeginningPanel";
 import MatchStartingPanel from "./MatchStartingPanel";
@@ -26,7 +26,7 @@ export default class MatchUI extends cc.Component {
     private _matchManager:MatchManager = null;
 
     start() {
-        this._matchManager = GameManager.instance.matchManager;
+        this._matchManager = Game.instance.matchManager;
         this._matchManager.node.on(MatchManager.EVT_MATCH_STATUS_CHANGED, this.onMatchStatusChanged, this);
     }
 

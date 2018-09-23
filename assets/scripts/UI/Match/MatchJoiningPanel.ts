@@ -1,4 +1,4 @@
-import GameManager from "../../Framework/GameManager";
+import Game from "../../Framework/GameManager";
 import MatchManager, { MatchStatus, MatchPlayer } from "../../Framework/MatchManager";
 
 const { ccclass, property } = cc._decorator;
@@ -15,7 +15,7 @@ export default class MatchJoiningPanel extends cc.Component {
     private _matchManager: MatchManager = null;
 
     onLoad() {
-        this._matchManager = GameManager.instance.matchManager;
+        this._matchManager = Game.instance.matchManager;
     }
 
     onEnable() {

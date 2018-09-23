@@ -7,9 +7,9 @@ import PlayerDataManager from "./PlayerDataManager";
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class GameManager extends cc.Component {
+export default class Game extends cc.Component {
    
-    static instance:GameManager = null;
+    static instance:Game = null;
 
     @property(GameLoader)
     gameLoader:GameLoader = null;
@@ -22,15 +22,15 @@ export default class GameManager extends cc.Component {
     playground:Playground = null;
 
     onLoad() {
-        GameManager.instance = this;
+        Game.instance = this;
         cc.game.addPersistRootNode(this.node);
-    }
 
-    async start() {
         this.networkManager = this.getComponent(NetworkManager);
         this.playerDataManager = this.getComponent(PlayerDataManager);
         this.matchManager = this.getComponent(MatchManager);
+    }
 
+    async start() {
         await this.gameLoader.load();
         await this.networkManager.connect();
         await this.playerDataManager.login();

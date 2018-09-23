@@ -10,10 +10,6 @@ export default class FiniteStateMachine extends cc.Component {
     currentState: FiniteStateMachineState = null;
     previousState: FiniteStateMachineState = null;
 
-    init(owner: cc.Component) {
-        this.owner = owner;
-    }
-
     changeState(state: FiniteStateMachineState, ...args) {
         let exitTimes: number = 0;
 

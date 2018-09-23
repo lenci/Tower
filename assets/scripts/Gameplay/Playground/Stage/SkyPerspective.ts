@@ -1,43 +1,41 @@
 import Utility from "../../../Utilities/Utility";
 import Stage from "./Stage";
 import StageCameraController from "./StageCameraController";
+import Game from "../../../Framework/GameManager";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class SkyPerspective extends cc.Component {
 
-    @property(Stage)
-    stage: Stage = null;
-
     @property
     distanceFactor: number = 1;
 
-    init(stage: Stage) {
-        this.stage = stage;
-    }
+    private _stage: Stage = null;
+    private _camera: StageCameraController = null;
+    private _canvas: cc.Canvas = null;
 
     start() {
+        this._stage = Game.instance.playground.stage;
+        this._camera = Game.instance.playground.camera;
+        this._canvas = Game.instance.playground.canvas;
+        
         this.updatePerspective();
-        this.stage.cameraController.node.on(StageCameraController.EVT_CAMERA_MOVING, this.updatePerspective, this)
+        this._camera.node.on(StageCameraController.EVT_CAMERA_MOVING, this.updatePerspective, this)
     }
 
     private updatePerspective() {
-        if (null == this.stage) {
-            return;
-        }
-
         let originalAnchor: cc.Vec2 = this.node.getAnchorPoint();
 
         Utility.setAnchorX(this.node, 0.5, false);
-        Utility.setAnchorY(this.node, this.stage.canvas.designResolution.height / this.stage.fullSize.height, false);
-        this.node.scale = 1 / this.stage.cameraController.currentZoomRatio;
+        Utility.setAnchorY(this.node, this._canvas.designResolution.height / this._stage.fullSize.height, false);
+        this.node.scale = 1 / this._camera.currentZoomRatio;
 
-        this.node.x = this.stage.cameraController.currentLookAtLocation;
+        this.node.x = this._camera.currentLookAtLocation;
 
-        this.node.y = this.stage.canvas.designResolution.height / 2 * (1 + 1 / this.stage.cameraController.currentZoomRatio) + this.stage.cameraController.currentLookAtHeight;
+        this.node.y = this._canvas.designResolution.height / 2 * (1 + 1 / this._camera.currentZoomRatio) + this._camera.currentLookAtHeight;
         
-        this.node.y += this.stage.canvas.designResolution.height / 2 * (1 - this.stage.cameraController.currentZoomRatio) * this.node.scale * 0.3;
+        this.node.y += this._canvas.designResolution.height / 2 * (1 - this._camera.currentZoomRatio) * this.node.scale * 0.3;
 
         Utility.setAnchorX(this.node, originalAnchor.x, false);
         Utility.setAnchorY(this.node, originalAnchor.y, false);

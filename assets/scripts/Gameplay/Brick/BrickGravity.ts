@@ -1,7 +1,7 @@
 import Playground from "../Playground/Playground";
 import Brick from "./Brick";
 import TowerFoundation from "../Tower/TowerFoundation";
-import GameManager from "../../Framework/GameManager";
+import Game from "../../Framework/GameManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -23,7 +23,7 @@ export default class BrickGravity extends cc.Component {
     }
 
     update(delta) {
-        this.node.y -= delta * GameManager.instance.playground.gravity * this.gravityScale;
+        this.node.y -= delta * Game.instance.playground.gravity * this.gravityScale;
     }
 
     onBeginContact(contact:cc.PhysicsContact, selfCollider:cc.PhysicsCollider, otherCollider:cc.PhysicsCollider) {

@@ -1,4 +1,4 @@
-import GameManager from "./GameManager";
+import Game from "./GameManager";
 import NetworkManager from "./NetworkManager";
 
 const { ccclass, property } = cc._decorator;
@@ -60,7 +60,7 @@ export default class MatchManager extends cc.Component {
                 this.matchId = "";
                 this.levelId = levelId;
                 this.maxPlayerCount = maxPlayerCount;
-                this._host = GameManager.instance.playerDataManager.id;
+                this._host = Game.instance.playerDataManager.id;
             }, 200);
 
             resolve(0);
@@ -109,8 +109,8 @@ export default class MatchManager extends cc.Component {
         let promise: Promise<number> = new Promise<number>(resolve => {
             // GameManager.instance.networkManager.send()
             setTimeout(() => {
-                let player: MatchPlayer = new MatchPlayer(GameManager.instance.playerDataManager.id, 2);
-                player.name = GameManager.instance.playerDataManager.name;
+                let player: MatchPlayer = new MatchPlayer(Game.instance.playerDataManager.id, 2);
+                player.name = Game.instance.playerDataManager.name;
                 this.addPlayer(player);
 
                 // listen to push
@@ -132,7 +132,7 @@ export default class MatchManager extends cc.Component {
         let promise: Promise<number> = new Promise<number>(resolve => {
             // GameManager.instance.networkManager.send()
             setTimeout(() => {
-                this.removePlayer(GameManager.instance.playerDataManager.id);
+                this.removePlayer(Game.instance.playerDataManager.id);
 
                 // listen to push
                 if (MatchStatus.CountingDownForBeginning == this.status) {
@@ -199,12 +199,12 @@ export default class MatchManager extends cc.Component {
     }
 
     get isMyMatch(): boolean {
-        return GameManager.instance.playerDataManager.id == this._host;
+        return Game.instance.playerDataManager.id == this._host;
     }
 
     get hasJoined(): boolean {
         for (const player of this.players) {
-            if (player.id == GameManager.instance.playerDataManager.id) {
+            if (player.id == Game.instance.playerDataManager.id) {
                 return true;
             }
         }
@@ -214,7 +214,7 @@ export default class MatchManager extends cc.Component {
 
     get myTowerIndex(): number {
         for (const player of this.players) {
-            if (player.id == GameManager.instance.playerDataManager.id) {
+            if (player.id == Game.instance.playerDataManager.id) {
                 return player.towerIndex;
             }
         }

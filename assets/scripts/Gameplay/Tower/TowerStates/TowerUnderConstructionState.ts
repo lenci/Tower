@@ -7,18 +7,18 @@ import TowerHeightRuler from "../TowerHeightRuler";
 
 export default class TowerUnderConstructionState extends FiniteStateMachineState {
 
-    enter(stateMachine: FiniteStateMachine, ...args) {
+    async enter(stateMachine: FiniteStateMachine, ...args) {
         let tower = <Tower>(stateMachine.owner);
 
         if (!tower.isNetworkClone) {
             tower.nextBrick = tower.generateRandomBrick();
-            tower.nextBrick.queue();
+            tower.nextBrick.stateMachine.telegram(Brick.MSG_QUEUE);
 
             stateMachine.telegram(Tower.MSG_DROP_BRICK);
         }
     }
 
-    onTelegram(stateMachine: FiniteStateMachine, message: string, ...args) {
+    async onTelegram(stateMachine: FiniteStateMachine, message: string, ...args) {
         let tower = <Tower>(stateMachine.owner);
 
         switch (message) {
@@ -36,15 +36,15 @@ export default class TowerUnderConstructionState extends FiniteStateMachineState
                     } else {
                         tower.currentBrick = tower.nextBrick;
                         tower.nextBrick = tower.generateRandomBrick();
-                        tower.nextBrick.queue();
+                        tower.nextBrick.stateMachine.telegram(Brick.MSG_QUEUE);
 
-                        tower.currentBrick.node.on("BRICK_PLACED", (event: cc.Event) => {
+                        tower.currentBrick.node.on(Brick.EVT_PLACED, () => {
                             stateMachine.telegram(Tower.MSG_DROP_BRICK);
                         })
-                        tower.currentBrick.node.on("BRICK_GROUNDED", (event: cc.Event) => {
+                        tower.currentBrick.node.on(Brick.EVT_LOST, () => {
                             stateMachine.telegram(Tower.MSG_DROP_BRICK);
                         })
-                        tower.currentBrick.fall();
+                        tower.currentBrick.stateMachine.telegram(Brick.MSG_FALL);
                     }
                 }
 
@@ -91,14 +91,14 @@ export default class TowerUnderConstructionState extends FiniteStateMachineState
                         switch (brickChangement.newState) {
                             case BrickState.QUEUEING:
                                 tower.nextBrick = brick;
-                                tower.nextBrick.queue();
+                                tower.nextBrick.stateMachine.telegram(Brick.MSG_QUEUE);
                                 break;
                             case BrickState.FALLING:
                                 if (tower.nextBrick == brick) {
                                     tower.nextBrick = null;
                                 }
                                 tower.currentBrick = brick;
-                                tower.currentBrick.fall();
+                                tower.currentBrick.stateMachine.telegram(Brick.MSG_FALL);
                                 break;
                             case BrickState.PLACED:
                                 if (tower.currentBrick == brick) {
@@ -110,7 +110,7 @@ export default class TowerUnderConstructionState extends FiniteStateMachineState
                                 if (tower.currentBrick == brick) {
                                     tower.currentBrick = null;
                                 }
-                                brick.ground();
+                                brick.lose();
                                 tower.removeBrick(brick.id);
                                 break;
                         }

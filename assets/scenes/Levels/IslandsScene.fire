@@ -75,7 +75,7 @@
         "__id__": 5
       },
       {
-        "__id__": 26
+        "__id__": 25
       },
       {
         "__id__": 29
@@ -85,7 +85,7 @@
     "_level": 1,
     "_components": [
       {
-        "__id__": 24
+        "__id__": 28
       }
     ],
     "_prefab": null,
@@ -263,7 +263,7 @@
         "__id__": 23
       },
       {
-        "__id__": 28
+        "__id__": 24
       }
     ],
     "_prefab": null,
@@ -956,12 +956,6 @@
       "__id__": 5
     },
     "_enabled": true,
-    "canvas": {
-      "__id__": 24
-    },
-    "cameraController": {
-      "__id__": 25
-    },
     "landscapes": [
       {
         "__id__": 13
@@ -992,37 +986,20 @@
     "_id": "01KiPVdTBGP693JGQaaihz"
   },
   {
-    "__type__": "cc.Canvas",
+    "__type__": "cc.AudioSource",
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 2
+      "__id__": 5
     },
     "_enabled": true,
-    "_designResolution": {
-      "__type__": "cc.Size",
-      "width": 750,
-      "height": 1334
-    },
-    "_fitWidth": false,
-    "_fitHeight": true,
-    "_id": "5cTXlG1KpAqpWoZbhpn9Yw"
-  },
-  {
-    "__type__": "b41201zbMNGQYsDbInFhGqN",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 26
-    },
-    "_enabled": true,
-    "stage": {
-      "__id__": 23
-    },
-    "canvas": {
-      "__id__": 24
-    },
-    "_id": "52/q6Y1BlFq45oUCkCLrTQ"
+    "_clip": null,
+    "_volume": 1,
+    "_mute": false,
+    "_loop": false,
+    "playOnLoad": true,
+    "preload": false,
+    "_id": "07hB3VDS1NzZ90avXqZ/Zx"
   },
   {
     "__type__": "cc.Node",
@@ -1036,10 +1013,10 @@
     "_level": 2,
     "_components": [
       {
-        "__id__": 27
+        "__id__": 26
       },
       {
-        "__id__": 25
+        "__id__": 27
       }
     ],
     "_prefab": null,
@@ -1093,7 +1070,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 26
+      "__id__": 25
     },
     "_enabled": true,
     "_cullingMask": -6,
@@ -1111,20 +1088,37 @@
     "_id": "f29u4qwHdNobjQHJTkCCWF"
   },
   {
-    "__type__": "cc.AudioSource",
+    "__type__": "b41201zbMNGQYsDbInFhGqN",
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 5
+      "__id__": 25
     },
     "_enabled": true,
-    "_clip": null,
-    "_volume": 1,
-    "_mute": false,
-    "_loop": false,
-    "playOnLoad": true,
-    "preload": false,
-    "_id": "07hB3VDS1NzZ90avXqZ/Zx"
+    "stage": {
+      "__id__": 23
+    },
+    "canvas": {
+      "__id__": 28
+    },
+    "_id": "52/q6Y1BlFq45oUCkCLrTQ"
+  },
+  {
+    "__type__": "cc.Canvas",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 2
+    },
+    "_enabled": true,
+    "_designResolution": {
+      "__type__": "cc.Size",
+      "width": 750,
+      "height": 1334
+    },
+    "_fitWidth": false,
+    "_fitHeight": true,
+    "_id": "5cTXlG1KpAqpWoZbhpn9Yw"
   },
   {
     "__type__": "cc.Node",
@@ -1232,9 +1226,38 @@
     "stage": {
       "__id__": 23
     },
+    "canvas": {
+      "__id__": 28
+    },
+    "camera": {
+      "__id__": 27
+    },
     "towerPrefab": {
       "__uuid__": "dd99cfa2-b5c2-4017-8ceb-637755f40e8b"
     },
+    "brickPrefabs": [
+      {
+        "__uuid__": "f258f762-13d0-460a-b6b7-aa78cc35b61f"
+      },
+      {
+        "__uuid__": "46e8a3c9-cb58-4e2c-bd97-362340a38e4e"
+      },
+      {
+        "__uuid__": "7d9dd8cc-34ff-4da7-9f14-3f5f9ce7bdd4"
+      },
+      {
+        "__uuid__": "da7eed21-9bdf-4c45-b94e-b61ec32c61e3"
+      },
+      {
+        "__uuid__": "62b58a4c-7731-43b4-ac55-1ce303d46360"
+      },
+      {
+        "__uuid__": "7a793fb6-6c0e-48c6-9cde-25055030513e"
+      },
+      {
+        "__uuid__": "afda2144-edeb-46d8-9681-2bdc8b476663"
+      }
+    ],
     "_id": "efDjqqZkNKUbPzDGTXL+8W"
   },
   {

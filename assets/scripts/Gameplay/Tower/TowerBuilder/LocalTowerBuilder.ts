@@ -11,10 +11,10 @@ export default class LocalPlayerTowerBuilder extends TowerBuilder {
     }
 
     translateBrick(direction:number) {
-        this.tower.stateMachine.telegram(Tower.MSG_TRANSLATE_BRICK, direction);
+        this._tower.stateMachine.telegram(Tower.MSG_TRANSLATE_BRICK, direction);
     }
 
     rotateBrick(direction:number) {
-        this.tower.stateMachine.telegram(Tower.MSG_ROTATE_BRICK, direction);
+        this._tower.stateMachine.telegram(Tower.MSG_ROTATE_BRICK, direction);
     }
 }

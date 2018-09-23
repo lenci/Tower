@@ -2,14 +2,14 @@ import FiniteStateMachineState from "../../../Utilities/FiniteStateMashine/Finit
 import FiniteStateMachine from "../../../Utilities/FiniteStateMashine/FiniteStateMachine";
 import Playground from "../Playground";
 import MatchManager, { MatchPlayer, MatchStatus } from "../../../Framework/MatchManager";
-import GameManager from "../../../Framework/GameManager";
+import Game from "../../../Framework/GameManager";
 
 export default class PlaygroundCountingDownForBeginningState extends FiniteStateMachineState {
     
     async enter(stateMachine: FiniteStateMachine, ...args) {
         let playground: Playground = <Playground>(stateMachine.owner);
 
-        let matchManager:MatchManager = GameManager.instance.matchManager;
+        let matchManager:MatchManager = Game.instance.matchManager;
         
         playground["_onPlayerJoined"] = (player:MatchPlayer) => {
             playground.createTower(player, player.towerIndex);
@@ -33,7 +33,7 @@ export default class PlaygroundCountingDownForBeginningState extends FiniteState
     exit(stateMachine: FiniteStateMachine) {
         let playground: Playground = <Playground>(stateMachine.owner);
 
-        let matchManager:MatchManager = GameManager.instance.matchManager;
+        let matchManager:MatchManager = Game.instance.matchManager;
 
         matchManager.node.off(MatchManager.EVT_PLAYER_JOINED, playground["_onPlayerJoined"]);
         matchManager.node.off(MatchManager.EVT_PLAYER_RETIRED, playground["_onPlayerRetired"]);
@@ -55,6 +55,7 @@ export default class PlaygroundCountingDownForBeginningState extends FiniteState
                 break;
         
             default:
+                super.onTelegram(stateMachine, message, args);
                 break;
         }
     }

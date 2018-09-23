@@ -6,12 +6,6 @@ const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class Stage extends cc.Component {
-    @property(cc.Canvas)
-    canvas: cc.Canvas = null;
-
-    @property(StageCameraController)
-    cameraController: StageCameraController = null;
-
     @property([cc.Node])
     landscapes: cc.Node[] = [];
 
@@ -44,12 +38,11 @@ export default class Stage extends cc.Component {
         for (let i = 0; i < this.landscapes.length; i++) {
             const landscape = this.landscapes[i];
             let landscapePerspective: LandscapePerspective = landscape.addComponent(LandscapePerspective);
-            landscapePerspective.init(this, this.landscapeDistanceFactors[i]);
+            landscapePerspective.distanceFactor = this.landscapeDistanceFactors[i];
         }
 
         this.skys.forEach(sky => {
             let skyscapePerspective: SkyPerspective = sky.addComponent(SkyPerspective);
-            skyscapePerspective.init(this);
         });
     }
 

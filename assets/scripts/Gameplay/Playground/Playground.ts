@@ -4,11 +4,12 @@ import PlaygroundSettingUpState from "./PlaygroundStates/PlaygroundSettingUpStat
 import PlaygroundMatchCountingDownForBeginningState from "./PlaygroundStates/PlaygroundMatchCountingDownForBeginningState";
 import PlaygroundMatchPlayingState from "./PlaygroundStates/PlaygroundMatchPlayingState";
 import PlaygroundMatchOverState from "./PlaygroundStates/PlaygroundMatchOverState";
-import GameManager from "../../Framework/GameManager";
+import Game from "../../Framework/GameManager";
 import Stage from "./Stage/Stage";
 import { MatchPlayer } from "../../Framework/MatchManager";
 import PlaygroundMatchPreparingState from "./PlaygroundStates/PlaygroundMatchPreparingState";
 import PlaygroundMatchDisconnectedState from "./PlaygroundStates/PlaygroundMatchDisconnectedState";
+import StageCameraController from "./Stage/StageCameraController";
 
 const { ccclass, property } = cc._decorator;
 
@@ -18,8 +19,17 @@ export default class Playground extends cc.Component {
     @property(Stage)
     stage: Stage = null;
 
+    @property(cc.Canvas)
+    canvas: cc.Canvas = null;
+
+    @property(StageCameraController)
+    camera: StageCameraController = null;
+
     @property(cc.Prefab)
     towerPrefab: cc.Prefab = null;
+
+    @property({ type: [cc.Prefab] })
+    brickPrefabs: cc.Prefab[] = [];
 
     stateMachine: FiniteStateMachine = null;
     static settingUpState: PlaygroundSettingUpState = new PlaygroundSettingUpState();
@@ -28,11 +38,11 @@ export default class Playground extends cc.Component {
     static matchPlayingState: PlaygroundMatchPlayingState = new PlaygroundMatchPlayingState();
     static matchOverState: PlaygroundMatchOverState = new PlaygroundMatchOverState();
     static matchDisconnectedState: PlaygroundMatchDisconnectedState = new PlaygroundMatchDisconnectedState();
-    static MSG_PREPARE_MATCH:string = "prepare match";
-    static MSG_COUNT_DOWN_FOR_BEGINNING:string = "count down for beginning";
-    static MSG_BEGIN_MATCH:string = "begin match";
-    static MSG_END_MATCH:string = "end match";
-    static MSG_INTERRUPT_MATCH:string = "interrupt match";
+    static MSG_PREPARE_MATCH: string = "prepare match";
+    static MSG_COUNT_DOWN_FOR_BEGINNING: string = "count down for beginning";
+    static MSG_BEGIN_MATCH: string = "begin match";
+    static MSG_END_MATCH: string = "end match";
+    static MSG_INTERRUPT_MATCH: string = "interrupt match";
 
     towers: { [key: string]: Tower } = {};
 
@@ -41,23 +51,23 @@ export default class Playground extends cc.Component {
     onLoad() {
         cc.director.getPhysicsManager().enabled = true;
 
-        GameManager.instance.playground = this;
+        this.stateMachine = this.addComponent(FiniteStateMachine);
+        this.stateMachine.owner = this;
+
+        Game.instance.playground = this;
     }
 
     start() {
-        this.stateMachine = this.addComponent(FiniteStateMachine);
-        this.stateMachine.init(this);
-
-        this.stateMachine.changeState(Playground.settingUpState, GameManager.instance.matchManager);
+        this.stateMachine.changeState(Playground.settingUpState);
     }
 
     onDestroy() {
         cc.director.getPhysicsManager().enabled = false;
 
-        GameManager.instance.playground = null;
+        Game.instance.playground = null;
     }
 
-    createTower(player: MatchPlayer, towerIndex:number): Tower {
+    createTower(player: MatchPlayer, towerIndex: number): Tower {
         if (null != this.towers[player.id]) {
             return this.towers[player.id];
         }
@@ -67,7 +77,7 @@ export default class Playground extends cc.Component {
         towerNode.setPosition(this.stage.playerStartPositions[towerIndex]);
 
         let tower: Tower = towerNode.getComponent(Tower);
-        tower.init(player, player.id != GameManager.instance.playerDataManager.id, this.stage.towerFoundationPrefab);
+        tower.init(player, player.id != Game.instance.playerDataManager.id, this.stage.towerFoundationPrefab);
 
         this.towers[player.id] = tower;
 
