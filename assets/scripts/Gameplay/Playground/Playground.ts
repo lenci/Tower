@@ -80,6 +80,7 @@ export default class Playground extends cc.Component {
         }
 
         this.towers[player.id].node.destroy();
+        this.towers[player.id] = null;
     }
 
     play() {

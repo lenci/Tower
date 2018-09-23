@@ -106,7 +106,7 @@ export default class TowerUnderConstructionState extends FiniteStateMachineState
                                 }
                                 brick.place();
                                 break;
-                            case BrickState.GROUNDED:
+                            case BrickState.LOST:
                                 if (tower.currentBrick == brick) {
                                     tower.currentBrick = null;
                                 }

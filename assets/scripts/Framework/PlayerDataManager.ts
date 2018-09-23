@@ -8,7 +8,7 @@ export default class PlayerDataManager extends cc.Component {
 
     start() {
         this.id = "a";
-        this.name = "XXX";
+        this.name = "Xerxes IX";
     }
 
     async login() {

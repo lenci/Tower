@@ -5,9 +5,9 @@ const { ccclass, property } = cc._decorator;
 
 export class MatchPlayer {
 
-    name:string = "";
-    avatar:string = "";
-    lv:number = 0;
+    name: string = "";
+    avatar: string = "";
+    lv: number = 0;
 
     isConnected: boolean = false;
 
@@ -27,7 +27,7 @@ export enum MatchStatus {
 export default class MatchManager extends cc.Component {
 
     static EVT_PLAYER_JOINED: string = "player joined";
-    static EVT_PLAYER_LEFT: string = "player left";
+    static EVT_PLAYER_RETIRED: string = "player left";
 
     static EVT_MATCH_STATUS_CHANGED: string = "match status changed";
 
@@ -37,9 +37,11 @@ export default class MatchManager extends cc.Component {
 
     players: MatchPlayer[] = null;
 
+    startTimestamp: number = 0;
+
     private _host: string = "";
 
-    private _status:MatchStatus = MatchStatus.Out;
+    private _status: MatchStatus = MatchStatus.Out;
 
     setMatch(matchInformation: string) {
         this.matchId = "";
@@ -74,7 +76,10 @@ export default class MatchManager extends cc.Component {
             // GameManager.instance.networkManager.send()
             setTimeout(() => {
                 let player: MatchPlayer = new MatchPlayer("b", 0);
-                player.name = "XXX";
+                player.name = "Joe DiMeowgio";
+                this.addPlayer(player);
+                player = new MatchPlayer("c", 1);
+                player.name = "Senor Don Gato";
                 this.addPlayer(player);
 
                 this.status = MatchStatus.Preparing;
@@ -87,7 +92,7 @@ export default class MatchManager extends cc.Component {
         return promise;
     }
 
-    async leaveMatch() {
+    async quitMatch() {
         let promise: Promise<number> = new Promise<number>(resolve => {
             this.status = MatchStatus.Out;
 
@@ -104,9 +109,17 @@ export default class MatchManager extends cc.Component {
         let promise: Promise<number> = new Promise<number>(resolve => {
             // GameManager.instance.networkManager.send()
             setTimeout(() => {
-                let player: MatchPlayer = new MatchPlayer(GameManager.instance.playerDataManager.id, 1);
-                player.name = "HELLO";
+                let player: MatchPlayer = new MatchPlayer(GameManager.instance.playerDataManager.id, 2);
+                player.name = GameManager.instance.playerDataManager.name;
                 this.addPlayer(player);
+
+                // listen to push
+                if (this.playerCount == this.maxPlayerCount) {
+                    let currentTime: Date = new Date();
+                    currentTime.setSeconds(currentTime.getSeconds() + 3);
+                    this.startTimestamp = currentTime.valueOf();
+                    this.status = MatchStatus.CountingDownForBeginning;
+                }
 
                 resolve(0);
             }, 200);
@@ -115,17 +128,29 @@ export default class MatchManager extends cc.Component {
         return promise;
     }
 
-    async quit(): Promise<number> {
+    async retire(): Promise<number> {
         let promise: Promise<number> = new Promise<number>(resolve => {
             // GameManager.instance.networkManager.send()
             setTimeout(() => {
                 this.removePlayer(GameManager.instance.playerDataManager.id);
 
+                // listen to push
+                if (MatchStatus.CountingDownForBeginning == this.status) {
+                    this.startTimestamp = 0;
+                    this.status = MatchStatus.Preparing;
+                }
+
                 resolve(0);
-            });
+            }, 200);
         });
 
         return promise;
+    }
+
+    update(delta:number) {
+        if (MatchStatus.CountingDownForBeginning == this.status && new Date().valueOf() > this.startTimestamp) {
+            this.status = MatchStatus.Playing;
+        }
     }
 
     private addPlayer(player: MatchPlayer): MatchPlayer {
@@ -142,7 +167,7 @@ export default class MatchManager extends cc.Component {
             if (player.id == playerId) {
                 player = this.players.splice(index, 1)[0];
 
-                this.node.emit(MatchManager.EVT_PLAYER_LEFT, player);
+                this.node.emit(MatchManager.EVT_PLAYER_RETIRED, player);
 
                 return false;
             }
@@ -153,7 +178,7 @@ export default class MatchManager extends cc.Component {
         return player;
     }
 
-    get playerNum(): number {
+    get playerCount(): number {
         return this.players.length;
     }
 
@@ -161,11 +186,31 @@ export default class MatchManager extends cc.Component {
         return GameManager.instance.playerDataManager.id == this._host;
     }
 
-    private get status(): MatchStatus {
+    get hasJoined(): boolean {
+        for (const player of this.players) {
+            if (player.id == GameManager.instance.playerDataManager.id) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    get myTowerIndex(): number {
+        for (const player of this.players) {
+            if (player.id == GameManager.instance.playerDataManager.id) {
+                return player.towerIndex;
+            }
+        }
+
+        return -1;
+    }
+
+    get status(): MatchStatus {
         return this._status;
     }
 
-    private set status(status:MatchStatus) {
+    set status(status: MatchStatus) {
         if (status != this._status) {
             this._status = status;
             this.node.emit(MatchManager.EVT_MATCH_STATUS_CHANGED, this._status);

@@ -1,7 +1,7 @@
 import FiniteStateMachineState from "../../../Utilities/FiniteStateMashine/FiniteStateMachineState";
 import FiniteStateMachine from "../../../Utilities/FiniteStateMashine/FiniteStateMachine";
 import Playground from "../Playground";
-import MatchManager, { MatchPlayer } from "../../../Framework/MatchManager";
+import MatchManager, { MatchPlayer, MatchStatus } from "../../../Framework/MatchManager";
 import GameManager from "../../../Framework/GameManager";
 
 export default class PlaygroundMatchPreparingState extends FiniteStateMachineState {
@@ -11,23 +11,21 @@ export default class PlaygroundMatchPreparingState extends FiniteStateMachineSta
 
         let matchManager:MatchManager = GameManager.instance.matchManager;
         
-        playground["_onPlayerJoined"] =  (player:MatchPlayer) => {
+        playground["_onPlayerJoined"] = (player:MatchPlayer) => {
             playground.createTower(player, player.towerIndex);
         }
-        playground["_onPlayerLeft"] =  (player:MatchPlayer) => {
+        playground["_onPlayerRetired"] = (player:MatchPlayer) => {
             playground.destroyTower(player);
         }
-        playground["_onOnMatchCountingDownForBeginning"] =  (player:MatchPlayer) => {
-            stateMachine.telegram(Playground.MSG_COUNT_DOWN_FOR_BEGINNING);
+        playground["_onOnMatchStatusChanged"] = (status:MatchStatus) => {
+            if (MatchStatus.CountingDownForBeginning == status) {
+                stateMachine.telegram(Playground.MSG_COUNT_DOWN_FOR_BEGINNING);
+            }
         }
 
         matchManager.node.on(MatchManager.EVT_PLAYER_JOINED, playground["_onPlayerJoined"]);
-        matchManager.node.on(MatchManager.EVT_PLAYER_LEFT, playground["_onPlayerLeft"]);
-        matchManager.node.on(MatchManager.EVT_MATCH_COUNTING_DOWN_FOR_BEGINNING, playground["_onOnMatchCountingDownForBeginning"]);
-
-        if (0 != await matchManager.join()) {
-            return;
-        }
+        matchManager.node.on(MatchManager.EVT_PLAYER_RETIRED, playground["_onPlayerRetired"]);
+        matchManager.node.on(MatchManager.EVT_MATCH_STATUS_CHANGED, playground["_onOnMatchStatusChanged"]);
     }
 
     exit(stateMachine: FiniteStateMachine) {
@@ -36,12 +34,12 @@ export default class PlaygroundMatchPreparingState extends FiniteStateMachineSta
         let matchManager:MatchManager = GameManager.instance.matchManager;
 
         matchManager.node.off(MatchManager.EVT_PLAYER_JOINED, playground["_onPlayerJoined"]);
-        matchManager.node.off(MatchManager.EVT_PLAYER_LEFT, playground["_onPlayerLeft"]);
-        matchManager.node.off(MatchManager.EVT_PLAYER_LEFT, playground["_onOnMatchCountingDownForBeginning"]);
+        matchManager.node.off(MatchManager.EVT_PLAYER_RETIRED, playground["_onPlayerRetired"]);
+        matchManager.node.off(MatchManager.EVT_MATCH_STATUS_CHANGED, playground["_onOnMatchStatusChanged"]);
 
         playground["_onPlayerJoined"] = null;
-        playground["_onPlayerLeft"] = null;
-        playground["_onOnMatchCountingDownForBeginning"] = null;
+        playground["_onPlayerRetired"] = null;
+        playground["_onOnMatchStatusChanged"] = null;
     }
 
     onTelegram(stateMachine: FiniteStateMachine, message:string, ...args) {

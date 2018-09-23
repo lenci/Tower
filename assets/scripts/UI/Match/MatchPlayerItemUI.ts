@@ -1,4 +1,4 @@
-import { MatchPlayer } from "../Framework/MatchManager";
+import { MatchPlayer } from "../../Framework/MatchManager";
 
 const { ccclass, property } = cc._decorator;
 

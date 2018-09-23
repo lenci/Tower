@@ -33,22 +33,6 @@ export default class StageCameraController extends cc.Component {
         this._previousLookAtLocation = this.currentLookAtLocation;
         this._previousLookAtHeight = this.currentLookAtHeight;
         this._previousZoomRatio = this.currentZoomRatio;
-
-        this.scheduleOnce(() => {
-            this.lookAtLocation(this.stage.playerStartPositions[0].x, 2);
-            this.zoom(1, 2);
-        }, 2);
-        this.scheduleOnce(() => {
-            this.lookAtHeight(200, 2);
-        }, 4);
-        this.scheduleOnce(() => {
-            this.lookAtLocation(this.stage.playerStartPositions[2].x, 2);
-        }, 6);
-        this.scheduleOnce(() => {
-            this.lookAtLocation(this.stage.playerStartPositions[1].x, 2);
-            this.lookAtHeight(0, 2);
-            this.zoom(0.3, 2);
-        }, 8);
     }
 
     lookAtLocation(location: number, duration: number = 0, ease = null) {
