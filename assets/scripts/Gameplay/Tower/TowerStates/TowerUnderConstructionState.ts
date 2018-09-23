@@ -1,6 +1,6 @@
 import FiniteStateMachineState from "../../../Utilities/FiniteStateMashine/FiniteStateMachineState";
 import Tower from "../Tower";
-import { BrickShape } from "../../Brick/Brick";
+import Brick, { BrickShape } from "../../Brick/Brick";
 import { BrickChangement, BrickState } from "../../Brick/BrickChangementFetcher";
 import FiniteStateMachine from "../../../Utilities/FiniteStateMashine/FiniteStateMachine";
 import TowerHeightRuler from "../TowerHeightRuler";
@@ -54,7 +54,7 @@ export default class TowerUnderConstructionState extends FiniteStateMachineState
 
                 } else {
                     if (null != tower.currentBrick) {
-                        tower.currentBrick.translate(-1);
+                        tower.currentBrick.stateMachine.telegram(Brick.MSG_TRANSLATE, args[0]);
                     }
                 }
                 break;
@@ -65,7 +65,7 @@ export default class TowerUnderConstructionState extends FiniteStateMachineState
 
                 } else {
                     if (null != tower.currentBrick) {
-                        tower.currentBrick.rotate(1);
+                        tower.currentBrick.stateMachine.telegram(Brick.MSG_ROTATE, args[0]);
                     }
                 }
                 break;

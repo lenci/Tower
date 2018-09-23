@@ -163,7 +163,7 @@ export default class MatchManager extends cc.Component {
         return promise;
     }
 
-    update(delta:number) {
+    update(delta: number) {
         if (MatchStatus.CountingDownForBeginning == this.status && new Date().valueOf() > this.startTimestamp) {
             this.status = MatchStatus.Playing;
         }

@@ -7,18 +7,14 @@ import Tower from "../../Tower/Tower";
 
 export default class PlaygroundMatchPlayingStateStateMachineState extends FiniteStateMachineState {
 
-    enter(stateMachine:FiniteStateMachine, ...args) {
+    enter(stateMachine: FiniteStateMachine, ...args) {
         let playground: Playground = <Playground>(stateMachine.owner);
-        
-        let matchManager:MatchManager = GameManager.instance.matchManager;
+
+        let matchManager: MatchManager = GameManager.instance.matchManager;
 
         if (matchManager.hasJoined) {
             playground.stage.cameraController.lookAtLocation(playground.stage.playerStartPositions[matchManager.myTowerIndex].x, 1);
-            playground.stage.cameraController.zoom(1, 1);            
-        }
-
-        for (let playerId in playground.towers) {
-            playground.towers[playerId].stateMachine.telegram(Tower.MSG_CONSTRUCT);
+            playground.stage.cameraController.zoom(1, 1);
         }
     }
 }

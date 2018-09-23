@@ -17,7 +17,7 @@
     "_parent": null,
     "_children": [],
     "_active": true,
-    "_level": 4,
+    "_level": 1,
     "_components": [
       {
         "__id__": 2
@@ -30,10 +30,13 @@
       },
       {
         "__id__": 5
+      },
+      {
+        "__id__": 6
       }
     ],
     "_prefab": {
-      "__id__": 6
+      "__id__": 7
     },
     "_opacity": 255,
     "_color": {
@@ -45,18 +48,18 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 32,
-      "height": 48
+      "width": 64,
+      "height": 96
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
       "x": 0.5,
-      "y": 0.5
+      "y": 0.333
     },
     "_position": {
       "__type__": "cc.Vec3",
-      "x": -80,
-      "y": 76,
+      "x": -267,
+      "y": 220,
       "z": 0
     },
     "_scale": {
@@ -108,60 +111,7 @@
     "_atlas": {
       "__uuid__": "6b0768e2-ce2c-4a00-8718-68b117c53caa"
     },
-    "_id": "d8JygXMGtDK4trKBFkgGQn"
-  },
-  {
-    "__type__": "cc.PhysicsPolygonCollider",
-    "_name": "",
-    "_objFlags": 0,
-    "node": {
-      "__id__": 1
-    },
-    "_enabled": true,
-    "tag": 0,
-    "_density": 1,
-    "_sensor": false,
-    "_friction": 0.2,
-    "_restitution": 0,
-    "body": null,
-    "_offset": {
-      "__type__": "cc.Vec2",
-      "x": 0,
-      "y": 0
-    },
-    "points": [
-      {
-        "__type__": "cc.Vec2",
-        "x": 1,
-        "y": 24
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 0,
-        "y": -8
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -16,
-        "y": -8
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": -16,
-        "y": -24
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 16,
-        "y": -24
-      },
-      {
-        "__type__": "cc.Vec2",
-        "x": 16,
-        "y": 24
-      }
-    ],
-    "_id": "9e7Kf8XEBJ7ZbkVvzCaeEZ"
+    "_id": ""
   },
   {
     "__type__": "cc.RigidBody",
@@ -185,7 +135,60 @@
     "_fixedRotation": false,
     "enabledContactListener": true,
     "bullet": true,
-    "_id": "8f/C3uKb1FxI3LHxN2NZLC"
+    "_id": ""
+  },
+  {
+    "__type__": "cc.PhysicsPolygonCollider",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "tag": 0,
+    "_density": 1,
+    "_sensor": false,
+    "_friction": 0.2,
+    "_restitution": 0,
+    "body": null,
+    "_offset": {
+      "__type__": "cc.Vec2",
+      "x": 0,
+      "y": 0
+    },
+    "points": [
+      {
+        "__type__": "cc.Vec2",
+        "x": -32,
+        "y": -32
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 32,
+        "y": -32
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 32,
+        "y": 64
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 0,
+        "y": 64
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": 0,
+        "y": 0
+      },
+      {
+        "__type__": "cc.Vec2",
+        "x": -32,
+        "y": 0
+      }
+    ],
+    "_id": ""
   },
   {
     "__type__": "15b0cnm+bBJlL5tci7MsPhF",
@@ -196,7 +199,18 @@
     },
     "_enabled": true,
     "shape": 2,
-    "_id": "12jYnpmKdJrYkxdmnOWDIK"
+    "_id": ""
+  },
+  {
+    "__type__": "6c518zAfEhM+J7am+9fweEd",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 1
+    },
+    "_enabled": true,
+    "gravityScale": 1,
+    "_id": ""
   },
   {
     "__type__": "cc.PrefabInfo",
@@ -204,7 +218,7 @@
       "__id__": 1
     },
     "asset": {
-      "__uuid__": "6925c229-389b-4974-849e-b485330ed4fd"
+      "__uuid__": "46e8a3c9-cb58-4e2c-bd97-362340a38e4e"
     },
     "fileId": "89WvgnV89EeKxTWK6A9YeK",
     "sync": false

@@ -8,9 +8,9 @@ import TowerHoldingState from "./TowerStates/TowerHoldingState";
 import TowerBricksChanngementsNetReporter from "./TowerBricksChangementsNetReporter";
 import NetworkTowerBuilder from "./TowerBuilder/NetworkTowerBuilder";
 import TowerBuilder from "./TowerBuilder/TowerBuilder";
-import LocalTowerBuilder from "./TowerBuilder/LocalPlayerTowerBuilder";
+import LocalTowerBuilder from "./TowerBuilder/LocalTowerBuilder";
 import TowerFoundation from "./TowerFoundation";
-import MatchManager, { MatchPlayer } from "../../Framework/MatchManager";
+import { MatchPlayer } from "../../Framework/MatchManager";
 
 const { ccclass, property } = cc._decorator;
 

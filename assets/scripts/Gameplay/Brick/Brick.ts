@@ -21,8 +21,10 @@ export enum BrickShape {
 @ccclass
 export default class Brick extends cc.Component {
 
-    static MSG_PLACED:string = "placed";
-    static MSG_LOST:string = "lost";
+    static EVT_QUEUEING_STARTED:string = "queueing started";
+    static EVT_FALLING_STARTED:string = "falling started";
+    static EVT_PLACED:string = "placed";
+    static EVT_LOST:string = "lost";
 
     @property({
         type: cc.Enum(BrickShape)
@@ -40,6 +42,11 @@ export default class Brick extends cc.Component {
     static FallingState:BrickFallingState = new BrickFallingState();
     static PlacedState:BrickPlacedState = new BrickPlacedState();
     static LostState:BrickLostState = new BrickLostState();
+    static MSG_TRANSLATE:string = "translate";
+    static MSG_ROTATE:string = "rotate";
+    static MSG_QUEUE:string = "queue";
+    static MSG_FALL:string = "fall";
+    static MSG_PLACE:string = "place";
 
     start() {
         this._collider = this.getComponent(cc.PhysicsPolygonCollider);
@@ -61,32 +68,22 @@ export default class Brick extends cc.Component {
     }
 
     queue() {
-        this.stateMachine.telegram("QUEUE");
+        this.node.emit(Brick.EVT_QUEUEING_STARTED);
     }
 
     fall() {
-        this.stateMachine.telegram("FALL");
+        this.node.emit(Brick.EVT_FALLING_STARTED);
     }
 
     place() {
-        this.stateMachine.telegram("PLACE");
+        this.node.emit(Brick.EVT_PLACED);
     }
 
-    ground() {
-
+    lose() {
+        this.node.emit(Brick.EVT_LOST);
     }
 
     magic () {
-    }
-
-    translate(direction: number) {
-        this.stateMachine.telegram("TRANSLATE", direction);
-        // this.node.setPosition(this.node.position.add(new cc.Vec2(100 * direction, 0)));
-    }
-
-    rotate(direction: number) {
-        this.stateMachine.telegram("ROTATE", direction);
-        // this.node.setRotation(this.node.rotation + 90 * direction);
     }
 
     syncPosition(position: cc.Vec2) {
