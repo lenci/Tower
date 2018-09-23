@@ -17,6 +17,9 @@ const { ccclass, property } = cc._decorator;
 @ccclass
 export default class Tower extends cc.Component {
 
+    static EVT_CURRENT_BRICK_CHANGED:string = "current brick changed";
+    static EVT_NEXT_BRICK_CHANGED:string = "next brick changed";
+
     foundation: TowerFoundation = null;
     builder: TowerBuilder = null;
 
@@ -42,8 +45,8 @@ export default class Tower extends cc.Component {
     bricks: { [key: number]: Brick } = {};
     nextValidBrickId:number = 0;
 
-    currentBrick: Brick = null;
-    nextBrick: Brick = null;
+    private _currentBrick: Brick = null;
+    private _nextBrick: Brick = null;
 
     init(player: MatchPlayer, isNetworkClone: boolean, foundationPrefab:cc.Prefab) {
         this.isNetworkClone = isNetworkClone;
@@ -92,5 +95,27 @@ export default class Tower extends cc.Component {
 
     removeBrick(brickId: number) {
         this.bricks[brickId] = null;
+    }
+
+    get currentBrick():Brick {
+        return this._currentBrick;
+    }
+
+    set currentBrick(brick:Brick) {
+        if (this._currentBrick != brick) {
+            this._currentBrick = brick;
+            this.node.emit(Tower.EVT_CURRENT_BRICK_CHANGED, this._currentBrick);
+        }
+    }
+
+    get nextBrick():Brick {
+        return this._nextBrick;
+    }
+
+    set nextBrick(brick:Brick) {
+        if (this._nextBrick != brick) {
+            this._nextBrick = brick;
+            this.node.emit(Tower.EVT_NEXT_BRICK_CHANGED, this._nextBrick);
+        }
     }
 }

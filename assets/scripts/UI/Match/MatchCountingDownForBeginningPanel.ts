@@ -16,6 +16,11 @@ export default class MatchCountingDownForBeginningPanel extends cc.Component {
     }
 
     update(delta: number) {
-        this.lblSeconds.string = Math.ceil((this._matchManager.startTimestamp - new Date().valueOf()) / 1000).toString();
+        let seconds: number = Math.ceil((this._matchManager.startTimestamp - new Date().valueOf()) / 1000);
+        if (seconds > 0) {
+            this.lblSeconds.string = seconds.toString();
+        } else {
+            this.lblSeconds.string = "";
+        }
     }
 }
