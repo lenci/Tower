@@ -7,7 +7,7 @@ export default class TowerFoundationLaidState extends FiniteStateMachineState {
     onTelegram(stateMachine: FiniteStateMachine, message: string, ...args) {
         switch (message) {
             case Tower.MSG_CONSTRUCT:
-                stateMachine.changeState(Tower.UnderConstructionState);
+                stateMachine.changeState(Tower.underConstructionState);
                 break;
 
             default:

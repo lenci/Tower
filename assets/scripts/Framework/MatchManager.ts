@@ -50,7 +50,7 @@ export default class MatchManager extends cc.Component {
 
         this.players = [];
 
-        this._host = GameManager.instance.playerDataManager.id;
+        this._host = "b";
     }
 
     async createMatch(levelId: number, maxPlayerCount: number): Promise<number> {
@@ -105,7 +105,7 @@ export default class MatchManager extends cc.Component {
         });
     }
 
-    async join(): Promise<number> {
+    async joinMatch(): Promise<number> {
         let promise: Promise<number> = new Promise<number>(resolve => {
             // GameManager.instance.networkManager.send()
             setTimeout(() => {
@@ -128,7 +128,7 @@ export default class MatchManager extends cc.Component {
         return promise;
     }
 
-    async retire(): Promise<number> {
+    async retireFromMatch(): Promise<number> {
         let promise: Promise<number> = new Promise<number>(resolve => {
             // GameManager.instance.networkManager.send()
             setTimeout(() => {
@@ -139,6 +139,22 @@ export default class MatchManager extends cc.Component {
                     this.startTimestamp = 0;
                     this.status = MatchStatus.Preparing;
                 }
+
+                resolve(0);
+            }, 200);
+        });
+
+        return promise;
+    }
+
+    async startMatch(): Promise<number> {
+        let promise: Promise<number> = new Promise<number>(resolve => {
+            // GameManager.instance.networkManager.send()
+            setTimeout(() => {
+                let currentTime: Date = new Date();
+                currentTime.setSeconds(currentTime.getSeconds() + 3);
+                this.startTimestamp = currentTime.valueOf();
+                this.status = MatchStatus.CountingDownForBeginning;
 
                 resolve(0);
             }, 200);

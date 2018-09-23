@@ -35,11 +35,11 @@ export default class MatchJoiningPanel extends cc.Component {
         this.btnRetire.node.active = this._matchManager.hasJoined;
     }
 
-    join() {
-        this._matchManager.join();
+    joinMatch() {
+        this._matchManager.joinMatch();
     }
 
-    retire() {
-        this._matchManager.retire();
+    retireFromMatch() {
+        this._matchManager.retireFromMatch();
     }
 }

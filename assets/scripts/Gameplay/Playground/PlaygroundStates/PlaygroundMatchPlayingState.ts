@@ -18,7 +18,7 @@ export default class PlaygroundMatchPlayingStateStateMachineState extends Finite
         }
 
         for (let playerId in playground.towers) {
-            // playground.towers[playerId].stateMachine.telegram(Tower.MSG_CONSTRUCT);
+            playground.towers[playerId].stateMachine.telegram(Tower.MSG_CONSTRUCT);
         }
     }
 }
