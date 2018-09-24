@@ -8,7 +8,7 @@ import TowerBuilder from "./TowerBuilder/TowerBuilder";
 import LocalTowerBuilder from "./TowerBuilder/LocalTowerBuilder";
 import TowerFoundation from "./TowerFoundation";
 import { MatchPlayer } from "../../Framework/MatchManager";
-import Game from "../../Framework/GameManager";
+import Game from "../../Framework/Game";
 import TowerFoundationLaidState from "./TowerStates/TowerFoundationLaidState";
 import TowerUnderConstructionState from "./TowerStates/TowerUnderConstructionState";
 import TowerHoldingState from "./TowerStates/TowerHoldingState";
@@ -41,8 +41,8 @@ export default class Tower extends cc.Component {
     bricks: { [key: number]: Brick } = {};
     nextValidBrickId: number = 0;
 
-    currentBrick: Brick = null;
-    nextBrick: Brick = null;
+    private _currentBrick: Brick = null;
+    private _nextBrick: Brick = null;
 
     onLoad() {
         this.stateMachine = this.addComponent(FiniteStateMachine);
@@ -54,12 +54,20 @@ export default class Tower extends cc.Component {
         this.isNetworkClone = (player.id != Game.instance.playerDataManager.id);
 
         if (this.isNetworkClone) {
-            this.builder = this.addComponent(NetworkTowerBuilder);
-            this.builder.player = player;
+            this.builder = this.getComponent(NetworkTowerBuilder);
         } else {
-            this.builder = this.addComponent(LocalTowerBuilder);
-            this.builder.player = player;
+            this.builder = this.getComponent(LocalTowerBuilder);
+        }
+        this.builder.player = player;
+
+        if (!this.isNetworkClone) {
             this.addComponent(TowerBricksChanngementsNetReporter);
+        }
+
+        this.node.group = "player " + (player.towerIndex + 1);
+        if (null != this.foundation) {
+            this.foundation.node.group = this.node.group;
+            this.foundation.getComponent(cc.PhysicsCollider).apply();
         }
     }
 
@@ -71,6 +79,9 @@ export default class Tower extends cc.Component {
         let foundationNode: cc.Node = cc.instantiate(prefab);
         this.node.addChild(foundationNode);
         foundationNode.setPosition(0, 0);
+        foundationNode.group = this.node.group;
+        foundationNode.getComponent(cc.PhysicsCollider).apply();
+
         this.foundation = foundationNode.getComponent(TowerFoundation);
     }
 
@@ -96,8 +107,6 @@ export default class Tower extends cc.Component {
         this.nextBrick = null;
 
         this.currentBrick.stateMachine.telegram(Brick.MSG_FALL);
-
-        this.node.emit(Tower.EVT_NEXT_BRICK_CHANGED, null);
     }
 
     generateNextBrick(shape: BrickShape = BrickShape.NONE) {
@@ -109,11 +118,14 @@ export default class Tower extends cc.Component {
         if (BrickShape.NONE == shape) {
             shape = Math.floor(Math.random() * Game.instance.playground.brickPrefabs.length);
         }
-        let brickPrefab:cc.Prefab = Game.instance.playground.brickPrefabs[shape];
-        let brickNode:cc.Node = cc.instantiate(brickPrefab);
+        let brickPrefab: cc.Prefab = Game.instance.playground.brickPrefabs[shape];
+        let brickNode: cc.Node = cc.instantiate(brickPrefab);
         this.node.addChild(brickNode);
+        brickNode.group = this.node.group;
+        brickNode.getComponent(cc.PhysicsCollider).apply();
 
-        let brick:Brick = brickNode.getComponent(Brick);
+
+        let brick: Brick = brickNode.getComponent(Brick);
         let brickId = this.nextValidBrickId++;
         brick.tower = this;
         brick.id = brickId;
@@ -123,12 +135,40 @@ export default class Tower extends cc.Component {
         this.nextBrick = brick;
         this.nextBrick.stateMachine.telegram(Brick.MSG_QUEUE);
 
-        this.node.emit(Tower.EVT_NEXT_BRICK_CHANGED, this.nextBrick);
-
         return brick;
     }
 
-    private removeBrick(brickId: number) {
-        this.bricks[brickId] = null;
+    clearNextBrick() {
+        if (null != this.nextBrick) {
+            this.removeBrick(this.nextBrick);
+            this.nextBrick = null;
+        }
+    }
+
+    private removeBrick(brick: Brick) {
+        this.bricks[brick.id] = null;
+        brick.node.destroy();
+    }
+
+    get currentBrick(): Brick {
+        return this._currentBrick;
+    }
+
+    set currentBrick(brick: Brick) {
+        if (brick != this._currentBrick) {
+            this._currentBrick = brick;
+            this.node.emit(Tower.EVT_CURRENT_BRICK_CHANGED, this._currentBrick);
+        }
+    }
+
+    get nextBrick(): Brick {
+        return this._nextBrick;
+    }
+
+    set nextBrick(brick: Brick) {
+        if (brick != this._nextBrick) {
+            this._nextBrick = brick;
+            this.node.emit(Tower.EVT_NEXT_BRICK_CHANGED, this._nextBrick);
+        }
     }
 }

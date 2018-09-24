@@ -1,4 +1,4 @@
-import Game from "../../Framework/GameManager";
+import Game from "../../Framework/Game";
 import MatchManager, { MatchPlayer } from "../../Framework/MatchManager";
 import StageCameraController from "../../Gameplay/Playground/Stage/StageCameraController";
 import Stage from "../../Gameplay/Playground/Stage/Stage";

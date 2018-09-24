@@ -1,4 +1,4 @@
-import Game from "../../Framework/GameManager";
+import Game from "../../Framework/Game";
 import MatchManager, { MatchStatus, MatchPlayer } from "../../Framework/MatchManager";
 import View from "../../Framework/UI/View";
 

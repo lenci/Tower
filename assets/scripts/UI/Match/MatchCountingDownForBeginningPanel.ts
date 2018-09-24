@@ -1,5 +1,5 @@
 import MatchManager from "../../Framework/MatchManager";
-import Game from "../../Framework/GameManager";
+import Game from "../../Framework/Game";
 import View from "../../Framework/UI/View";
 
 const { ccclass, property } = cc._decorator;

@@ -2,7 +2,7 @@ import FiniteStateMachineState from "../../../Utilities/FiniteStateMashine/Finit
 import FiniteStateMachine from "../../../Utilities/FiniteStateMashine/FiniteStateMachine";
 import Playground from "../Playground";
 import MatchManager, { MatchPlayer, MatchStatus } from "../../../Framework/MatchManager";
-import Game from "../../../Framework/GameManager";
+import Game from "../../../Framework/Game";
 
 export default class PlaygroundCountingDownForBeginningState extends FiniteStateMachineState {
     

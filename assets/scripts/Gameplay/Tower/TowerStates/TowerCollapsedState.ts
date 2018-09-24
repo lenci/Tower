@@ -7,5 +7,6 @@ export default class TowerCollapsedState extends FiniteStateMachineState {
     enter(stateMachine: FiniteStateMachine, ...args) {
         let tower = <Tower>(stateMachine.owner);
 
+        tower.builder.enabled = false;
     }
 }

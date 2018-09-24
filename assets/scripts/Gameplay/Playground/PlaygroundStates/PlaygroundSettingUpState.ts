@@ -1,7 +1,7 @@
 import FiniteStateMachineState from "../../../Utilities/FiniteStateMashine/FiniteStateMachineState";
 import FiniteStateMachine from "../../../Utilities/FiniteStateMashine/FiniteStateMachine";
 import Playground from "../Playground";
-import Game from "../../../Framework/GameManager";
+import Game from "../../../Framework/Game";
 import MatchManager, { MatchPlayer } from "../../../Framework/MatchManager";
 
 export default class PlaygroundSettingUpState extends FiniteStateMachineState {

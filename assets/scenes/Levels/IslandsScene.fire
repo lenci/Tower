@@ -44,8 +44,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 0.42984356104661375,
-      "y": 0.42984356104661375,
+      "x": 0.28402147170868597,
+      "y": 0.28402147170868597,
       "z": 1
     },
     "_quat": {
@@ -1073,7 +1073,7 @@
       "__id__": 25
     },
     "_enabled": true,
-    "_cullingMask": -6,
+    "_cullingMask": -2,
     "_clearFlags": 7,
     "_backgroundColor": {
       "__type__": "cc.Color",
@@ -1232,7 +1232,6 @@
     "camera": {
       "__id__": 27
     },
-    "ui": null,
     "towerPrefab": {
       "__uuid__": "dd99cfa2-b5c2-4017-8ceb-637755f40e8b"
     },

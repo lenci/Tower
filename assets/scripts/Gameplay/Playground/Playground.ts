@@ -4,7 +4,7 @@ import PlaygroundSettingUpState from "./PlaygroundStates/PlaygroundSettingUpStat
 import PlaygroundMatchCountingDownForBeginningState from "./PlaygroundStates/PlaygroundMatchCountingDownForBeginningState";
 import PlaygroundMatchPlayingState from "./PlaygroundStates/PlaygroundMatchPlayingState";
 import PlaygroundMatchOverState from "./PlaygroundStates/PlaygroundMatchOverState";
-import Game from "../../Framework/GameManager";
+import Game from "../../Framework/Game";
 import Stage from "./Stage/Stage";
 import { MatchPlayer } from "../../Framework/MatchManager";
 import PlaygroundMatchPreparingState from "./PlaygroundStates/PlaygroundMatchPreparingState";
@@ -29,9 +29,6 @@ export default class Playground extends cc.Component {
     @property(StageCameraController)
     camera: StageCameraController = null;
 
-    @property(MatchView)
-    ui:MatchView = null;
-
     @property(cc.Prefab)
     towerPrefab: cc.Prefab = null;
 
@@ -53,7 +50,7 @@ export default class Playground extends cc.Component {
 
     towers: { [key: string]: Tower } = {};
 
-    gravity: number = 10;
+    gravity: number = 40;
 
     onLoad() {
         cc.director.getPhysicsManager().enabled = true;

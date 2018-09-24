@@ -1,7 +1,7 @@
 import Playground from "../Playground/Playground";
 import Brick from "./Brick";
 import TowerFoundation from "../Tower/TowerFoundation";
-import Game from "../../Framework/GameManager";
+import Game from "../../Framework/Game";
 
 const { ccclass, property } = cc._decorator;
 

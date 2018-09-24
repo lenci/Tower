@@ -1,6 +1,6 @@
 import MatchPlayersPanel from "./MatchPlayersPanel";
 import MatchManager, { MatchStatus } from "../../Framework/MatchManager";
-import Game from "../../Framework/GameManager";
+import Game from "../../Framework/Game";
 import MatchJoiningPanel from "./MatchJoiningPanel";
 import MatchCountingDownForBeginningPanel from "./MatchCountingDownForBeginningPanel";
 import MatchStartingPanel from "./MatchStartingPanel";

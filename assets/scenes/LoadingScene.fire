@@ -47,8 +47,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 0.641650390625,
-      "y": 0.641650390625,
+      "x": 0.46325665292353824,
+      "y": 0.46325665292353824,
       "z": 1
     },
     "_quat": {
@@ -76,7 +76,7 @@
       }
     ],
     "_active": true,
-    "_level": 0,
+    "_level": 1,
     "_components": [
       {
         "__id__": 5
@@ -230,7 +230,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Manager",
+    "_name": "Game",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -299,7 +299,7 @@
     "_id": "cfA8VZxyNJZ6eBnCptKFR+"
   },
   {
-    "__type__": "98041gExnJNpr/ePSLqWjAs",
+    "__type__": "8d3c2KY68JBDKczDKqylL+9",
     "_name": "",
     "_objFlags": 0,
     "node": {
@@ -309,7 +309,7 @@
     "gameLoader": {
       "__id__": 8
     },
-    "_id": "29GwzAGudHt4obY64H1gge"
+    "_id": "01Wta+C7dOaa9hXYdEsZAW"
   },
   {
     "__type__": "23eebZf9qxHnb0Wiko+exXD",
@@ -323,7 +323,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Loader",
+    "_name": "Game Loader",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1

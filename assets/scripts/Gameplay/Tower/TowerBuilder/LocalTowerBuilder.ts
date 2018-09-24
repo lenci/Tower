@@ -1,6 +1,6 @@
 import TowerBuilder from "./TowerBuilder";
 import Tower from "../Tower";
-import Game from "../../../Framework/GameManager";
+import Game from "../../../Framework/Game";
 import MatchManager, { MatchStatus } from "../../../Framework/MatchManager";
 import Brick from "../../Brick/Brick";
 
@@ -11,19 +11,18 @@ export default class LocalPlayerTowerBuilder extends TowerBuilder {
 
     onEnable() {
         super.onEnable();
+
+        if (null == this._tower.nextBrick) {
+            this._tower.generateNextBrick();
+        }
+
+        if (null == this._tower.currentBrick) {
+            this.dropBrickAndGenerateNext();
+        }
     }
 
     onDisable() {
         super.onDisable();
-    }
-
-    onMatchStatusChanged(status: MatchStatus) {
-        super.onMatchStatusChanged(status);
-
-        if (MatchStatus.Playing == status) {
-            this._tower.generateNextBrick();
-            // this.dropBrickAndGenerateNext();
-        }
     }
 
     dropBrickAndGenerateNext() {

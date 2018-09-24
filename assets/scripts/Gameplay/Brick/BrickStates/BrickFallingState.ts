@@ -8,13 +8,8 @@ export default class BrickFallingState extends FiniteStateMachineState {
     enter(stateMachine:FiniteStateMachine, ...args) {
         let brick:Brick = <Brick>(stateMachine.owner);
 
-        // brick.node.once(BrickGravity.MSG_TOUCHING_TOWER, (event:cc.Event) => {
-            
-        // });
-        // brick.node.once(BrickGravity.MSG_TOUCHING_OTHER, (event:cc.Event) => {
-
-        // });
-        brick.getComponent(BrickGravity).enabled = true;
+        brick.node.setPosition(0, 800);
+        brick.gravity.gravityScale = 1;
 
         brick.node.emit(Brick.EVT_FALLING_STARTED);
     }

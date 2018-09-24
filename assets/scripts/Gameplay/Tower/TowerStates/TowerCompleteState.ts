@@ -7,6 +7,6 @@ export default class TowerCompleteState extends FiniteStateMachineState {
     enter(stateMachine: FiniteStateMachine, ...args) {
         let tower = <Tower>(stateMachine.owner);
 
-        tower.complete();
+        tower.builder.enabled = false;
     }
 }
