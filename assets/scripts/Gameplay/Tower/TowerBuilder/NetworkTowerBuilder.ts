@@ -5,7 +5,11 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class NetworkTowerBuilder extends TowerBuilder {
 
-    start() {
-        super.start();
+    onEnable() {
+        super.onEnable();
+    }
+
+    onDisable() {
+        super.onDisable();
     }
 }

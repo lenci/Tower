@@ -11,28 +11,9 @@ export default class BrickInitialState extends FiniteStateMachineState {
             case Brick.MSG_QUEUE:
                 stateMachine.changeState(Brick.QueueState);
                 break;
-
-            case Brick.MSG_FALL:
-                if (brick.tower.isNetworkClone) {
-                    stateMachine.changeState(Brick.FallingState);
-                }
-                break;
-
-            case Brick.MSG_PLACE:
-                if (brick.tower.isNetworkClone) {
-                    stateMachine.changeState(Brick.PlacedState);
-                }
-                break;
-
-            case Brick.MSG_LOSE:
-                if (brick.tower.isNetworkClone) {
-                    stateMachine.changeState(Brick.LostState);
-                }
-                break;
         
             default:
                 super.onTelegram(stateMachine, message, args);
-                break;
         }
     }
 }

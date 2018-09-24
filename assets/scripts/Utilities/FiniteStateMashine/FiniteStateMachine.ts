@@ -11,11 +11,7 @@ export default class FiniteStateMachine extends cc.Component {
     previousState: FiniteStateMachineState = null;
 
     changeState(state: FiniteStateMachineState, ...args) {
-        let exitTimes: number = 0;
-
         while (null != this.currentState) {
-            ++exitTimes;
-
             this.previousState = this.currentState;
             this.currentState = null;
 

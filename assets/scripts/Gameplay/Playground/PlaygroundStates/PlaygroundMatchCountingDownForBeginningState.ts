@@ -14,8 +14,8 @@ export default class PlaygroundCountingDownForBeginningState extends FiniteState
         playground["_onPlayerJoined"] = (player:MatchPlayer) => {
             playground.createTower(player, player.towerIndex);
         }
-        playground["_onPlayerRetired"] = (player:MatchPlayer) => {
-            playground.destroyTower(player);
+        playground["_onPlayerRetired"] = (playerId:string) => {
+            playground.destroyTower(playerId);
         }
         playground["_onOnMatchStatusChanged"] = (status:MatchStatus) => {
             if (MatchStatus.Preparing == status) {
@@ -56,7 +56,6 @@ export default class PlaygroundCountingDownForBeginningState extends FiniteState
         
             default:
                 super.onTelegram(stateMachine, message, args);
-                break;
         }
     }
 }

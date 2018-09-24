@@ -6,18 +6,22 @@ const { ccclass, property } = cc._decorator;
 
 export default class TowerBuilder extends cc.Component {
 
-    player: MatchPlayer = null;
+    public player:MatchPlayer;
 
     protected _tower: Tower = null;
 
-    init(player: MatchPlayer) {
-        this.player = player;
+    onLoad() {
+        this._tower = this.getComponent(Tower);
     }
 
     start() {
-        this._tower = this.getComponent(Tower);
-
         Game.instance.matchManager.node.on(MatchManager.EVT_MATCH_STATUS_CHANGED, this.onMatchStatusChanged, this);
+    }
+
+    onEnable() {
+    }
+
+    onDisable() {
     }
 
     onMatchStatusChanged(status: MatchStatus) {

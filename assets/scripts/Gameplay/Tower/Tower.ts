@@ -1,10 +1,7 @@
 import Brick, { BrickShape } from "../Brick/Brick"
 import FiniteStateMachine from "../../Utilities/FiniteStateMashine/FiniteStateMachine";
-import TowerFoundationLaidState from "./TowerStates/TowerFoundationLaidState";
-import TowerUnderConstructionState from "./TowerStates/TowerUnderConstructionState";
 import TowerCompleteState from "./TowerStates/TowerCompleteState";
 import TowerCollapsedState from "./TowerStates/TowerCollapsedState";
-import TowerHoldingState from "./TowerStates/TowerHoldingState";
 import TowerBricksChanngementsNetReporter from "./TowerBricksChangementsNetReporter";
 import NetworkTowerBuilder from "./TowerBuilder/NetworkTowerBuilder";
 import TowerBuilder from "./TowerBuilder/TowerBuilder";
@@ -12,6 +9,9 @@ import LocalTowerBuilder from "./TowerBuilder/LocalTowerBuilder";
 import TowerFoundation from "./TowerFoundation";
 import { MatchPlayer } from "../../Framework/MatchManager";
 import Game from "../../Framework/GameManager";
+import TowerFoundationLaidState from "./TowerStates/TowerFoundationLaidState";
+import TowerUnderConstructionState from "./TowerStates/TowerUnderConstructionState";
+import TowerHoldingState from "./TowerStates/TowerHoldingState";
 
 const { ccclass, property } = cc._decorator;
 
@@ -24,6 +24,7 @@ export default class Tower extends cc.Component {
     foundation: TowerFoundation = null;
     builder: TowerBuilder = null;
 
+    index: number = -1;
     isNetworkClone: boolean = false;
 
     stateMachine: FiniteStateMachine = null;
@@ -36,101 +37,98 @@ export default class Tower extends cc.Component {
     static MSG_HOLD: string = "hold";
     static MSG_COMPLETE: string = "complete";
     static MSG_COLLAPSE: string = "collapse";
-    static MSG_DROP_BRICK: string = "drop brick";
-    static MSG_TRANSLATE_BRICK: string = "translate brick";
-    static MSG_ROTATE_BRICK: string = "rotate brick";
-    static MSG_CLONE_BRICK_FROM_NET: string = "clone brick from net";
-    static MSG_SYNC_BRICK_FROM_NET: string = "sync brick from net";
-    static MSG_MAGIC_TO_BRICK: string = "magic to brick";
 
     bricks: { [key: number]: Brick } = {};
     nextValidBrickId: number = 0;
 
-    private _currentBrick: Brick = null;
-    private _nextBrick: Brick = null;
+    currentBrick: Brick = null;
+    nextBrick: Brick = null;
 
     onLoad() {
         this.stateMachine = this.addComponent(FiniteStateMachine);
         this.stateMachine.owner = this;
     }
 
-    init(player: MatchPlayer, isNetworkClone: boolean, foundationPrefab: cc.Prefab) {
-        this.isNetworkClone = isNetworkClone;
+    set player(player: MatchPlayer) {
+        this.index = player.towerIndex;
+        this.isNetworkClone = (player.id != Game.instance.playerDataManager.id);
 
         if (this.isNetworkClone) {
             this.builder = this.addComponent(NetworkTowerBuilder);
+            this.builder.player = player;
         } else {
             this.builder = this.addComponent(LocalTowerBuilder);
+            this.builder.player = player;
             this.addComponent(TowerBricksChanngementsNetReporter);
         }
-        this.builder.init(player);
+    }
 
-        let foundationNode: cc.Node = cc.instantiate(foundationPrefab);
+    get player(): MatchPlayer {
+        return this.builder.player;
+    }
+
+    set foundationPrefab(prefab: cc.Prefab) {
+        let foundationNode: cc.Node = cc.instantiate(prefab);
         this.node.addChild(foundationNode);
         foundationNode.setPosition(0, 0);
         this.foundation = foundationNode.getComponent(TowerFoundation);
     }
 
     start() {
-        this.stateMachine.changeState(Tower.foundationLaidState);
+        if (this.isNetworkClone) {
+            this.stateMachine.changeState(Tower.foundationLaidState);
+        } else {
+            this.stateMachine.changeState(Tower.foundationLaidState);
+        }
     }
 
     getBrickById(brickId: number): Brick {
         return this.bricks[brickId];
     }
 
-    generateRandomBrick(): Brick {
-        let brickPrefab:cc.Prefab = Game.instance.playground.brickPrefabs[Math.floor(Math.random() * Game.instance.playground.brickPrefabs.length)];
+    dropBrick() {
+        if (null == this.nextBrick) {
+            cc.error("No brick to drop: " + this.index);
+            return;
+        }
 
+        this.currentBrick = this.nextBrick;
+        this.nextBrick = null;
+
+        this.currentBrick.stateMachine.telegram(Brick.MSG_FALL);
+
+        this.node.emit(Tower.EVT_NEXT_BRICK_CHANGED, null);
+    }
+
+    generateNextBrick(shape: BrickShape = BrickShape.NONE) {
+        if (null != this.nextBrick) {
+            cc.error("Failed to generate next brick: " + this.index);
+            return;
+        }
+
+        if (BrickShape.NONE == shape) {
+            shape = Math.floor(Math.random() * Game.instance.playground.brickPrefabs.length);
+        }
+        let brickPrefab:cc.Prefab = Game.instance.playground.brickPrefabs[shape];
         let brickNode:cc.Node = cc.instantiate(brickPrefab);
         this.node.addChild(brickNode);
 
         let brick:Brick = brickNode.getComponent(Brick);
         let brickId = this.nextValidBrickId++;
-        brick.init(this, brickId);
+        brick.tower = this;
+        brick.id = brickId;
 
         this.bricks[brickId] = brick;
+
+        this.nextBrick = brick;
+        this.nextBrick.stateMachine.telegram(Brick.MSG_QUEUE);
+
+        this.node.emit(Tower.EVT_NEXT_BRICK_CHANGED, this.nextBrick);
 
         return brick;
     }
 
-    generateSpecificBrick(brickId: number, shape: BrickShape): Brick {
-        let brickPrefab:cc.Prefab = Game.instance.playground.brickPrefabs[shape];
-
-        let brickNode:cc.Node = cc.instantiate(brickPrefab);
-        this.node.addChild(brickNode);
-
-        let brick:Brick = brickNode.getComponent(Brick);
-        brick.init(this, brickId);
-
-        this.bricks[brickId] = brick;
-
-        return brick;
-    }
-
-    removeBrick(brickId: number) {
+    private removeBrick(brickId: number) {
         this.bricks[brickId] = null;
-    }
-
-    get currentBrick(): Brick {
-        return this._currentBrick;
-    }
-
-    set currentBrick(brick: Brick) {
-        if (this._currentBrick != brick) {
-            this._currentBrick = brick;
-            this.node.emit(Tower.EVT_CURRENT_BRICK_CHANGED, this._currentBrick);
-        }
-    }
-
-    get nextBrick(): Brick {
-        return this._nextBrick;
-    }
-
-    set nextBrick(brick: Brick) {
-        if (this._nextBrick != brick) {
-            this._nextBrick = brick;
-            this.node.emit(Tower.EVT_NEXT_BRICK_CHANGED, this._nextBrick);
-        }
     }
 }

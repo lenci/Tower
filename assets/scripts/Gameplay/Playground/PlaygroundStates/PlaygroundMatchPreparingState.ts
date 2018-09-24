@@ -14,8 +14,8 @@ export default class PlaygroundMatchPreparingState extends FiniteStateMachineSta
         playground["_onPlayerJoined"] = (player:MatchPlayer) => {
             playground.createTower(player, player.towerIndex);
         }
-        playground["_onPlayerRetired"] = (player:MatchPlayer) => {
-            playground.destroyTower(player);
+        playground["_onPlayerRetired"] = (playerId:string) => {
+            playground.destroyTower(playerId);
         }
         playground["_onOnMatchStatusChanged"] = (status:MatchStatus) => {
             if (MatchStatus.CountingDownForBeginning == status) {
@@ -50,7 +50,6 @@ export default class PlaygroundMatchPreparingState extends FiniteStateMachineSta
         
             default:
                 super.onTelegram(stateMachine, message, args);
-                break;
         }
     }
 }

@@ -1,5 +1,7 @@
 import Brick from "./Brick";
 import FiniteStateMachine from "../../Utilities/FiniteStateMashine/FiniteStateMachine";
+import Tower from "../Tower/Tower";
+import TowerBricksChanngementsNetReporter from "../Tower/TowerBricksChangementsNetReporter";
 
 export enum BrickState {
     NONE,
@@ -27,14 +29,20 @@ const {ccclass, property} = cc._decorator;
 @ccclass
 export default class BrickChangementFecther extends cc.Component {
 
-    stateMachine:FiniteStateMachine = null;
+    private _brick:Brick = null;
+    private _reporter:TowerBricksChanngementsNetReporter = null;
 
     private _previousPosition: cc.Vec2 = new cc.Vec2(0, 0);
     private _previousRotation: number = 0;
-    private _previousState:BrickState = BrickState.NONE;
+
+    onLoad() {
+        this._brick = this.getComponent(Brick);
+        this._reporter = this._brick.tower.getComponent(TowerBricksChanngementsNetReporter);
+    }
 
     start () {
-        this.stateMachine = this.getComponent(FiniteStateMachine);
+        this._previousPosition = this.node.position;
+        this._previousRotation = this.node.rotation;
     }
 
     fetchBrickChangements (changement:BrickChangement) {
@@ -47,27 +55,5 @@ export default class BrickChangementFecther extends cc.Component {
         if (changement.hasRotationChanged) {
             this._previousRotation = changement.newRotation = this.node.rotation;
         }
-
-        changement.hasStateChanged = this._previousState != this.getBrickState();
-        if (changement.hasStateChanged) {
-            this._previousState = changement.newState = this.getBrickState();
-        }
-    }
-
-    private getBrickState(): BrickState {
-        if (Brick.QueueState == this.stateMachine.currentState) {
-            return BrickState.QUEUEING;
-        }
-        if (Brick.FallingState == this.stateMachine.currentState) {
-            return BrickState.FALLING;
-        }
-        if (Brick.PlacedState == this.stateMachine.currentState) {
-            return BrickState.PLACED;
-        }
-        if (Brick.LostState == this.stateMachine.currentState) {
-            return BrickState.LOST;
-        }
-
-        return BrickState.NONE;
     }
 }

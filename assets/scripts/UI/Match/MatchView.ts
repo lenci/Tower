@@ -4,12 +4,13 @@ import Game from "../../Framework/GameManager";
 import MatchJoiningPanel from "./MatchJoiningPanel";
 import MatchCountingDownForBeginningPanel from "./MatchCountingDownForBeginningPanel";
 import MatchStartingPanel from "./MatchStartingPanel";
+import MatchTowersPanel from "./MatchTowersPanel";
 
 
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class MatchUI extends cc.Component {
+export default class MatchView extends cc.Component {
 
     @property(MatchPlayersPanel)
     pnlPlayers: MatchPlayersPanel = null;
@@ -23,6 +24,9 @@ export default class MatchUI extends cc.Component {
     @property(MatchCountingDownForBeginningPanel)
     pnlCountingDownForBeginning: MatchCountingDownForBeginningPanel = null;
 
+    @property(MatchTowersPanel)
+    pnlTowersPanel: MatchTowersPanel = null;
+
     private _matchManager:MatchManager = null;
 
     start() {
@@ -33,31 +37,30 @@ export default class MatchUI extends cc.Component {
     private onMatchStatusChanged(status:MatchStatus) {
         if (MatchStatus.Preparing == status) {
             if (this._matchManager.isMyMatch) {
-                this.setPanelEnabled(this.pnlStarting, true);
-                this.setPanelEnabled(this.pnlJoining, false);
+                this.pnlStarting.show();
+                this.pnlJoining.hide();
             } else {
-                this.setPanelEnabled(this.pnlStarting, false);
-                this.setPanelEnabled(this.pnlJoining, true);
+                this.pnlStarting.hide();
+                this.pnlJoining.show();
             }
-            this.setPanelEnabled(this.pnlCountingDownForBeginning, false);
+            this.pnlCountingDownForBeginning.hide();
+            this.pnlTowersPanel.hide();
 
         } else if (MatchStatus.CountingDownForBeginning == status) {
-            this.setPanelEnabled(this.pnlStarting, false);
+            this.pnlStarting.hide();
             if (this._matchManager.isMyMatch) {
-                this.setPanelEnabled(this.pnlJoining, false);
+                this.pnlJoining.hide();
             } else {
-                this.setPanelEnabled(this.pnlJoining, false);
+                this.pnlJoining.show();
             }
-            this.setPanelEnabled(this.pnlCountingDownForBeginning, true);
+            this.pnlCountingDownForBeginning.show();
+            this.pnlTowersPanel.hide();
 
         } else if (MatchStatus.Playing == status) {
-            this.setPanelEnabled(this.pnlStarting, false);
-            this.setPanelEnabled(this.pnlJoining, false);
-            this.setPanelEnabled(this.pnlCountingDownForBeginning, false);
+            this.pnlStarting.hide();
+            this.pnlJoining.hide();
+            this.pnlCountingDownForBeginning.hide();
+            this.pnlTowersPanel.show();
         }
-    }
-
-    private setPanelEnabled(panel:cc.Component, enabled:boolean) {
-        panel.node.active = panel.enabled = enabled;
     }
 }

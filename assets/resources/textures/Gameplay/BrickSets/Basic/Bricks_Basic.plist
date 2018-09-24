@@ -4,37 +4,22 @@
     <dict>
         <key>frames</key>
         <dict>
-            <key>TetrominoI.png</key>
+            <key>I.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{32,128}</string>
+                <string>{128,32}</string>
                 <key>spriteSourceSize</key>
-                <string>{32,128}</string>
+                <string>{128,32}</string>
                 <key>textureRect</key>
-                <string>{{67,133},{32,128}}</string>
+                <string>{{0,0},{128,32}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>TetrominoJ.png</key>
-            <dict>
-                <key>aliases</key>
-                <array/>
-                <key>spriteOffset</key>
-                <string>{0,0}</string>
-                <key>spriteSize</key>
-                <string>{64,96}</string>
-                <key>spriteSourceSize</key>
-                <string>{64,96}</string>
-                <key>textureRect</key>
-                <string>{{1,67},{64,96}}</string>
-                <key>textureRotated</key>
-                <true/>
-            </dict>
-            <key>TetrominoL.png</key>
+            <key>J.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -45,11 +30,26 @@
                 <key>spriteSourceSize</key>
                 <string>{96,64}</string>
                 <key>textureRect</key>
-                <string>{{1,1},{96,64}}</string>
+                <string>{{128,0},{96,64}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>TetrominoO.png</key>
+            <key>L.png</key>
+            <dict>
+                <key>aliases</key>
+                <array/>
+                <key>spriteOffset</key>
+                <string>{0,0}</string>
+                <key>spriteSize</key>
+                <string>{96,64}</string>
+                <key>spriteSourceSize</key>
+                <string>{96,64}</string>
+                <key>textureRect</key>
+                <string>{{224,0},{96,64}}</string>
+                <key>textureRotated</key>
+                <false/>
+            </dict>
+            <key>O.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
@@ -60,54 +60,54 @@
                 <key>spriteSourceSize</key>
                 <string>{64,64}</string>
                 <key>textureRect</key>
-                <string>{{1,133},{64,64}}</string>
+                <string>{{320,0},{64,64}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>TetrominoS.png</key>
+            <key>S.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{64,96}</string>
+                <string>{96,64}</string>
                 <key>spriteSourceSize</key>
-                <string>{64,96}</string>
+                <string>{96,64}</string>
                 <key>textureRect</key>
-                <string>{{1,199},{64,96}}</string>
+                <string>{{384,0},{96,64}}</string>
                 <key>textureRotated</key>
                 <false/>
             </dict>
-            <key>TetrominoT.png</key>
+            <key>T.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{64,96}</string>
+                <string>{96,64}</string>
                 <key>spriteSourceSize</key>
-                <string>{64,96}</string>
+                <string>{96,64}</string>
                 <key>textureRect</key>
-                <string>{{1,297},{64,96}}</string>
+                <string>{{480,0},{96,64}}</string>
                 <key>textureRotated</key>
-                <true/>
+                <false/>
             </dict>
-            <key>TetrominoZ.png</key>
+            <key>Z.png</key>
             <dict>
                 <key>aliases</key>
                 <array/>
                 <key>spriteOffset</key>
                 <string>{0,0}</string>
                 <key>spriteSize</key>
-                <string>{64,96}</string>
+                <string>{96,64}</string>
                 <key>spriteSourceSize</key>
-                <string>{64,96}</string>
+                <string>{96,64}</string>
                 <key>textureRect</key>
-                <string>{{1,363},{64,96}}</string>
+                <string>{{576,0},{96,64}}</string>
                 <key>textureRotated</key>
-                <true/>
+                <false/>
             </dict>
         </dict>
         <key>metadata</key>
@@ -121,9 +121,9 @@
             <key>realTextureFileName</key>
             <string>Bricks_Basic.png</string>
             <key>size</key>
-            <string>{100,428}</string>
+            <string>{672,64}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:1d969bf9c2cf1fca1511693fda5bf4df:515d2168f27d9b1a5fa65383606ba1d9:caa60fd63692125b90043888f70b0d27$</string>
+            <string>$TexturePacker:SmartUpdate:73e8b5964573cd99fefd88e44d7d4d02:261f71ee002f90cddadfd5a7f3a17eb1:caa60fd63692125b90043888f70b0d27$</string>
             <key>textureFileName</key>
             <string>Bricks_Basic.png</string>
         </dict>

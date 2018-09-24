@@ -1,15 +1,15 @@
 {
   "ver": "2.2.0",
-  "uuid": "9e1738ee-7dd3-4630-9674-75d63e4060e5",
+  "uuid": "ce600adc-c2c9-4488-834f-a09cf0cae546",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
   "subMetas": {
-    "TetrominoL": {
+    "L": {
       "ver": "1.0.3",
-      "uuid": "fff4c892-803b-45f4-99a6-a80d79914031",
-      "rawTextureUuid": "9e1738ee-7dd3-4630-9674-75d63e4060e5",
+      "uuid": "17e712c2-2b5c-4c5d-8f6b-0d38fc725885",
+      "rawTextureUuid": "ce600adc-c2c9-4488-834f-a09cf0cae546",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,

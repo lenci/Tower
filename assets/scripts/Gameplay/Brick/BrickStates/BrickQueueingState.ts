@@ -6,6 +6,11 @@ export default class BrickQueueingState extends FiniteStateMachineState {
 
     enter(stateMachine:FiniteStateMachine, ...agrs) {
         let brick:Brick = <Brick>(stateMachine.owner);
+
+        brick.node.setPosition(0, 10000);
+        brick.gravity.gravityScale = 0;
+
+        brick.node.emit(Brick.EVT_QUEUEING_STARTED);
     }
 
     onTelegram(stateMachine: FiniteStateMachine, message:string, ...args) {
@@ -15,22 +20,9 @@ export default class BrickQueueingState extends FiniteStateMachineState {
             case Brick.MSG_FALL:
                 stateMachine.changeState(Brick.FallingState);
                 break;
-
-            case Brick.MSG_PLACE:
-                if (brick.tower.isNetworkClone) {
-                    stateMachine.changeState(Brick.PlacedState);
-                }
-                break;
-
-            case Brick.MSG_LOSE:
-                if (brick.tower.isNetworkClone) {
-                    stateMachine.changeState(Brick.LostState);
-                }
-                break;
         
             default:
                 super.onTelegram(stateMachine, message, args);
-                break;
         }
     }
 }

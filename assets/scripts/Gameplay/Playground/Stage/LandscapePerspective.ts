@@ -25,8 +25,6 @@ export default class LandscapePerspective extends cc.Component {
     private updatePerspective() {
         let originalAnchor: cc.Vec2 = this.node.getAnchorPoint();
 
-        let stage
-
         Utility.setAnchorX(this.node, 0.5, false);
         Utility.setAnchorY(this.node, this._stage.horizon / this._stage.fullSize.height, false);
         this.node.scale = 1 + (1 / this._camera.currentZoomRatio - 1) * (1 - 1 / this.distanceFactor);

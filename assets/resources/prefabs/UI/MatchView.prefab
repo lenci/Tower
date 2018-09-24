@@ -12,7 +12,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Match UI",
+    "_name": "Match View",
     "_objFlags": 0,
     "_parent": null,
     "_children": [
@@ -32,21 +32,21 @@
         "__id__": 45
       },
       {
-        "__id__": 47
+        "__id__": 48
       },
       {
-        "__id__": 52
+        "__id__": 53
       }
     ],
     "_active": true,
     "_level": 1,
     "_components": [
       {
-        "__id__": 54
+        "__id__": 55
       }
     ],
     "_prefab": {
-      "__id__": 55
+      "__id__": 56
     },
     "_opacity": 255,
     "_color": {
@@ -646,7 +646,7 @@
     "node": {
       "__id__": 8
     },
-    "_enabled": false,
+    "_enabled": true,
     "btnStart": {
       "__id__": 14
     },
@@ -1312,7 +1312,7 @@
     "node": {
       "__id__": 19
     },
-    "_enabled": false,
+    "_enabled": true,
     "btnJoin": {
       "__id__": 25
     },
@@ -1526,7 +1526,7 @@
     "node": {
       "__id__": 38
     },
-    "_enabled": false,
+    "_enabled": true,
     "lblSeconds": {
       "__id__": 40
     },
@@ -1545,7 +1545,7 @@
   },
   {
     "__type__": "cc.Node",
-    "_name": "Next Brick Panel",
+    "_name": "Towers Panel",
     "_objFlags": 0,
     "_parent": {
       "__id__": 1
@@ -1553,9 +1553,13 @@
     "_children": [],
     "_active": false,
     "_level": 2,
-    "_components": [],
+    "_components": [
+      {
+        "__id__": 46
+      }
+    ],
     "_prefab": {
-      "__id__": 46
+      "__id__": 47
     },
     "_opacity": 255,
     "_color": {
@@ -1603,6 +1607,19 @@
     "_id": ""
   },
   {
+    "__type__": "d834e2P0XtC2oEqiDMK4gfu",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 45
+    },
+    "_enabled": true,
+    "towerUIPrefab": {
+      "__uuid__": "ac1bc443-d1aa-4033-b44a-216eb2740c8a"
+    },
+    "_id": ""
+  },
+  {
     "__type__": "cc.PrefabInfo",
     "root": {
       "__id__": 1
@@ -1622,14 +1639,14 @@
     },
     "_children": [
       {
-        "__id__": 48
+        "__id__": 49
       }
     ],
     "_active": false,
     "_level": 2,
     "_components": [],
     "_prefab": {
-      "__id__": 51
+      "__id__": 52
     },
     "_opacity": 255,
     "_color": {
@@ -1681,18 +1698,18 @@
     "_name": "Height Label",
     "_objFlags": 0,
     "_parent": {
-      "__id__": 47
+      "__id__": 48
     },
     "_children": [],
     "_active": true,
     "_level": 3,
     "_components": [
       {
-        "__id__": 49
+        "__id__": 50
       }
     ],
     "_prefab": {
-      "__id__": 50
+      "__id__": 51
     },
     "_opacity": 255,
     "_color": {
@@ -1744,7 +1761,7 @@
     "_name": "",
     "_objFlags": 0,
     "node": {
-      "__id__": 48
+      "__id__": 49
     },
     "_enabled": true,
     "_srcBlendFactor": 770,
@@ -1798,7 +1815,7 @@
     "_level": 2,
     "_components": [],
     "_prefab": {
-      "__id__": 53
+      "__id__": 54
     },
     "_opacity": 255,
     "_color": {
@@ -1875,6 +1892,9 @@
     },
     "pnlCountingDownForBeginning": {
       "__id__": 43
+    },
+    "pnlTowersPanel": {
+      "__id__": 46
     },
     "_id": ""
   },

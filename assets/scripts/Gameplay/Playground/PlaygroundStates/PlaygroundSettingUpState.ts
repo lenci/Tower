@@ -41,7 +41,6 @@ export default class PlaygroundSettingUpState extends FiniteStateMachineState {
         
             default:
                 super.onTelegram(stateMachine, message, args);
-                break;
         }
     }
 }

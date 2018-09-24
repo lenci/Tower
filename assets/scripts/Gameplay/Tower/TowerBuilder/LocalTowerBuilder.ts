@@ -1,20 +1,43 @@
 import TowerBuilder from "./TowerBuilder";
 import Tower from "../Tower";
+import Game from "../../../Framework/GameManager";
+import MatchManager, { MatchStatus } from "../../../Framework/MatchManager";
+import Brick from "../../Brick/Brick";
 
 const {ccclass, property} = cc._decorator;
 
 @ccclass
 export default class LocalPlayerTowerBuilder extends TowerBuilder {
 
-    start() {
-        super.start();
+    onEnable() {
+        super.onEnable();
     }
 
+    onDisable() {
+        super.onDisable();
+    }
+
+    onMatchStatusChanged(status: MatchStatus) {
+        super.onMatchStatusChanged(status);
+
+        if (MatchStatus.Playing == status) {
+            this._tower.generateNextBrick();
+            // this.dropBrickAndGenerateNext();
+        }
+    }
+
+    dropBrickAndGenerateNext() {
+        this._tower.dropBrick();
+        this._tower.generateNextBrick();
+
+        // this._tower.currentBrick.node.on()
+
+    }
+    
     translateBrick(direction:number) {
-        this._tower.stateMachine.telegram(Tower.MSG_TRANSLATE_BRICK, direction);
     }
 
     rotateBrick(direction:number) {
-        this._tower.stateMachine.telegram(Tower.MSG_ROTATE_BRICK, direction);
+        
     }
 }

@@ -7,7 +7,6 @@ export default class BrickFallingState extends FiniteStateMachineState {
 
     enter(stateMachine:FiniteStateMachine, ...args) {
         let brick:Brick = <Brick>(stateMachine.owner);
-        cc.log("falling");
 
         // brick.node.once(BrickGravity.MSG_TOUCHING_TOWER, (event:cc.Event) => {
             
@@ -16,6 +15,8 @@ export default class BrickFallingState extends FiniteStateMachineState {
 
         // });
         brick.getComponent(BrickGravity).enabled = true;
+
+        brick.node.emit(Brick.EVT_FALLING_STARTED);
     }
 
     exit(stateMachine:FiniteStateMachine) {
@@ -38,7 +39,6 @@ export default class BrickFallingState extends FiniteStateMachineState {
         
             default:
                 super.onTelegram(stateMachine, message, args);
-                break;
         }
     }
 }

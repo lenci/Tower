@@ -1,10 +1,11 @@
 import Game from "../../Framework/GameManager";
 import MatchManager, { MatchStatus, MatchPlayer } from "../../Framework/MatchManager";
+import View from "../../Framework/UI/View";
 
 const { ccclass, property } = cc._decorator;
 
 @ccclass
-export default class MatchJoiningPanel extends cc.Component {
+export default class MatchJoiningPanel extends View {
 
     @property(cc.Button)
     btnJoin: cc.Button = null;
@@ -14,20 +15,21 @@ export default class MatchJoiningPanel extends cc.Component {
 
     private _matchManager: MatchManager = null;
 
-    onLoad() {
-        this._matchManager = Game.instance.matchManager;
-    }
+    onShow() {
+        super.onShow();
 
-    onEnable() {
-        this.btnJoin.node.active = !this._matchManager.hasJoined;
-        this.btnRetire.node.active = this._matchManager.hasJoined;
+        this._matchManager = Game.instance.matchManager;
+
+        this.refreshUI();
         this._matchManager.node.on(MatchManager.EVT_PLAYER_JOINED, this.refreshUI, this);
         this._matchManager.node.on(MatchManager.EVT_PLAYER_RETIRED, this.refreshUI, this);
     }
 
-    onDisable() {
+    onHide() {
         this._matchManager.node.off(MatchManager.EVT_PLAYER_JOINED, this.refreshUI, this);
         this._matchManager.node.off(MatchManager.EVT_PLAYER_RETIRED, this.refreshUI, this);
+
+        super.onHide();
     }
 
     private refreshUI() {

@@ -17,6 +17,6 @@ export default class FiniteStateMachineState {
     }
 
     onTelegram(stateMachine: FiniteStateMachine, message:string, ...args) {
-
+        cc.warn("telegram is not handled: " + message + " current state is " + typeof(this));
     }
 }

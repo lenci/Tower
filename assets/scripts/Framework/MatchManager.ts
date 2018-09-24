@@ -183,7 +183,7 @@ export default class MatchManager extends cc.Component {
             if (player.id == playerId) {
                 player = this.players.splice(index, 1)[0];
 
-                this.node.emit(MatchManager.EVT_PLAYER_RETIRED, player);
+                this.node.emit(MatchManager.EVT_PLAYER_RETIRED, player.id);
 
                 return false;
             }

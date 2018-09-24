@@ -1,15 +1,15 @@
 {
   "ver": "2.2.0",
-  "uuid": "44f926a9-e52c-4347-8786-1049d9800b3a",
+  "uuid": "f7ed606c-d49d-48bb-b859-c69af75bd03d",
   "type": "sprite",
   "wrapMode": "clamp",
   "filterMode": "bilinear",
   "premultiplyAlpha": false,
   "subMetas": {
-    "TetrominoT": {
+    "O": {
       "ver": "1.0.3",
-      "uuid": "4637dd06-012b-48e2-8c7e-9294ff273b4b",
-      "rawTextureUuid": "44f926a9-e52c-4347-8786-1049d9800b3a",
+      "uuid": "5ba944e0-0a0c-44e5-8e20-97ded674afdc",
+      "rawTextureUuid": "f7ed606c-d49d-48bb-b859-c69af75bd03d",
       "trimType": "auto",
       "trimThreshold": 1,
       "rotated": false,
@@ -18,9 +18,9 @@
       "trimX": 0,
       "trimY": 0,
       "width": 64,
-      "height": 96,
+      "height": 64,
       "rawWidth": 64,
-      "rawHeight": 96,
+      "rawHeight": 64,
       "borderTop": 0,
       "borderBottom": 0,
       "borderLeft": 0,
