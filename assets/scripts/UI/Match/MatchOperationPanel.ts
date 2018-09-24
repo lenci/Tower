@@ -1,32 +1,26 @@
 import View from "../../Framework/UI/View";
-import Tower from "../../Gameplay/Tower/Tower";
 import Game from "../../Framework/Game";
-import LocalTowerBuilder from "../../Gameplay/Tower/TowerBuilder/LocalTowerBuilder";
 import InputManager from "../../Framework/InputManager";
 
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class MatchOperationPanel extends View {
 
-    @property(cc.Button)
-    btnTranslateLeft: cc.Button = null;
-
-    @property(cc.Button)
-    btnRight: cc.Button = null;
-
-    @property(cc.Button)
-    btnRotate: cc.Button = null;
-
-    @property(cc.Button)
-    btnAccelerate: cc.Button = null;
-
-    private _inputManager:InputManager = null;
+    private _inputManager: InputManager = null;
 
     onShow() {
         super.onShow();
 
         this._inputManager = Game.instance.inputManager;
+
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+    }
+
+    onHide() {
+        cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+
+        super.onHide();
     }
 
     translateLeft() {
@@ -42,6 +36,28 @@ export default class MatchOperationPanel extends View {
     }
 
     accelerate() {
-        his._inputManager.triggerKey("accelerate");
+        this._inputManager.triggerKey("accelerate");
+    }
+
+    onKeyDown(event:KeyboardEvent) {
+        switch(event.keyCode) {
+            case 1:
+                this.translateLeft();
+                break;
+
+            case 2:
+                this.translateRight();
+                break;
+
+            case 3:
+                this.rotate();
+                break;
+
+            case 4:
+                this.accelerate();
+                break;
+
+            default:
+        }
     }
 }

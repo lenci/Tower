@@ -65,7 +65,7 @@ export default class MatchTowersPanel extends View {
         return this._towerUIs[tower.index];
     }
 
-    private destroyTowerUI(towerIndex:number) {
+    private destroyTowerUI(towerIndex: number) {
         if (null != this._towerUIs[towerIndex]) {
             this._towerUIs[towerIndex].node.destroy();
             this._towerUIs[towerIndex] = null;

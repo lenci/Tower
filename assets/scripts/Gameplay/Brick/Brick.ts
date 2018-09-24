@@ -23,10 +23,10 @@ export enum BrickShape {
 @ccclass
 export default class Brick extends cc.Component {
 
-    static EVT_QUEUEING_STARTED:string = "queueing started";
-    static EVT_FALLING_STARTED:string = "falling started";
-    static EVT_PLACED:string = "placed";
-    static EVT_LOST:string = "lost";
+    static EVT_QUEUEING_STARTED: string = "queueing started";
+    static EVT_FALLING_STARTED: string = "falling started";
+    static EVT_PLACED: string = "placed";
+    static EVT_LOST: string = "lost";
 
     @property({
         type: cc.Enum(BrickShape)
@@ -45,15 +45,15 @@ export default class Brick extends cc.Component {
     rigidbody: cc.RigidBody = null;
 
     stateMachine: FiniteStateMachine = null;
-    static InitialState:BrickInitialState = new BrickInitialState();
-    static QueueState:BrickQueueingState = new BrickQueueingState();
-    static FallingState:BrickFallingState = new BrickFallingState();
-    static PlacedState:BrickPlacedState = new BrickPlacedState();
-    static LostState:BrickLostState = new BrickLostState();
-    static MSG_QUEUE:string = "queue";
-    static MSG_FALL:string = "fall";
-    static MSG_PLACE:string = "place";
-    static MSG_LOSE:string = "lose";
+    static InitialState: BrickInitialState = new BrickInitialState();
+    static QueueState: BrickQueueingState = new BrickQueueingState();
+    static FallingState: BrickFallingState = new BrickFallingState();
+    static PlacedState: BrickPlacedState = new BrickPlacedState();
+    static LostState: BrickLostState = new BrickLostState();
+    static MSG_QUEUE: string = "queue";
+    static MSG_FALL: string = "fall";
+    static MSG_PLACE: string = "place";
+    static MSG_LOSE: string = "lose";
 
     onLoad() {
         this.gravity = this.getComponent(BrickGravity);
@@ -67,7 +67,23 @@ export default class Brick extends cc.Component {
         this.stateMachine.changeState(Brick.InitialState);
     }
 
-    magic () {
+    translate(direction: number) {
+
+    }
+
+    rotate() {
+
+    }
+
+    accelerateGravity() {
+        this.gravity.gravityScale = 3;
+    }
+
+    normalizeGravity() {
+        this.gravity.gravityScale = 1;
+    }
+
+    magic() {
     }
 
     syncPosition(position: cc.Vec2) {

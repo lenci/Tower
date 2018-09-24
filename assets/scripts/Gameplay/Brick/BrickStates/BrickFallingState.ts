@@ -5,8 +5,8 @@ import Brick from "../Brick";
 
 export default class BrickFallingState extends FiniteStateMachineState {
 
-    enter(stateMachine:FiniteStateMachine, ...args) {
-        let brick:Brick = <Brick>(stateMachine.owner);
+    enter(stateMachine: FiniteStateMachine, ...args) {
+        let brick: Brick = <Brick>(stateMachine.owner);
 
         brick.node.active = true;
 
@@ -26,8 +26,8 @@ export default class BrickFallingState extends FiniteStateMachineState {
         brick.node.on(Brick.EVT_LOST, brick["onLost"]);
     }
 
-    exit(stateMachine:FiniteStateMachine) {
-        let brick:Brick = <Brick>(stateMachine.owner);
+    exit(stateMachine: FiniteStateMachine) {
+        let brick: Brick = <Brick>(stateMachine.owner);
 
         brick.gravity.enabled = false;
 
@@ -38,8 +38,8 @@ export default class BrickFallingState extends FiniteStateMachineState {
         brick["onLost"] = null;
     }
 
-    onTelegram(stateMachine: FiniteStateMachine, message:string, ...args) {
-        let brick:Brick = <Brick>(stateMachine.owner);
+    onTelegram(stateMachine: FiniteStateMachine, message: string, ...args) {
+        let brick: Brick = <Brick>(stateMachine.owner);
 
         switch (message) {
             case Brick.MSG_PLACE:
@@ -49,7 +49,7 @@ export default class BrickFallingState extends FiniteStateMachineState {
             case Brick.MSG_LOSE:
                 stateMachine.changeState(Brick.LostState);
                 break;
-        
+
             default:
                 super.onTelegram(stateMachine, message, args);
         }

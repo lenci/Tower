@@ -10,7 +10,6 @@ import { MatchPlayer } from "../../Framework/MatchManager";
 import PlaygroundMatchPreparingState from "./PlaygroundStates/PlaygroundMatchPreparingState";
 import PlaygroundMatchDisconnectedState from "./PlaygroundStates/PlaygroundMatchDisconnectedState";
 import StageCameraController from "./Stage/StageCameraController";
-import MatchView from "../../UI/Match/MatchView";
 
 const { ccclass, property } = cc._decorator;
 
@@ -20,7 +19,7 @@ export default class Playground extends cc.Component {
     static EVT_TOWER_CREATED: string = "tower created";
     static EVT_TOERR_DESTROYED: string = "tower destroyed";
 
-    static GRID:number = 32;
+    static GRID: number = 32;
 
     @property(Stage)
     stage: Stage = null;
@@ -94,13 +93,13 @@ export default class Playground extends cc.Component {
     }
 
     destroyTower(playerId: string) {
-        let tower:Tower = this.towers[playerId];
+        let tower: Tower = this.towers[playerId];
 
         if (null == tower) {
             return;
         }
 
-        let towerIndex:number = tower.index;
+        let towerIndex: number = tower.index;
         tower.node.destroy();
         this.towers[playerId] = null;
 

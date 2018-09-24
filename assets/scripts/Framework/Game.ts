@@ -5,23 +5,23 @@ import Playground from "../Gameplay/Playground/Playground";
 import PlayerDataManager from "./PlayerDataManager";
 import InputManager from "./InputManager";
 
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class Game extends cc.Component {
-   
-    static instance:Game = null;
+
+    static instance: Game = null;
 
     @property(GameLoader)
-    gameLoader:GameLoader = null;
+    gameLoader: GameLoader = null;
 
-    networkManager:NetworkManager = null;
-    inputManager:InputManager = null;
-    
-    playerDataManager:PlayerDataManager = null;
-    matchManager:MatchManager = null;
+    networkManager: NetworkManager = null;
+    inputManager: InputManager = null;
 
-    playground:Playground = null;
+    playerDataManager: PlayerDataManager = null;
+    matchManager: MatchManager = null;
+
+    playground: Playground = null;
 
     onLoad() {
         Game.instance = this;
@@ -45,9 +45,9 @@ export default class Game extends cc.Component {
         cc.director.loadScene("MainScene")
     }
 
-    play () {
+    play() {
         this.matchManager.setMatch("");
-        
+
         cc.director.loadScene("IslandsScene");
     }
 }

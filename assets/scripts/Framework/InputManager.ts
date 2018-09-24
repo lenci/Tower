@@ -6,23 +6,23 @@ export default class InputManager extends cc.Component {
     private _keys: { [key: string]: boolean } = {};
     private _axes: { [key: string]: number } = {};
 
-    registerKey(name:string) {
+    registerKey(name: string) {
         this._keys[name] = false;
     }
 
-    registerAxis(name:string) {
+    registerAxis(name: string) {
         this._axes[name] = 0;
     }
 
-    getKey(name:string):boolean {
+    getKey(name: string): boolean {
         return this._keys[name];
     }
 
-    getAxis(name:string):number {
+    getAxis(name: string): number {
         return this._axes[name];
     }
 
-    triggerKey(name:string) {
+    triggerKey(name: string) {
         if (null == this._keys[name]) {
             cc.error("key is not exist: " + name);
             return;
@@ -31,7 +31,7 @@ export default class InputManager extends cc.Component {
         this._keys[name] = true;
     }
 
-    addAxis(name:string, value:number) {
+    addAxis(name: string, value: number) {
         if (null == this._axes[name]) {
             cc.error("axis is not exist: " + name);
             return;

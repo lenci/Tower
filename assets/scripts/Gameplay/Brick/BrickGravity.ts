@@ -10,7 +10,7 @@ export default class BrickGravity extends cc.Component {
     @property
     gravityScale: number = 1;
 
-    private _brick:Brick = null;
+    private _brick: Brick = null;
 
     private _hasContacted: boolean = false;
 
