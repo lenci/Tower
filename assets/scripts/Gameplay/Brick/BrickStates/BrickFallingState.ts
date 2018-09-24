@@ -8,16 +8,34 @@ export default class BrickFallingState extends FiniteStateMachineState {
     enter(stateMachine:FiniteStateMachine, ...args) {
         let brick:Brick = <Brick>(stateMachine.owner);
 
+        brick.node.active = true;
+
         brick.node.setPosition(0, 800);
-        brick.gravity.gravityScale = 1;
+        brick.gravity.enabled = true;
 
         brick.node.emit(Brick.EVT_FALLING_STARTED);
+
+        brick["onPlaced"] = () => {
+            stateMachine.telegram(Brick.MSG_PLACE);
+        }
+        brick["onLost"] = () => {
+            stateMachine.telegram(Brick.MSG_LOSE);
+        }
+
+        brick.node.on(Brick.EVT_PLACED, brick["onPlaced"]);
+        brick.node.on(Brick.EVT_LOST, brick["onLost"]);
     }
 
     exit(stateMachine:FiniteStateMachine) {
         let brick:Brick = <Brick>(stateMachine.owner);
 
-        brick.getComponent(BrickGravity).enabled = false;
+        brick.gravity.enabled = false;
+
+        brick.node.off(Brick.EVT_PLACED, brick["onPlaced"]);
+        brick.node.off(Brick.EVT_LOST, brick["onLost"]);
+
+        brick["onPlaced"] = null;
+        brick["onLost"] = null;
     }
 
     onTelegram(stateMachine: FiniteStateMachine, message:string, ...args) {

@@ -41,8 +41,8 @@ export default class Brick extends cc.Component {
 
     gravity: BrickGravity = null;
 
-    private _collider: cc.PhysicsPolygonCollider = null;
-    private _rigidbody: cc.RigidBody = null;
+    collider: cc.PhysicsPolygonCollider = null;
+    rigidbody: cc.RigidBody = null;
 
     stateMachine: FiniteStateMachine = null;
     static InitialState:BrickInitialState = new BrickInitialState();
@@ -58,8 +58,8 @@ export default class Brick extends cc.Component {
     onLoad() {
         this.gravity = this.getComponent(BrickGravity);
 
-        this._collider = this.getComponent(cc.PhysicsPolygonCollider);
-        this._rigidbody = this.getComponent(cc.RigidBody);
+        this.collider = this.getComponent(cc.PhysicsPolygonCollider);
+        this.rigidbody = this.getComponent(cc.RigidBody);
 
         this.stateMachine = this.addComponent(FiniteStateMachine);
         this.stateMachine.owner = this;

@@ -7,8 +7,7 @@ export default class BrickQueueingState extends FiniteStateMachineState {
     enter(stateMachine:FiniteStateMachine, ...agrs) {
         let brick:Brick = <Brick>(stateMachine.owner);
 
-        brick.node.setPosition(0, 10000);
-        brick.gravity.gravityScale = 0;
+        brick.node.active = false;
 
         brick.node.emit(Brick.EVT_QUEUEING_STARTED);
     }

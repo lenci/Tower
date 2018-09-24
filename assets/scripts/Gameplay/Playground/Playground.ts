@@ -20,6 +20,8 @@ export default class Playground extends cc.Component {
     static EVT_TOWER_CREATED: string = "tower created";
     static EVT_TOERR_DESTROYED: string = "tower destroyed";
 
+    static GRID:number = 32;
+
     @property(Stage)
     stage: Stage = null;
 

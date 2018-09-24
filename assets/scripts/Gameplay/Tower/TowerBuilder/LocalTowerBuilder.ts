@@ -29,8 +29,8 @@ export default class LocalPlayerTowerBuilder extends TowerBuilder {
         this._tower.dropBrick();
         this._tower.generateNextBrick();
 
-        // this._tower.currentBrick.node.on()
-
+        this._tower.currentBrick.node.once(Brick.EVT_PLACED, this.dropBrickAndGenerateNext, this);
+        this._tower.currentBrick.node.once(Brick.EVT_LOST, this.dropBrickAndGenerateNext, this);
     }
     
     translateBrick(direction:number) {
