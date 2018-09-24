@@ -7,7 +7,7 @@ import Brick from "../../Brick/Brick";
 const {ccclass, property} = cc._decorator;
 
 @ccclass
-export default class LocalPlayerTowerBuilder extends TowerBuilder {
+export default class LocalTowerBuilder extends TowerBuilder {
 
     onEnable() {
         super.onEnable();

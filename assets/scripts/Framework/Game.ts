@@ -3,6 +3,7 @@ import GameLoader from "./GameLoader";
 import MatchManager from "./MatchManager";
 import Playground from "../Gameplay/Playground/Playground";
 import PlayerDataManager from "./PlayerDataManager";
+import InputManager from "./InputManager";
 
 const {ccclass, property} = cc._decorator;
 
@@ -15,6 +16,7 @@ export default class Game extends cc.Component {
     gameLoader:GameLoader = null;
 
     networkManager:NetworkManager = null;
+    inputManager:InputManager = null;
     
     playerDataManager:PlayerDataManager = null;
     matchManager:MatchManager = null;
@@ -26,6 +28,7 @@ export default class Game extends cc.Component {
         cc.game.addPersistRootNode(this.node);
 
         this.networkManager = this.getComponent(NetworkManager);
+        this.inputManager = this.getComponent(InputManager);
         this.playerDataManager = this.getComponent(PlayerDataManager);
         this.matchManager = this.getComponent(MatchManager);
     }
@@ -34,6 +37,10 @@ export default class Game extends cc.Component {
         await this.gameLoader.load();
         await this.networkManager.connect();
         await this.playerDataManager.login();
+
+        this.inputManager.registerAxis("translate");
+        this.inputManager.registerKey("rotate");
+        this.inputManager.registerKey("accelerate");
 
         cc.director.loadScene("MainScene")
     }

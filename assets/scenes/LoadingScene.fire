@@ -250,6 +250,9 @@
       },
       {
         "__id__": 12
+      },
+      {
+        "__id__": 13
       }
     ],
     "_prefab": null,
@@ -393,6 +396,16 @@
     "serverIP": "127.0.0.1",
     "serverPort": 9584,
     "_id": "c1e33xJ+lIZo1AZNGfb9sZ"
+  },
+  {
+    "__type__": "82530ayB+VNd5yRliiEg3fb",
+    "_name": "",
+    "_objFlags": 0,
+    "node": {
+      "__id__": 6
+    },
+    "_enabled": true,
+    "_id": "4flZr8jW5PB6UJwGeHNHb7"
   },
   {
     "__type__": "f0d81lXpsVOdLRMVbKIC7ew",
