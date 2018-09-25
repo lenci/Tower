@@ -117,6 +117,7 @@ export default class Tower extends cc.Component {
 
         if (BrickShape.NONE == shape) {
             shape = Math.floor(Math.random() * Game.instance.playground.brickPrefabs.length);
+            shape = BrickShape.TetrominoI;
         }
         let brickPrefab: cc.Prefab = Game.instance.playground.brickPrefabs[shape];
         let brickNode: cc.Node = cc.instantiate(brickPrefab);

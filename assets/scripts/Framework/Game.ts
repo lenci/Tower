@@ -4,6 +4,7 @@ import MatchManager from "./MatchManager";
 import Playground from "../Gameplay/Playground/Playground";
 import PlayerDataManager from "./PlayerDataManager";
 import InputManager from "./InputManager";
+import SettingManager from "./SettingManager";
 
 const { ccclass, property } = cc._decorator;
 
@@ -21,6 +22,8 @@ export default class Game extends cc.Component {
     playerDataManager: PlayerDataManager = null;
     matchManager: MatchManager = null;
 
+    settingManager: SettingManager = null;
+
     playground: Playground = null;
 
     onLoad() {
@@ -31,6 +34,7 @@ export default class Game extends cc.Component {
         this.inputManager = this.getComponent(InputManager);
         this.playerDataManager = this.getComponent(PlayerDataManager);
         this.matchManager = this.getComponent(MatchManager);
+        this.settingManager = this.getComponent(SettingManager);
     }
 
     async start() {
@@ -41,6 +45,8 @@ export default class Game extends cc.Component {
         this.inputManager.registerAxis("translate");
         this.inputManager.registerKey("rotate");
         this.inputManager.registerKey("accelerate");
+
+        this.settingManager.addSetting("gameControllingMethod", 1);
 
         cc.director.loadScene("MainScene")
     }

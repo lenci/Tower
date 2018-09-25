@@ -1,9 +1,9 @@
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class Utility {
 
-    static setAnchorX(node:cc.Node, anchorX: number, rePlaceChildren:boolean = true) {
+    static setAnchorX(node: cc.Node, anchorX: number, rePlaceChildren: boolean = true) {
 
         let diffX: number = (anchorX - node.anchorX) * node.getContentSize().width * node.scaleX;
 
@@ -18,8 +18,8 @@ export default class Utility {
         }
     }
 
-    static setAnchorY(node:cc.Node, anchorY: number, rePlaceChildren:boolean = true) {
-        let diffY: number = (anchorY- node.anchorY) * node.getContentSize().height * node.scaleY;
+    static setAnchorY(node: cc.Node, anchorY: number, rePlaceChildren: boolean = true) {
+        let diffY: number = (anchorY - node.anchorY) * node.getContentSize().height * node.scaleY;
 
         node.anchorY = anchorY;
 

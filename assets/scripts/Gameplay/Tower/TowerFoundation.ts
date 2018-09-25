@@ -1,3 +1,5 @@
+import Utility from "../../Utilities/Utility";
+
 const {ccclass, property} = cc._decorator;
 
 @ccclass

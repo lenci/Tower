@@ -15,10 +15,20 @@ export default class InputManager extends cc.Component {
     }
 
     getKey(name: string): boolean {
+        if (null == this._keys[name]) {
+            cc.error("key is not exist: " + name);
+            return false;
+        }
+
         return this._keys[name];
     }
 
     getAxis(name: string): number {
+        if (null == this._axes[name]) {
+            cc.error("axis is not exist: " + name);
+            return 0;
+        }
+
         return this._axes[name];
     }
 

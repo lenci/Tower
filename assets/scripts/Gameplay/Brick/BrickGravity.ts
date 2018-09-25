@@ -23,25 +23,32 @@ export default class BrickGravity extends cc.Component {
     }
 
     onDisable() {
-        this._brick.rigidbody.gravityScale = this.gravityScale;
+        this._brick.rigidbody.gravityScale = 1;
     }
 
-    update(delta) {
-        this.node.y -= delta * Game.instance.playground.gravity * this.gravityScale;
+    update() {
+        this._brick.rigidbody.linearVelocity = new cc.Vec2(0, -Game.instance.playground.gravity * this.gravityScale);
+        // this._brick.rigidbody.an
     }
 
-    onBeginContact(contact: cc.PhysicsContact, selfCollider: cc.PhysicsCollider, otherCollider: cc.PhysicsCollider) {
+    onPreSolve(contact: cc.PhysicsContact, selfCollider: cc.PhysicsCollider, otherCollider: cc.PhysicsCollider) {
         if (this.enabled && !this._hasContacted) {
-            this.scheduleOnce(() => {
-                if (null != otherCollider.node.getComponent(Brick) || null != otherCollider.node.getComponent(TowerFoundation)) {
-                    this.node.emit(Brick.EVT_PLACED);
-                } else {
-                    this.node.emit(Brick.EVT_LOST);
-                }
-            });
+            cc.log(contact.getWorldManifold().normal);
+            cc.log(contact.getWorldManifold().normal.cross(this._brick.rigidbody.linearVelocity.normalize()));
 
-            this._hasContacted = true;
+            if (0 == contact.getWorldManifold().normal.cross(this._brick.rigidbody.linearVelocity.normalize())) {
+                contact.disabledOnce = true;
+            } else {
+                this.scheduleOnce(() => {
+                    if (null != otherCollider.node.getComponent(Brick) || null != otherCollider.node.getComponent(TowerFoundation)) {
+                        this.node.emit(Brick.EVT_PLACED);
+                    } else {
+                        this.node.emit(Brick.EVT_LOST);
+                    }
+                });
+
+                this._hasContacted = true;
+            }
         }
     }
-
 }

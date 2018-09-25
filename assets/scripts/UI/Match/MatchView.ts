@@ -5,6 +5,7 @@ import MatchJoiningPanel from "./MatchJoiningPanel";
 import MatchCountingDownForBeginningPanel from "./MatchCountingDownForBeginningPanel";
 import MatchStartingPanel from "./MatchStartingPanel";
 import MatchTowersPanel from "./MatchTowersPanel";
+import MatchOperationPanel from "./MatchOperationPanel";
 
 
 const {ccclass, property} = cc._decorator;
@@ -25,7 +26,10 @@ export default class MatchView extends cc.Component {
     pnlCountingDownForBeginning: MatchCountingDownForBeginningPanel = null;
 
     @property(MatchTowersPanel)
-    pnlTowersPanel: MatchTowersPanel = null;
+    pnlTower: MatchTowersPanel = null;
+
+    @property(MatchOperationPanel)
+    pnlOperation: MatchOperationPanel = null;
 
     private _matchManager:MatchManager = null;
 
@@ -44,7 +48,8 @@ export default class MatchView extends cc.Component {
                 this.pnlJoining.show();
             }
             this.pnlCountingDownForBeginning.hide();
-            this.pnlTowersPanel.hide();
+            this.pnlTower.hide();
+            this.pnlOperation.hide();
 
         } else if (MatchStatus.CountingDownForBeginning == status) {
             this.pnlStarting.hide();
@@ -54,13 +59,15 @@ export default class MatchView extends cc.Component {
                 this.pnlJoining.show();
             }
             this.pnlCountingDownForBeginning.show();
-            this.pnlTowersPanel.hide();
+            this.pnlTower.hide();
+            this.pnlOperation.hide();
 
         } else if (MatchStatus.Playing == status) {
             this.pnlStarting.hide();
             this.pnlJoining.hide();
             this.pnlCountingDownForBeginning.hide();
-            this.pnlTowersPanel.show();
+            this.pnlTower.show();
+            this.pnlOperation.show();
         }
     }
 }
