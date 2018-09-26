@@ -37,7 +37,7 @@ class Edge {
     }
 }
 @ccclass
-export default class BrickCollider extends cc.Component {
+export default class PlaygroundCollider extends cc.Component {
 
     private _bodyCollider: cc.PhysicsPolygonCollider = null;
 
@@ -45,7 +45,7 @@ export default class BrickCollider extends cc.Component {
     private _edges: Edge[] = [];
 
     private static _SHRINKING: number = 0.5;
-    private static _VERTEX_SENSOR_SIZE: number = 4;
+    private static _VERTEX_SENSOR_SIZE: number = 10;
 
     onLoad() {
         this._bodyCollider = this.getComponent(cc.PhysicsPolygonCollider);
@@ -134,9 +134,9 @@ export default class BrickCollider extends cc.Component {
             for (let j: number = 0; j < 2; ++j) {
                 const edge: Edge = vertex.edges[j];
                 if (0 == edge.direction.x) {
-                    point.y -= edge.direction.y * BrickCollider._SHRINKING;
+                    point.y -= edge.direction.y * PlaygroundCollider._SHRINKING;
                 } else if (0 == edge.direction.y) {
-                    point.x -= edge.direction.x * BrickCollider._SHRINKING;
+                    point.x -= edge.direction.x * PlaygroundCollider._SHRINKING;
                 }
             }
             vertex.pointShrinked.x = point.x;
@@ -150,9 +150,9 @@ export default class BrickCollider extends cc.Component {
     private _createVertexSensors() {
         this._vertices.forEach(vertex => {
             vertex.collider = this.addComponent(cc.PhysicsBoxCollider);
-            vertex.collider.offset.x = vertex.pointShrinked.x - (vertex.point.x - vertex.pointShrinked.x) / BrickCollider._SHRINKING * BrickCollider._VERTEX_SENSOR_SIZE / 2;
-            vertex.collider.offset.y = vertex.pointShrinked.y - (vertex.point.y - vertex.pointShrinked.y) / BrickCollider._SHRINKING * BrickCollider._VERTEX_SENSOR_SIZE / 2;
-            vertex.collider.size = new cc.Size(BrickCollider._VERTEX_SENSOR_SIZE, BrickCollider._VERTEX_SENSOR_SIZE);
+            vertex.collider.offset.x = vertex.pointShrinked.x - (vertex.point.x - vertex.pointShrinked.x) / PlaygroundCollider._SHRINKING * PlaygroundCollider._VERTEX_SENSOR_SIZE / 2;
+            vertex.collider.offset.y = vertex.pointShrinked.y - (vertex.point.y - vertex.pointShrinked.y) / PlaygroundCollider._SHRINKING * PlaygroundCollider._VERTEX_SENSOR_SIZE / 2;
+            vertex.collider.size = new cc.Size(PlaygroundCollider._VERTEX_SENSOR_SIZE, PlaygroundCollider._VERTEX_SENSOR_SIZE);
             vertex.collider.apply();
 
             vertex.collider.sensor = true;
@@ -166,13 +166,13 @@ export default class BrickCollider extends cc.Component {
             if (0 == edge.direction.x) {
                 edge.collider.offset.x = (edge.vertices[0].collider.offset.x + edge.vertices[1].collider.offset.x) / 2;
                 edge.collider.offset.y = edge.vertices[0].collider.offset.y;
-                edge.collider.size.width = Math.abs(edge.vertices[0].collider.offset.x - edge.vertices[1].collider.offset.x) - BrickCollider._VERTEX_SENSOR_SIZE;
-                edge.collider.size.height = BrickCollider._VERTEX_SENSOR_SIZE;
+                edge.collider.size.width = Math.abs(edge.vertices[0].collider.offset.x - edge.vertices[1].collider.offset.x) - PlaygroundCollider._VERTEX_SENSOR_SIZE;
+                edge.collider.size.height = PlaygroundCollider._VERTEX_SENSOR_SIZE;
             } else if (0 == edge.direction.y) {
                 edge.collider.offset.x = edge.vertices[0].collider.offset.x;
                 edge.collider.offset.y = (edge.vertices[0].collider.offset.y + edge.vertices[1].collider.offset.y) / 2;
-                edge.collider.size.width = BrickCollider._VERTEX_SENSOR_SIZE;
-                edge.collider.size.height = Math.abs(edge.vertices[0].collider.offset.y - edge.vertices[1].collider.offset.y) - BrickCollider._VERTEX_SENSOR_SIZE;
+                edge.collider.size.width = PlaygroundCollider._VERTEX_SENSOR_SIZE;
+                edge.collider.size.height = Math.abs(edge.vertices[0].collider.offset.y - edge.vertices[1].collider.offset.y) - PlaygroundCollider._VERTEX_SENSOR_SIZE;
             }
             edge.collider.apply();
 
