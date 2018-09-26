@@ -11,11 +11,11 @@ export default class MatchOperationButtonsController extends cc.Component {
     onEnable() {
         this._inputManager = Game.instance.inputManager;
 
-        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+        cc.systemEvent.on(cc.SystemEvent.EventType.KEY_DOWN, this._onKeyDown, this);
     }
 
     onDisable() {
-        cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this.onKeyDown, this);
+        cc.systemEvent.off(cc.SystemEvent.EventType.KEY_DOWN, this._onKeyDown, this);
     }
 
     translateLeft() {
@@ -34,7 +34,7 @@ export default class MatchOperationButtonsController extends cc.Component {
         this._inputManager.triggerKey("accelerate");
     }
 
-    private onKeyDown(event: KeyboardEvent) {
+    private _onKeyDown(event: KeyboardEvent) {
         switch (event.keyCode) {
             case 1:
                 this.translateLeft();

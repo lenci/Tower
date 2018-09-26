@@ -30,7 +30,7 @@ export default class Stage extends cc.Component {
     playerStartPositions: cc.Vec2[] = [];
 
     start() {
-        if (!this.checkPlayerStartsValid()) {
+        if (!this._checkPlayerStartsValid()) {
             cc.error("StageError");
             return;
         }
@@ -46,7 +46,7 @@ export default class Stage extends cc.Component {
         });
     }
 
-    private checkPlayerStartsValid(): boolean {
+    private _checkPlayerStartsValid(): boolean {
         let player1Start = this.playerStarts.getObject("Player1");
         let player2Start = this.playerStarts.getObject("Player2");
         let player3Start = this.playerStarts.getObject("Player3");

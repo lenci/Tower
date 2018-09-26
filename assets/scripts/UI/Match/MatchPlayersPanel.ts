@@ -28,36 +28,36 @@ export default class MatchPlayersPanel extends View {
         this._canvas = Game.instance.playground.canvas;
 
         Game.instance.matchManager.players.forEach(player => {
-            this.createPlayerUI(player);
+            this._createPlayerUI(player);
         });
-        Game.instance.matchManager.node.on(MatchManager.EVT_PLAYER_JOINED, this.createPlayerUI, this);
-        Game.instance.matchManager.node.on(MatchManager.EVT_PLAYER_RETIRED, this.destroyPlayerUI, this);
+        Game.instance.matchManager.node.on(MatchManager.EVT_PLAYER_JOINED, this._createPlayerUI, this);
+        Game.instance.matchManager.node.on(MatchManager.EVT_PLAYER_RETIRED, this._destroyPlayerUI, this);
 
-        this.updatePosition();
-        this._camera.node.on(StageCameraController.EVT_CAMERA_MOVING, this.updatePosition, this);
+        this._updatePosition();
+        this._camera.node.on(StageCameraController.EVT_CAMERA_MOVING, this._updatePosition, this);
     }
 
     onHide() {
         for (let playerId in this._playerUIs) {
-            this.destroyPlayerUI(playerId);
+            this._destroyPlayerUI(playerId);
         }
 
-        Game.instance.matchManager.node.off(MatchManager.EVT_PLAYER_JOINED, this.createPlayerUI, this);
-        Game.instance.matchManager.node.off(MatchManager.EVT_PLAYER_RETIRED, this.destroyPlayerUI, this);
+        Game.instance.matchManager.node.off(MatchManager.EVT_PLAYER_JOINED, this._createPlayerUI, this);
+        Game.instance.matchManager.node.off(MatchManager.EVT_PLAYER_RETIRED, this._destroyPlayerUI, this);
 
-        this._camera.node.off(StageCameraController.EVT_CAMERA_MOVING, this.updatePosition, this);
+        this._camera.node.off(StageCameraController.EVT_CAMERA_MOVING, this._updatePosition, this);
 
         super.onHide();
     }
 
-    private createPlayerUI(player: MatchPlayer): MatchPlayerUI {
+    private _createPlayerUI(player: MatchPlayer): MatchPlayerUI {
         if (null == this._playerUIs[player.id]) {
             let ui: cc.Node = cc.instantiate(this.playerUIPrefab);
             this.node.addChild(ui);
 
             let playerItemUI: MatchPlayerUI = ui.getComponent(MatchPlayerUI);
             playerItemUI.player = player;
-            this.updatePlayerUIPosition(playerItemUI);
+            this._updatePlayerUIPosition(playerItemUI);
 
             this._playerUIs[player.id] = playerItemUI;
         }
@@ -65,14 +65,14 @@ export default class MatchPlayersPanel extends View {
         return this._playerUIs[player.id];
     }
 
-    private destroyPlayerUI(playerId: string) {
+    private _destroyPlayerUI(playerId: string) {
         if (null != this._playerUIs[playerId]) {
             this._playerUIs[playerId].node.destroy();
             this._playerUIs[playerId] = null;
         }
     }
 
-    private updatePosition() {
+    private _updatePosition() {
         let position: cc.Vec2 = new cc.Vec2(0, 0);
         position.y = (1 - this._camera.currentZoomRatio) * this._canvas.designResolution.height / 2;
         position = this.node.getParent().convertToNodeSpaceAR(this._stage.node.convertToWorldSpaceAR(position));
@@ -80,11 +80,11 @@ export default class MatchPlayersPanel extends View {
         this.node.y = position.y;
 
         for (let playerId in this._playerUIs) {
-            this.updatePlayerUIPosition(this._playerUIs[playerId]);
+            this._updatePlayerUIPosition(this._playerUIs[playerId]);
         }
     }
 
-    private updatePlayerUIPosition(playerItemUI: MatchPlayerUI) {
+    private _updatePlayerUIPosition(playerItemUI: MatchPlayerUI) {
         let position: cc.Vec2 = new cc.Vec2(0, 0);
 
         position.x = this._canvas.designResolution.width / 2 + (this._stage.playerStartPositions[playerItemUI.player.towerIndex].x - this._camera.currentLookAtLocation) * this._camera.currentZoomRatio;

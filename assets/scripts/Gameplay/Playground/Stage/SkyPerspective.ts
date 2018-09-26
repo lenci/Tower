@@ -20,11 +20,11 @@ export default class SkyPerspective extends cc.Component {
         this._camera = Game.instance.playground.camera;
         this._canvas = Game.instance.playground.canvas;
         
-        this.updatePerspective();
-        this._camera.node.on(StageCameraController.EVT_CAMERA_MOVING, this.updatePerspective, this)
+        this._updatePerspective();
+        this._camera.node.on(StageCameraController.EVT_CAMERA_MOVING, this._updatePerspective, this)
     }
 
-    private updatePerspective() {
+    private _updatePerspective() {
         let originalAnchor: cc.Vec2 = this.node.getAnchorPoint();
 
         Utility.setAnchorX(this.node, 0.5, false);

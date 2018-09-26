@@ -20,19 +20,19 @@ export default class MatchJoiningPanel extends View {
 
         this._matchManager = Game.instance.matchManager;
 
-        this.refreshUI();
-        this._matchManager.node.on(MatchManager.EVT_PLAYER_JOINED, this.refreshUI, this);
-        this._matchManager.node.on(MatchManager.EVT_PLAYER_RETIRED, this.refreshUI, this);
+        this._refreshUI();
+        this._matchManager.node.on(MatchManager.EVT_PLAYER_JOINED, this._refreshUI, this);
+        this._matchManager.node.on(MatchManager.EVT_PLAYER_RETIRED, this._refreshUI, this);
     }
 
     onHide() {
-        this._matchManager.node.off(MatchManager.EVT_PLAYER_JOINED, this.refreshUI, this);
-        this._matchManager.node.off(MatchManager.EVT_PLAYER_RETIRED, this.refreshUI, this);
+        this._matchManager.node.off(MatchManager.EVT_PLAYER_JOINED, this._refreshUI, this);
+        this._matchManager.node.off(MatchManager.EVT_PLAYER_RETIRED, this._refreshUI, this);
 
         super.onHide();
     }
 
-    private refreshUI() {
+    private _refreshUI() {
         this.btnJoin.node.active = !this._matchManager.hasJoined && this._matchManager.playerCount < this._matchManager.maxPlayerCount;
         this.btnRetire.node.active = this._matchManager.hasJoined;
     }

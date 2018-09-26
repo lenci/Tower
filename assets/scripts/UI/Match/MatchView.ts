@@ -8,7 +8,7 @@ import MatchTowersPanel from "./MatchTowersPanel";
 import MatchOperationPanel from "./MatchOperationPanel";
 
 
-const {ccclass, property} = cc._decorator;
+const { ccclass, property } = cc._decorator;
 
 @ccclass
 export default class MatchView extends cc.Component {
@@ -31,14 +31,14 @@ export default class MatchView extends cc.Component {
     @property(MatchOperationPanel)
     pnlOperation: MatchOperationPanel = null;
 
-    private _matchManager:MatchManager = null;
+    private _matchManager: MatchManager = null;
 
     start() {
         this._matchManager = Game.instance.matchManager;
-        this._matchManager.node.on(MatchManager.EVT_MATCH_STATUS_CHANGED, this.onMatchStatusChanged, this);
+        this._matchManager.node.on(MatchManager.EVT_MATCH_STATUS_CHANGED, this._onMatchStatusChanged, this);
     }
 
-    private onMatchStatusChanged(status:MatchStatus) {
+    private _onMatchStatusChanged(status: MatchStatus) {
         if (MatchStatus.Preparing == status) {
             if (this._matchManager.isMyMatch) {
                 this.pnlStarting.show();

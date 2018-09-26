@@ -77,10 +77,10 @@ export default class MatchManager extends cc.Component {
             setTimeout(() => {
                 let player: MatchPlayer = new MatchPlayer("b", 0);
                 player.name = "Joe DiMeowgio";
-                this.addPlayer(player);
+                this._addPlayer(player);
                 player = new MatchPlayer("c", 1);
                 player.name = "Senor Don Gato";
-                this.addPlayer(player);
+                this._addPlayer(player);
 
                 this.status = MatchStatus.Preparing;
 
@@ -111,7 +111,7 @@ export default class MatchManager extends cc.Component {
             setTimeout(() => {
                 let player: MatchPlayer = new MatchPlayer(Game.instance.playerDataManager.id, 2);
                 player.name = Game.instance.playerDataManager.name;
-                this.addPlayer(player);
+                this._addPlayer(player);
 
                 // listen to push
                 if (this.playerCount == this.maxPlayerCount) {
@@ -132,7 +132,7 @@ export default class MatchManager extends cc.Component {
         let promise: Promise<number> = new Promise<number>(resolve => {
             // GameManager.instance.networkManager.send()
             setTimeout(() => {
-                this.removePlayer(Game.instance.playerDataManager.id);
+                this._removePlayer(Game.instance.playerDataManager.id);
 
                 // listen to push
                 if (MatchStatus.CountingDownForBeginning == this.status) {
@@ -169,7 +169,7 @@ export default class MatchManager extends cc.Component {
         }
     }
 
-    private addPlayer(player: MatchPlayer): MatchPlayer {
+    private _addPlayer(player: MatchPlayer): MatchPlayer {
         this.players.push(player);
 
         this.node.emit(MatchManager.EVT_PLAYER_JOINED, player);
@@ -177,7 +177,7 @@ export default class MatchManager extends cc.Component {
         return player;
     }
 
-    private removePlayer(playerId: string): MatchPlayer {
+    private _removePlayer(playerId: string): MatchPlayer {
         let player: MatchPlayer = null;
         this.players.every((player, index) => {
             if (player.id == playerId) {

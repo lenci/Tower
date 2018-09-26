@@ -141,12 +141,12 @@ export default class Tower extends cc.Component {
 
     clearNextBrick() {
         if (null != this.nextBrick) {
-            this.removeBrick(this.nextBrick);
+            this._removeBrick(this.nextBrick);
             this.nextBrick = null;
         }
     }
 
-    private removeBrick(brick: Brick) {
+    private _removeBrick(brick: Brick) {
         this.bricks[brick.id] = null;
         brick.node.destroy();
     }

@@ -28,36 +28,36 @@ export default class MatchTowersPanel extends View {
         this._canvas = Game.instance.playground.canvas;
 
         for (let playerId in Game.instance.playground.towers) {
-            this.createTowerUI(Game.instance.playground.towers[playerId]);
+            this._createTowerUI(Game.instance.playground.towers[playerId]);
 
         };
-        Game.instance.playground.node.on(Playground.EVT_TOWER_CREATED, this.createTowerUI, this);
-        Game.instance.playground.node.on(Playground.EVT_TOERR_DESTROYED, this.destroyTowerUI, this);
+        Game.instance.playground.node.on(Playground.EVT_TOWER_CREATED, this._createTowerUI, this);
+        Game.instance.playground.node.on(Playground.EVT_TOERR_DESTROYED, this._destroyTowerUI, this);
 
-        this.updatePosition();
-        this._camera.node.on(StageCameraController.EVT_CAMERA_MOVING, this.updatePosition, this);
+        this._updatePosition();
+        this._camera.node.on(StageCameraController.EVT_CAMERA_MOVING, this._updatePosition, this);
     }
 
     onHide() {
         for (let towerIndex in this._towerUIs) {
-            this.destroyTowerUI(Number(towerIndex));
+            this._destroyTowerUI(Number(towerIndex));
         }
 
-        Game.instance.playground.node.off(Playground.EVT_TOWER_CREATED, this.createTowerUI, this);
-        Game.instance.playground.node.off(Playground.EVT_TOERR_DESTROYED, this.destroyTowerUI, this);
+        Game.instance.playground.node.off(Playground.EVT_TOWER_CREATED, this._createTowerUI, this);
+        Game.instance.playground.node.off(Playground.EVT_TOERR_DESTROYED, this._destroyTowerUI, this);
 
-        this._camera.node.off(StageCameraController.EVT_CAMERA_MOVING, this.updatePosition, this);
+        this._camera.node.off(StageCameraController.EVT_CAMERA_MOVING, this._updatePosition, this);
 
         super.onHide();
     }
 
-    private createTowerUI(tower: Tower): MatchTowerUI {
+    private _createTowerUI(tower: Tower): MatchTowerUI {
         if (null == this._towerUIs[tower.index]) {
             let ui: cc.Node = cc.instantiate(this.towerUIPrefab);
             this.node.addChild(ui);
             let towerItemUI: MatchTowerUI = ui.getComponent(MatchTowerUI);
             towerItemUI.tower = tower;
-            this.updatePlayerUIPosition(towerItemUI);
+            this._updatePlayerUIPosition(towerItemUI);
 
             this._towerUIs[tower.index] = towerItemUI;
         }
@@ -65,20 +65,20 @@ export default class MatchTowersPanel extends View {
         return this._towerUIs[tower.index];
     }
 
-    private destroyTowerUI(towerIndex: number) {
+    private _destroyTowerUI(towerIndex: number) {
         if (null != this._towerUIs[towerIndex]) {
             this._towerUIs[towerIndex].node.destroy();
             this._towerUIs[towerIndex] = null;
         }
     }
 
-    private updatePosition() {
+    private _updatePosition() {
         for (let towerIndex in this._towerUIs) {
-            this.updatePlayerUIPosition(this._towerUIs[towerIndex]);
+            this._updatePlayerUIPosition(this._towerUIs[towerIndex]);
         }
     }
 
-    private updatePlayerUIPosition(towerItemUI: MatchTowerUI) {
+    private _updatePlayerUIPosition(towerItemUI: MatchTowerUI) {
         let position: cc.Vec2 = new cc.Vec2(0, 0);
 
         position.x = this._canvas.designResolution.width / 2 + (this._stage.playerStartPositions[towerItemUI.tower.index].x - this._camera.currentLookAtLocation) * this._camera.currentZoomRatio;
