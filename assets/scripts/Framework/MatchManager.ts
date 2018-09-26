@@ -75,7 +75,7 @@ export default class MatchManager extends cc.Component {
 
             // GameManager.instance.networkManager.send()
             setTimeout(() => {
-                let player: MatchPlayer = new MatchPlayer("b", 0);
+                let player: MatchPlayer = new MatchPlayer("b", 2);
                 player.name = "Joe DiMeowgio";
                 this._addPlayer(player);
                 player = new MatchPlayer("c", 1);
@@ -109,7 +109,7 @@ export default class MatchManager extends cc.Component {
         let promise: Promise<number> = new Promise<number>(resolve => {
             // GameManager.instance.networkManager.send()
             setTimeout(() => {
-                let player: MatchPlayer = new MatchPlayer(Game.instance.playerDataManager.id, 2);
+                let player: MatchPlayer = new MatchPlayer(Game.instance.playerDataManager.id, 0);
                 player.name = Game.instance.playerDataManager.name;
                 this._addPlayer(player);
 

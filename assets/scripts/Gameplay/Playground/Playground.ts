@@ -56,6 +56,8 @@ export default class Playground extends cc.Component {
     onLoad() {
         cc.director.getPhysicsManager().enabledAccumulator = true;
         cc.director.getPhysicsManager().enabled = true;
+        cc.director.getPhysicsManager().debugDrawFlags = 1;
+        cc.find("PHYSICS_MANAGER_DEBUG_DRAW").group = "stage";
 
         this.stateMachine = this.addComponent(FiniteStateMachine);
         this.stateMachine.owner = this;

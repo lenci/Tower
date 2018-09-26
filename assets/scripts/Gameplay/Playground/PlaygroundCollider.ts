@@ -194,16 +194,18 @@ export default class PlaygroundCollider extends cc.Component {
     }
 
     enableEdgeSensors(direction: cc.Vec2) {
+        direction = direction.normalize();
         this._edges.forEach(edge => {
-            if (edge.direction.x == direction.x && edge.direction.y == direction.y) {
+            if (Math.abs(edge.direction.x - direction.x) < 1e-5 && Math.abs(edge.direction.y - direction.y) < 1e-5) {
                 edge.collider.enabled = true;
             }
         });
     }
 
     disableEdgeSensors(direction: cc.Vec2) {
+        direction = direction.normalize();
         this._edges.forEach(edge => {
-            if (edge.direction.x == direction.x && edge.direction.y == direction.y) {
+            if (Math.abs(edge.direction.x - direction.x) < 1e-5 && Math.abs(edge.direction.y - direction.y) < 1e-5) {
                 edge.collider.enabled = false;
             }
         });
