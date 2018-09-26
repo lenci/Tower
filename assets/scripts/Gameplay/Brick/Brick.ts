@@ -7,7 +7,6 @@ import BrickLostState from "./BrickStates/BrickLostState";
 import BrickInitialState from "./BrickStates/BrickInitialState";
 import BrickGravity from "./BrickGravity";
 import Playground from "../Playground/Playground";
-import Utility from "../../Utilities/Utility";
 
 const { ccclass, property } = cc._decorator;
 
@@ -57,9 +56,6 @@ export default class Brick extends cc.Component {
     static MSG_PLACE: string = "place";
     static MSG_LOSE: string = "lose";
 
-    fallingTrack: number = 0;
-    fallingRotation: number = 0;
-
     onLoad() {
         this.gravity = this.getComponent(BrickGravity);
 
@@ -70,48 +66,33 @@ export default class Brick extends cc.Component {
         this.stateMachine.owner = this;
 
         this.collider.points.forEach(point => {
-            if (Math.abs(point.x) > 0.1) {
-                point.x = point.x - 0.1 * point.x / Math.abs(point.x);
+            if (Math.abs(point.x) > 1) {
+                point.x = point.x - 1 * point.x / Math.abs(point.x);
             }
-            if (Math.abs(point.y) > 0.1) {
-                point.y = point.y - 0.1 * point.y / Math.abs(point.y);
+            if (Math.abs(point.y) > 1) {
+                point.y = point.y - 1 * point.y / Math.abs(point.y);
             }
         });
+        this.collider.apply();
 
         this.stateMachine.changeState(Brick.InitialState);
     }
 
     translate(direction: number) {
-        if (direction < 0) {
-            --this.fallingTrack;
-        } else {
-            ++this.fallingTrack;
-        }
-
-        if (this.fallingTrack < -10) {
-            this.fallingTrack = -10;
-        } else if (this.fallingTrack > 10) {
-            this.fallingTrack = 10;
-        }
-
         this.node.stopActionByTag(1);
 
-        let mover: cc.ActionInterval = cc.moveBy(0.1, new cc.Vec2(this.fallingTrack * Playground.GRID - this.node.x, 0));
+        let x: number = Math.round(this.node.x / Playground.GRID + direction / Math.abs(direction)) * Playground.GRID;
+        let mover: cc.ActionInterval = cc.moveBy(0.1, new cc.Vec2(x - this.node.x, 0));
         mover.easing(cc.easeCubicActionInOut());
         mover.setTag(1);
         this.node.runAction(mover);
     }
 
     rotate(direction: number) {
-        if (direction < 0) {
-            --this.fallingRotation;
-        } else {
-            ++this.fallingRotation;
-        }
-
         this.node.stopActionByTag(2);
 
-        let rotater: cc.ActionInterval = cc.rotateBy(0.1, this.fallingRotation * 90 - this.node.rotation);
+        let ratation: number = Math.round(this.node.rotation / 90 + direction / Math.abs(direction)) * 90;
+        let rotater: cc.ActionInterval = cc.rotateBy(0.1, ratation - this.node.rotation);
         rotater.easing(cc.easeCubicActionInOut());
         rotater.setTag(2);
         this.node.runAction(rotater);
@@ -125,8 +106,33 @@ export default class Brick extends cc.Component {
         this.gravity.gravityScale = 1;
     }
 
-    get isInGrid():boolean {
-        return false;
+    get isAlignedToGrid(): boolean {
+        let f: number = this.node.x / Playground.GRID;
+        if (Math.abs(f - Math.round(f)) > 1 / Playground.GRID) {
+            return false;
+        }
+
+        f = (this.node.y - this.tower.foundation.height) / Playground.GRID;
+        if (Math.abs(f - Math.round(f)) > 1 / Playground.GRID) {
+            return false;
+        }
+
+        f = this.node.rotation / 90;
+        if (Math.abs(f - Math.round(f)) > 0.5 / 90) {
+            return false;
+        }
+
+        return true;
+    }
+
+    setTransformToAlignToGrid(): boolean {
+        if (!this.isAlignedToGrid) {
+            return false;
+        }
+
+        this.node.x = Math.round(this.node.x / Playground.GRID) * Playground.GRID;
+        this.node.y = Math.round((this.node.y - this.tower.foundation.height) / Playground.GRID) * Playground.GRID + this.tower.foundation.height;
+        this.node.rotation = Math.round(this.node.rotation / 90) * 90;
     }
 
     magic() {

@@ -48,7 +48,7 @@ export default class LocalTowerBuilder extends TowerBuilder {
             }
 
             if (this._inputManager.getKey("rotate")) {
-                this._tower.currentBrick.rotate();
+                this._tower.currentBrick.rotate(1);
             }
 
             if (this._inputManager.getKey("accelerate")) {

@@ -44,8 +44,8 @@
     },
     "_scale": {
       "__type__": "cc.Vec3",
-      "x": 0.46325665292353824,
-      "y": 0.46325665292353824,
+      "x": 0.3773260474488163,
+      "y": 0.3773260474488163,
       "z": 1
     },
     "_quat": {
@@ -1037,7 +1037,7 @@
     "_angularVelocity": 0,
     "_fixedRotation": false,
     "enabledContactListener": true,
-    "bullet": false,
+    "bullet": true,
     "_id": "0d1LTZt7xOnoIUCDp4x+Fg"
   },
   {
@@ -1051,7 +1051,7 @@
     "tag": 0,
     "_density": 1,
     "_sensor": false,
-    "_friction": 0.2,
+    "_friction": 0,
     "_restitution": 0,
     "body": null,
     "_offset": {
@@ -1077,7 +1077,7 @@
     "tag": 1,
     "_density": 1,
     "_sensor": false,
-    "_friction": 0.2,
+    "_friction": 100,
     "_restitution": 0,
     "body": null,
     "_offset": {
@@ -1100,10 +1100,10 @@
       "__id__": 5
     },
     "_enabled": true,
-    "tag": 0,
+    "tag": 1,
     "_density": 1,
     "_sensor": false,
-    "_friction": 0.2,
+    "_friction": 100,
     "_restitution": 0,
     "body": null,
     "_offset": {
@@ -1129,7 +1129,7 @@
     "tag": 1,
     "_density": 1,
     "_sensor": false,
-    "_friction": 0.2,
+    "_friction": 100,
     "_restitution": 0,
     "body": null,
     "_offset": {

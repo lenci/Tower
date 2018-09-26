@@ -9,4 +9,8 @@ export default class GameMenu extends cc.Component {
     play() {
         Game.instance.play();
     }
+
+    debug() {
+        Game.instance.debug();
+    }
 }

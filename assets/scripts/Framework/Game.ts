@@ -56,4 +56,8 @@ export default class Game extends cc.Component {
 
         cc.director.loadScene("IslandsScene");
     }
+
+    debug() {
+        cc.director.loadScene("DebuggingScene");
+    }
 }

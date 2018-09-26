@@ -54,6 +54,7 @@ export default class Playground extends cc.Component {
     gravity: number = 40;
 
     onLoad() {
+        cc.director.getPhysicsManager().enabledAccumulator = true;
         cc.director.getPhysicsManager().enabled = true;
 
         this.stateMachine = this.addComponent(FiniteStateMachine);
@@ -63,7 +64,7 @@ export default class Playground extends cc.Component {
     }
 
     start() {
-        this.stateMachine.changeState(Playground.settingUpState);
+        // this.stateMachine.changeState(Playground.settingUpState);
     }
 
     onDestroy() {

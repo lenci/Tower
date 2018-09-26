@@ -15,40 +15,61 @@ export default class BrickGravity extends cc.Component {
     private _hasContacted: boolean = false;
 
     onLoad() {
-        this._brick = this.getComponent(Brick);
+        // this._brick = this.getComponent(Brick);
     }
 
     onEnable() {
-        this._brick.rigidbody.gravityScale = 0;
+        // this._brick.rigidbody.gravityScale = 0;
+        this.getComponent(cc.RigidBody).linearVelocity = new cc.Vec2(0, -100);
+
     }
 
     onDisable() {
-        this._brick.rigidbody.gravityScale = 1;
+        // this._brick.rigidbody.gravityScale = 1;
     }
 
     update() {
-        this._brick.rigidbody.linearVelocity = new cc.Vec2(0, -Game.instance.playground.gravity * this.gravityScale);
-        // this._brick.rigidbody.an
+        // this._brick.rigidbody.linearVelocity = new cc.Vec2(0, -Game.instance.playground.gravity * this.gravityScale);
     }
 
-    onPreSolve(contact: cc.PhysicsContact, selfCollider: cc.PhysicsCollider, otherCollider: cc.PhysicsCollider) {
-        if (this.enabled && !this._hasContacted) {
-            cc.log(contact.getWorldManifold().normal);
-            cc.log(contact.getWorldManifold().normal.cross(this._brick.rigidbody.linearVelocity.normalize()));
+    // onPreSolve(contact: cc.PhysicsContact, selfCollider: cc.PhysicsCollider, otherCollider: cc.PhysicsCollider) {
+    //     if (this.enabled && !this._hasContacted) {
+    //         let towerFoundation: TowerFoundation = otherCollider.node.getComponent(TowerFoundation);
+    //         let anotherBrick: Brick = otherCollider.node.getComponent(Brick);
 
-            if (0 == contact.getWorldManifold().normal.cross(this._brick.rigidbody.linearVelocity.normalize())) {
-                contact.disabledOnce = true;
-            } else {
-                this.scheduleOnce(() => {
-                    if (null != otherCollider.node.getComponent(Brick) || null != otherCollider.node.getComponent(TowerFoundation)) {
-                        this.node.emit(Brick.EVT_PLACED);
-                    } else {
-                        this.node.emit(Brick.EVT_LOST);
-                    }
-                });
+    //         if (null != towerFoundation || null != anotherBrick) {
 
-                this._hasContacted = true;
-            }
-        }
-    }
+    //             if (null != towerFoundation || (null != anotherBrick && anotherBrick.isAlignedToGrid)) {
+
+    //                 cc.log(contact.getWorldManifold().normal.cross(this._brick.rigidbody.linearVelocity.normalize()));
+    //                 if (0 == contact.getWorldManifold().normal.cross(this._brick.rigidbody.linearVelocity.normalize())) {
+    //                     contact.disabledOnce = true;
+
+    //                 } else {
+    //                     if (this._brick.isAlignedToGrid) {
+    //                         this._brick.setTransformToAlignToGrid();
+    //                         contact.disabledOnce = true;
+    //                     }
+
+    //                     this.scheduleOnce(() => {
+    //                         this.node.emit(Brick.EVT_PLACED);
+    //                     });
+    //                     this._hasContacted = true;
+    //                 }
+
+    //             } else {
+    //                 this.scheduleOnce(() => {
+    //                     this.node.emit(Brick.EVT_PLACED);
+    //                 });
+    //                 this._hasContacted = true;
+    //             }
+
+    //         } else {
+    //             this.scheduleOnce(() => {
+    //                 this.node.emit(Brick.EVT_LOST);
+    //             });
+    //             this._hasContacted = true;
+    //         }
+    //     }
+    // }
 }
