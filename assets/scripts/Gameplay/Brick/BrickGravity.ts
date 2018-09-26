@@ -1,6 +1,6 @@
 import Brick from "./Brick";
-import TowerFoundation from "../Tower/TowerFoundation";
 import Game from "../../Framework/Game";
+import PlaygroundCollider from "../Playground/PlaygroundCollider";
 
 const { ccclass, property } = cc._decorator;
 
@@ -8,28 +8,48 @@ const { ccclass, property } = cc._decorator;
 export default class BrickGravity extends cc.Component {
 
     @property
-    gravityScale: number = 1;
+    gravityScaleFactor: number = 1;
 
     private _brick: Brick = null;
+    private _rigidbody: cc.RigidBody = null;
+    private _collider: PlaygroundCollider = null;
 
-    private _hasContacted: boolean = false;
+    private _gravityScale: number = 0;
 
     onLoad() {
-        // this._brick = this.getComponent(Brick);
+        this._brick = this.getComponent(Brick);
+        this._rigidbody = this.getComponent(cc.RigidBody);
+        this._collider = this.getComponent(PlaygroundCollider);
     }
 
     onEnable() {
-        // this._brick.rigidbody.gravityScale = 0;
-        this.getComponent(cc.RigidBody).linearVelocity = new cc.Vec2(0, -100);
+        this._gravityScale = this._rigidbody.gravityScale;
+        this._rigidbody.gravityScale = 0;
 
+        this._collider.disableBodyCollider();
     }
 
     onDisable() {
-        // this._brick.rigidbody.gravityScale = 1;
+        this._collider.disableVertexSensors();
+        this._collider.disableEdgeSensors(new cc.Vec2(1, 0));
+        this._collider.disableEdgeSensors(new cc.Vec2(-1, 0));
+        this._collider.disableEdgeSensors(new cc.Vec2(0, 1));
+        this._collider.disableEdgeSensors(new cc.Vec2(0, -1));
+        this._collider.enableBodyCollider();
+
+        this._rigidbody.gravityScale = this._gravityScale;
     }
 
-    update() {
-        // this._brick.rigidbody.linearVelocity = new cc.Vec2(0, -Game.instance.playground.gravity * this.gravityScale);
+    start() {
+        this._setSensorsEnabledByFallingTransform();
+    }
+
+    update(delta: number) {
+        this.node.y -= Game.instance.playground.gravity * this._gravityScale * this.gravityScaleFactor * delta;
+    }
+
+    private _setSensorsEnabledByFallingTransform() {
+
     }
 
     // onPreSolve(contact: cc.PhysicsContact, selfCollider: cc.PhysicsCollider, otherCollider: cc.PhysicsCollider) {

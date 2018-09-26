@@ -2,6 +2,7 @@ import FiniteStateMachineState from "../../../Utilities/FiniteStateMashine/Finit
 import FiniteStateMachine from "../../../Utilities/FiniteStateMashine/FiniteStateMachine";
 import BrickGravity from "../BrickGravity";
 import Brick from "../Brick";
+import BrickOperator from "../BrickOperator";
 
 export default class BrickFallingState extends FiniteStateMachineState {
 
@@ -11,7 +12,6 @@ export default class BrickFallingState extends FiniteStateMachineState {
         brick.node.active = true;
 
         brick.node.setPosition(0, 800);
-        brick.gravity.enabled = true;
 
         brick.node.emit(Brick.EVT_FALLING_STARTED);
 
@@ -24,12 +24,16 @@ export default class BrickFallingState extends FiniteStateMachineState {
 
         brick.node.on(Brick.EVT_PLACED, brick["onPlaced"]);
         brick.node.on(Brick.EVT_LOST, brick["onLost"]);
+
+        brick.addComponent(BrickGravity);
+        brick.addComponent(BrickOperator);
     }
 
     exit(stateMachine: FiniteStateMachine) {
         let brick: Brick = <Brick>(stateMachine.owner);
 
-        brick.gravity.enabled = false;
+        brick.getComponent(BrickGravity).destroy();
+        brick.getComponent(BrickOperator).destroy();
 
         brick.node.off(Brick.EVT_PLACED, brick["onPlaced"]);
         brick.node.off(Brick.EVT_LOST, brick["onLost"]);

@@ -28,6 +28,10 @@ export default class Brick extends cc.Component {
     static EVT_FALLING_STARTED: string = "falling started";
     static EVT_PLACED: string = "placed";
     static EVT_LOST: string = "lost";
+    static EVT_TRANSLATION_STARTED: string = "translation started";
+    static EVT_TRANSLATION_FINISHED: string = "translation finished";
+    static EVT_ROTATION_STARTED: string = "rotation started";
+    static EVT_ROTATION_FINISHED: string = "rotation finished";
 
     @property({
         type: cc.Enum(BrickShape)
@@ -39,11 +43,6 @@ export default class Brick extends cc.Component {
 
     id: number = -1;
     tower: Tower = null;
-
-    gravity: BrickGravity = null;
-
-    collider: cc.PhysicsPolygonCollider = null;
-    rigidbody: cc.RigidBody = null;
 
     stateMachine: FiniteStateMachine = null;
     static InitialState: BrickInitialState = new BrickInitialState();
@@ -57,58 +56,15 @@ export default class Brick extends cc.Component {
     static MSG_LOSE: string = "lose";
 
     onLoad() {
-        this.gravity = this.getComponent(BrickGravity);
-
-        this.collider = this.getComponent(cc.PhysicsPolygonCollider);
-        this.rigidbody = this.getComponent(cc.RigidBody);
-
         this.stateMachine = this.addComponent(FiniteStateMachine);
         this.stateMachine.owner = this;
-
-        this.collider.points.forEach(point => {
-            if (Math.abs(point.x) > 1) {
-                point.x = point.x - 1 * point.x / Math.abs(point.x);
-            }
-            if (Math.abs(point.y) > 1) {
-                point.y = point.y - 1 * point.y / Math.abs(point.y);
-            }
-        });
-        this.collider.apply();
 
         this.stateMachine.changeState(Brick.InitialState);
     }
 
-    translate(direction: number) {
-        this.node.stopActionByTag(1);
-
-        let x: number = Math.round(this.node.x / Playground.GRID + direction / Math.abs(direction)) * Playground.GRID;
-        let mover: cc.ActionInterval = cc.moveBy(0.1, new cc.Vec2(x - this.node.x, 0));
-        mover.easing(cc.easeCubicActionInOut());
-        mover.setTag(1);
-        this.node.runAction(mover);
-    }
-
-    rotate(direction: number) {
-        this.node.stopActionByTag(2);
-
-        let ratation: number = Math.round(this.node.rotation / 90 + direction / Math.abs(direction)) * 90;
-        let rotater: cc.ActionInterval = cc.rotateBy(0.1, ratation - this.node.rotation);
-        rotater.easing(cc.easeCubicActionInOut());
-        rotater.setTag(2);
-        this.node.runAction(rotater);
-    }
-
-    accelerateGravity() {
-        this.gravity.gravityScale = 3;
-    }
-
-    normalizeGravity() {
-        this.gravity.gravityScale = 1;
-    }
-
     get isAlignedToGrid(): boolean {
-        let f: number = this.node.x / Playground.GRID;
-        if (Math.abs(f - Math.round(f)) > 1 / Playground.GRID) {
+        let f: number = this.node.x / (Playground.GRID / 2);
+        if (Math.abs(f - Math.round(f)) > 1 / (Playground.GRID / 2)) {
             return false;
         }
 
@@ -130,7 +86,7 @@ export default class Brick extends cc.Component {
             return false;
         }
 
-        this.node.x = Math.round(this.node.x / Playground.GRID) * Playground.GRID;
+        this.node.x = Math.round(this.node.x / (Playground.GRID / 2)) * (Playground.GRID / 2);
         this.node.y = Math.round((this.node.y - this.tower.foundation.height) / Playground.GRID) * Playground.GRID + this.tower.foundation.height;
         this.node.rotation = Math.round(this.node.rotation / 90) * 90;
     }
